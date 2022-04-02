@@ -1,4 +1,12 @@
 <resources>
     <string name="app_name">Gallery App</string>
     <string name="test_text">Aboba</string>
+    <string name="welcome_message">Welcome!</string>
+    <string name="have_account_text">I already have an account</string>
+    <string name="create_account_message">Create an account</string>
+    <string name="webant_logo_description">WebAnt Logo</string>
+    <string name="dummy_button">Dummy Button</string>
+    <string name="dummy_content">DUMMY\nCONTENT</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
