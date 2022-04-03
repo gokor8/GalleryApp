@@ -3,4 +3,14 @@
         <attr name="fullscreenBackgroundColor" format="color" />
         <attr name="fullscreenTextColor" format="color" />
     </declare-styleable>
+
+    <declare-styleable name="UnderlinedTextView" >
+        <attr name="underlineHeight" format="dimension" />
+        <attr name="underlineOffset" format="dimension" />
+        <attr name="underlineColor" format="color" />
+        <attr name="underLinePosition" format="enum">
+            <enum name="baseline" value="0" />
+            <enum name="below" value="1" />
+        </attr>
+    </declare-styleable>
 </resources>
