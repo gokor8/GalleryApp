@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:theme="@style/ThemeOverlay.GalleryApp.FullscreenContainer"
-    tools:context=".SelectAuthFragment">
+    tools:context=".fragments.SelectAuthFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -19,7 +19,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintBottom_toTopOf="@id/title"
-            android:contentDescription="@string/webant_logo_description" />
+            android:contentDescription="@string/logo_description" />
 
         <TextView
             android:id="@+id/title"
@@ -35,7 +35,7 @@
             android:textSize="25sp"/>
 
         <Button
-            android:id="@+id/registrationButton"
+            android:id="@+id/signUpButton"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="@dimen/margin_main_menu"
@@ -56,7 +56,7 @@
             android:layout_marginTop="@dimen/margin_button"
             android:layout_marginRight="@dimen/margin_match_parent"
             android:layout_marginLeft="@dimen/margin_match_parent"
-            app:layout_constraintTop_toBottomOf="@id/registrationButton"
+            app:layout_constraintTop_toBottomOf="@id/signUpButton"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             android:text="@string/have_account_text"

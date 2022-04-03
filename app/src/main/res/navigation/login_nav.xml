@@ -10,10 +10,10 @@
         android:name="com.example.galleryapp.fragments.SelectAuthFragment"
         android:label="SelectAuthFragment" >
         <action
-            android:id="@+id/action_selectAuthFragment_to_signInFragment"
+            android:id="@+id/action_to_signInFragment"
             app:destination="@id/signInFragment" />
         <action
-            android:id="@+id/action_selectAuthFragment_to_signUpFragment"
+            android:id="@+id/action_to_signUpFragment"
             app:destination="@id/signUpFragment" />
     </fragment>
     <fragment
