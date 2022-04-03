@@ -79,6 +79,7 @@ class UnderlineTextView @JvmOverloads constructor(
         setMeasuredDimension(measuredWidth, measuredHeight + (extraSpace + 0.5f).toInt())
     }
 
+
     override fun onDraw(canvas: Canvas?) {
         canvas?.takeIf { !text.isNullOrEmpty() }?.let {
             val count = lineCount
