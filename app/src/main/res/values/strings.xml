@@ -19,4 +19,5 @@
     <string name="confirm_password_star_hint">Confirm Password<font color='@color/red'>*</font></string>
     <string name="user_name_star_hint">User Name<font color='@color/red'>*</font></string>
     <string name="birthday">Birthday</string>
+    <string name="error_email">Uncorrected email!</string>
 </resources>
