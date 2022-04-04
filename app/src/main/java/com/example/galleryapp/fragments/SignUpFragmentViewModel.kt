@@ -1,17 +1,24 @@
 package com.example.galleryapp.fragments
 
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.example.galleryapp.ValidationFactory
+import com.example.galleryapp.ValidationHandler
 import com.example.galleryapp.ValidatorStates
 
 class SignUpFragmentViewModel : ViewModel() {
 
-    private val validatorFactory = ValidationFactory()
-    private val validateState = ValidatorStates(null, null)
+    val emailLiveData = MutableLiveData<Int?>()
 
-    fun validate(validateString: String, validatorType: ValidationFactory.ValidatorTypes) {
+    private val validatorHandler = ValidationHandler()
+
+    fun validate(
+        validateString: String,
+        validatorType: ValidationHandler.ValidatorTypes,
+        liveData: MutableLiveData<Int?>
+    ) {
         if (validateString.isNotEmpty())
-            validatorType = validatorFactory.create(validatorType).validate(validateString)
+            validatorHandler.findValidator(validatorType).validate(validateString)
+                .let(liveData::postValue)
     }
 
     fun trySignUp(): Boolean {

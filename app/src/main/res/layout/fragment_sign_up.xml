@@ -83,7 +83,9 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/birthdayInputLayout">
 
-                    <com.google.android.material.textfield.TextInputEditText style="@style/EditTextStyle" />
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:inputType="textEmailAddress"
+                        style="@style/EditTextStyle" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout

@@ -2,7 +2,7 @@ package com.example.galleryapp
 
 import com.example.galleryapp.validators.EmailValidator
 
-class ValidationFactory {
+class ValidationHandler {
 
     private val validators = setOf(EmailValidator())
 
@@ -10,6 +10,6 @@ class ValidationFactory {
         Email, Password
     }
 
-    fun create(validatorType: ValidatorTypes) =
+    fun findValidator(validatorType: ValidatorTypes) =
         validators.first { validatorType == it.validatorType }
 }
