@@ -2,6 +2,8 @@
 <resources>
     <dimen name="margin_main_menu">40dp</dimen>
     <dimen name="margin_match_parent">16dp</dimen>
+    <dimen name="padding_button">9dp</dimen>
     <dimen name="margin_button">10dp</dimen>
-    <dimen name="size_button">36dp</dimen>
+    <dimen name="height_button">36dp</dimen>
+    <dimen name="margin_text_view">29dp</dimen>
 </resources>
