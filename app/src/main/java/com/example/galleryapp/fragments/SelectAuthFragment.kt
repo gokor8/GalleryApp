@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import com.example.galleryapp.R
 import com.example.galleryapp.databinding.FragmentSelectAuthBinding
 
@@ -19,11 +20,13 @@ class SelectAuthFragment : Fragment() {
         val binding = FragmentSelectAuthBinding.inflate(inflater, container, false)
 
         binding.signInButton.setOnClickListener {
-            it.findNavController().navigate(R.id.action_to_signInFragment)
+            SelectAuthFragmentDirections.actionToSignInFragment()
+                .let(findNavController()::navigate)
         }
 
         binding.signUpButton.setOnClickListener {
-            it.findNavController().navigate(R.id.action_to_signUpFragment)
+            SelectAuthFragmentDirections.actionToSignUpFragment()
+                .let(findNavController()::navigate)
         }
 
         return binding.root
