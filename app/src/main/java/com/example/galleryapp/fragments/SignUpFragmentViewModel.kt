@@ -3,22 +3,22 @@ package com.example.galleryapp.fragments
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.example.galleryapp.ValidationHandler
-import com.example.galleryapp.ValidatorStates
 
 class SignUpFragmentViewModel : ViewModel() {
 
     val emailLiveData = MutableLiveData<Int?>()
+    val birthdayLiveData = MutableLiveData<Int?>()
 
     private val validatorHandler = ValidationHandler()
 
     fun validate(
-        validateString: String,
-        validatorType: ValidationHandler.ValidatorTypes,
-        liveData: MutableLiveData<Int?>
+        str: String,
+        validationType: ValidationHandler.ValidationTypes,
+        postLiveData: MutableLiveData<Int?>
     ) {
-        if (validateString.isNotEmpty())
-            validatorHandler.findValidator(validatorType).validate(validateString)
-                .let(liveData::postValue)
+        if (str.isNotEmpty())
+            validatorHandler.findValidator(validationType).validate(str)
+                .let(postLiveData::postValue)
     }
 
     fun trySignUp(): Boolean {
