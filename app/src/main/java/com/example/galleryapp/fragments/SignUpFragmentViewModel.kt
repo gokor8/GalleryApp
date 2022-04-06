@@ -2,13 +2,21 @@ package com.example.galleryapp.fragments
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import com.example.data.repository.UserRepository
+import com.example.domain.entities.SignUpEntity
 import com.example.galleryapp.ValidationHandler
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SignUpFragmentViewModel : ViewModel() {
+@HiltViewModel
+class SignUpFragmentViewModel @Inject constructor(private val repository: UserRepository) : ViewModel() {
 
     val emailLiveData = MutableLiveData<Int?>()
     val birthdayLiveData = MutableLiveData<Int?>()
-
+    val authViewModel = MutableLiveData<Boolean>()
     private val validatorHandler = ValidationHandler()
 
     fun validate(
@@ -21,8 +29,9 @@ class SignUpFragmentViewModel : ViewModel() {
                 .let(postLiveData::postValue)
     }
 
-    fun trySignUp(): Boolean {
-        // some todo realm
-        return false
+    fun trySignUp(signUpEntity: SignUpEntity) {
+        viewModelScope.launch(Dispatchers.IO) {
+                repository.createUser(signUpEntity).let(authViewModel::postValue)
+            }
     }
 }
