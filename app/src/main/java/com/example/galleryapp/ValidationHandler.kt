@@ -1,15 +1,16 @@
 package com.example.galleryapp
 
+import com.example.galleryapp.validators.DateValidator
 import com.example.galleryapp.validators.EmailValidator
 
 class ValidationHandler {
 
-    private val validators = setOf(EmailValidator())
+    private val validators = setOf(EmailValidator(), DateValidator())
 
-    enum class ValidatorTypes {
-        Email, Password
+    fun findValidator(validationType: ValidationTypes) =
+        validators.first { validationType == it.validationType }
+
+    enum class ValidationTypes {
+        Email, Date
     }
-
-    fun findValidator(validatorType: ValidatorTypes) =
-        validators.first { validatorType == it.validatorType }
 }

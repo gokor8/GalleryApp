@@ -4,7 +4,7 @@ import com.example.galleryapp.ValidationHandler
 
 interface Validator {
     val validateValue: Int?
-    val validatorType: ValidationHandler.ValidatorTypes
+    val validationType: ValidationHandler.ValidationTypes
 
     fun validate(str: String): Int?
 }
