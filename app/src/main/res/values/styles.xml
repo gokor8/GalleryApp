@@ -25,6 +25,7 @@
         <item name="android:layout_marginEnd">@dimen/margin_match_parent</item>
         <item name="android:layout_marginStart">@dimen/margin_match_parent</item>
         <item name="endIconMode">custom</item>
+
     </style>
 
     <style name="EditTextStyle">

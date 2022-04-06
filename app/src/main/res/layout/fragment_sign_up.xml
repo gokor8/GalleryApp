@@ -58,7 +58,9 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/title">
 
-                    <com.google.android.material.textfield.TextInputEditText style="@style/EditTextStyle" />
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/name"
+                        style="@style/EditTextStyle" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -71,7 +73,9 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/nameInputLayout">
 
-                    <com.google.android.material.textfield.TextInputEditText style="@style/EditTextStyle" />
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/birthday"
+                        style="@style/EditTextStyle" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -84,6 +88,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/birthdayInputLayout">
 
                     <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/email"
                         android:inputType="textEmailAddress"
                         style="@style/EditTextStyle" />
                 </com.google.android.material.textfield.TextInputLayout>
@@ -97,7 +102,9 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/emailInputLayout">
 
-                    <com.google.android.material.textfield.TextInputEditText style="@style/EditTextStyle" />
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/old_password"
+                        style="@style/EditTextStyle" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -109,7 +116,9 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/old_passwordInputLayout">
 
-                    <com.google.android.material.textfield.TextInputEditText style="@style/EditTextStyle" />
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/confirm_password"
+                        style="@style/EditTextStyle" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <Button
