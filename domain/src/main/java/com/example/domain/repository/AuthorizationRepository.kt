@@ -1,9 +1,9 @@
-package com.example.domain.repository_interfaces
+package com.example.domain.repository
 
 import com.example.domain.entities.SignInEntity
 import com.example.domain.entities.SignUpEntity
 
-interface AuthRepository {
+interface AuthorizationRepository {
 
     suspend fun signUpUser(signUpEntity: SignUpEntity): String?
 
