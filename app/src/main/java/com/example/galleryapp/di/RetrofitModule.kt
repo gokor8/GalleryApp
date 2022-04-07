@@ -1,12 +1,13 @@
 package com.example.galleryapp.di
 
+import com.example.data.api.ApiRegistrator
 import com.example.data.api.UserService
-import com.example.data.repository.UserAuthRepository
-import com.example.domain.repository_interfaces.AuthRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
+import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -20,9 +21,20 @@ object RetrofitModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(baseUrl: String) = Retrofit.Builder()
-            .addConverterFactory(GsonConverterFactory.create())
-            .baseUrl(baseUrl)
+    fun provideHttpInterceptor() = HttpLoggingInterceptor()
+        .apply { level = HttpLoggingInterceptor.Level.BODY }
+
+    @Provides
+    @Singleton
+    fun provideOkHttpClient(interceptor: HttpLoggingInterceptor) =
+        OkHttpClient.Builder().addInterceptor(interceptor).build()
+
+    @Provides
+    @Singleton
+    fun provideRetrofit(baseUrl: String, okHttpClient: OkHttpClient) = Retrofit.Builder()
+        .client(okHttpClient)
+        .addConverterFactory(GsonConverterFactory.create())
+        .baseUrl(baseUrl)
         .build()
 
     @Provides
@@ -32,7 +44,5 @@ object RetrofitModule {
     }
 
     @Provides
-    @Singleton
-    fun provideRegistrationRemoteData(userService: UserService): AuthRepository =
-        UserAuthRepository(userService)
+    fun provideApiAuth(userService: UserService) = ApiRegistrator(userService)
 }
