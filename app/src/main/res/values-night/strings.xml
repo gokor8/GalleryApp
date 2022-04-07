@@ -8,4 +8,5 @@
     <string name="user_name_hint">User Name</string>
     <string name="birthday">Birthday</string>
     <string name="old_password_star_hint">Old Password</string>
+    <string name="not_found_key">Not Found</string>
 </resources>

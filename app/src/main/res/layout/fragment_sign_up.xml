@@ -75,6 +75,8 @@
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/birthday"
+                        android:focusable="false"
+                        android:focusableInTouchMode="false"
                         style="@style/EditTextStyle" />
                 </com.google.android.material.textfield.TextInputLayout>
 
