@@ -4,7 +4,7 @@ import android.content.Context
 import android.provider.Settings.Global.getString
 import com.example.data.R
 
-class SharedPreferencesService(context: Context) : CacheService {
+class SharedPreferencesDataSource(context: Context) : CacheService {
 
     val keys = "KEYS"
 
