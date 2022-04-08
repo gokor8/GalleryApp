@@ -49,7 +49,7 @@
                     app:underlineOffset="7dp" />
 
                 <com.google.android.material.textfield.TextInputLayout
-                    android:id="@+id/nameInputLayout"
+                    android:id="@+id/usernameInputLayout"
                     style="@style/TextInputLayoutStyle"
                     android:layout_marginTop="57dp"
                     android:hint="@string/user_name_star_hint"
@@ -59,7 +59,7 @@
                     app:layout_constraintTop_toBottomOf="@+id/title">
 
                     <com.google.android.material.textfield.TextInputEditText
-                        android:id="@+id/name"
+                        android:id="@+id/username"
                         style="@style/EditTextStyle" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -71,7 +71,7 @@
                     app:endIconDrawable="@drawable/ic_calendar"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/nameInputLayout">
+                    app:layout_constraintTop_toBottomOf="@+id/usernameInputLayout">
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/birthday"

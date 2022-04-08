@@ -10,6 +10,7 @@ import android.view.ViewGroup
 import android.widget.EditText
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import com.example.domain.core.ValidationTypes
 import com.example.domain.entities.SignUpEntity
 import com.example.galleryapp.databinding.FragmentSignUpBinding
 import com.example.galleryapp.ValidationHandler
@@ -40,12 +41,16 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding, SignUpFragmentViewMod
                 val emailEditText = emailInputLayout.editText as TextInputEditText
                 val birthdayEditText = birthdayInputLayout.editText as TextInputEditText
 
+                vm.usernameLiveData.observe(viewLifecycleOwner) {
+                    usernameInputLayout.error = it
+                }
+
                 vm.emailLiveData.observe(viewLifecycleOwner) {
-                    emailInputLayout.error = if (it == null) "" else getString(it)
+                    emailInputLayout.error = it
                 }
 
                 vm.birthdayLiveData.observe(viewLifecycleOwner) {
-                    birthdayInputLayout.error = if (it == null) "" else getString(it)
+                    birthdayInputLayout.error = it
                 }
 
                 vm.authViewModel.observe(viewLifecycleOwner) {
@@ -58,7 +63,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding, SignUpFragmentViewMod
 
                     vm.validate(
                         emailEditText.text.toString(),
-                        ValidationHandler.ValidationTypes.Email,
+                        ValidationTypes.Email,
                         vm.emailLiveData
                     )
                 }
@@ -83,19 +88,19 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding, SignUpFragmentViewMod
                 }
 
                 signUpButton.setOnClickListener {
-                    val isNotEmpty = name.text!!.isNotEmpty()
+                    val isNotEmpty = username.text!!.isNotEmpty()
                             && birthday.text!!.isNotEmpty()
                             && email.text!!.isNotEmpty() && oldPassword.text!!.isNotEmpty() &&
                             confirmPassword.text!!.isNotEmpty()
 
-                    val withoutErrors = name.error.isNullOrEmpty() && birthday.error.isNullOrEmpty()
+                    val withoutErrors = username.error.isNullOrEmpty() && birthday.error.isNullOrEmpty()
                             && email.error.isNullOrEmpty() && oldPassword.error.isNullOrEmpty() &&
                             confirmPassword.error.isNullOrEmpty()
 
                     if (isNotEmpty && withoutErrors) {
                         vm.trySignUp(
                             UISignUpEntity(
-                                username = name.text.toString(),
+                                username = username.text.toString(),
                                 password = confirmPassword.text.toString(),
                                 birthday = birthday.text.toString(),
                                 email = email.text.toString()
