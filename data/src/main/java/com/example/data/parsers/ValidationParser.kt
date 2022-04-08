@@ -11,8 +11,9 @@ class ValidationParser {
             val errors = error.split('.')
             for (validationType in ValidationTypes.values()) {
                 validationType.errorTrigger?.let { trigger ->
-                    map[validationType] =
-                        errors.first { it.contains(trigger) }.substringAfter(trigger)
+                    errors.firstOrNull{ it.contains(trigger) }?.apply {
+                        map[validationType] = substringAfter(trigger)
+                    }
                 }
             }
 
