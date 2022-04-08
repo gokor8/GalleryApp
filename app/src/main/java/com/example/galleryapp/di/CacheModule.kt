@@ -2,7 +2,7 @@ package com.example.galleryapp.di
 
 import android.content.Context
 import com.example.data.storages.CacheService
-import com.example.data.storages.SharedPreferencesService
+import com.example.data.storages.SharedPreferencesDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -15,5 +15,5 @@ class CacheModule {
 
     @Provides
     fun provideSharedPreferencesService(@ApplicationContext context: Context): CacheService =
-        SharedPreferencesService(context)
+        SharedPreferencesDataSource(context)
 }

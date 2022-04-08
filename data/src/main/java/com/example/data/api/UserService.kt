@@ -1,5 +1,6 @@
 package com.example.data.api
 
+import com.example.data.api.entities.ErrorUserResponse
 import com.example.data.api.entities.RegUserRequestEntity
 import com.example.data.api.entities.RegUserResponseEntity
 import retrofit2.Response
@@ -11,5 +12,5 @@ interface UserService {
 
     @Headers("Content-Type: application/json")
     @POST("/api/users")
-    suspend fun createUser(@Body userRequestInfo: RegUserRequestEntity): Response<RegUserResponseEntity>
+    suspend fun createUser(@Body userRequestInfo: RegUserRequestEntity): Response<ErrorUserResponse>
 }

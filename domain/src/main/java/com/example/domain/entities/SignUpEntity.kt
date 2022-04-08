@@ -5,5 +5,4 @@ class SignUpEntity(
     password: String,
     val birthday: String?,
     val email: String,
-) : SignInEntity(username, password) {
-}
+) : SignInEntity(username, password) {}

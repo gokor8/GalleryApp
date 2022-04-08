@@ -1,13 +1,12 @@
 package com.example.galleryapp.validators
 
-import android.util.Log
+import com.example.domain.core.ValidationTypes
 import com.example.galleryapp.R
 import com.example.galleryapp.ValidationHandler
-import java.util.*
 
 class DateValidator : Validator {
     override val validateValue: Int? = null
-    override val validationType = ValidationHandler.ValidationTypes.Date
+    override val validationType = ValidationTypes.Date
 
     override fun validate(str: String): Int? {
 

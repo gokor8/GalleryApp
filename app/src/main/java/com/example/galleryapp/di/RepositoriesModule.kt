@@ -1,6 +1,6 @@
 package com.example.galleryapp.di
 
-import com.example.data.api.ApiRegistrator
+import com.example.data.api.ApiSignUpDataSource
 import com.example.data.repository.UserAuthorizationRepository
 import com.example.data.storages.CacheService
 import com.example.domain.repository.AuthorizationRepository
@@ -15,8 +15,8 @@ class RepositoriesModule {
 
     @Provides
     fun provideUserAuthRepository(
-        apiRegistrator: ApiRegistrator,
+        apiSignUpDataSource: ApiSignUpDataSource,
         sharedPreferencesService: CacheService
     ): AuthorizationRepository =
-        UserAuthorizationRepository(apiRegistrator, sharedPreferencesService)
+        UserAuthorizationRepository(apiSignUpDataSource, sharedPreferencesService)
 }

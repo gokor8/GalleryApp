@@ -1,6 +1,6 @@
 package com.example.galleryapp.di
 
-import com.example.data.api.ApiRegistrator
+import com.example.data.api.ApiSignUpDataSource
 import com.example.data.api.UserService
 import dagger.Module
 import dagger.Provides
@@ -44,5 +44,5 @@ object RetrofitModule {
     }
 
     @Provides
-    fun provideApiAuth(userService: UserService) = ApiRegistrator(userService)
+    fun provideApiAuth(userService: UserService) = ApiSignUpDataSource(userService)
 }
