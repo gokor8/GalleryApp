@@ -3,8 +3,10 @@ package com.example.data.datasource
 import android.content.Context
 import com.example.data.storages.CacheService
 import com.example.data.storages.KeysEntity
+import dagger.hilt.android.qualifiers.ApplicationContext
+import javax.inject.Inject
 
-class SharedPreferencesDataSource(context: Context) : CacheService {
+class SharedPreferencesDataSource @Inject constructor(@ApplicationContext context: Context) : CacheService {
 
     val keys = "KEYS"
 

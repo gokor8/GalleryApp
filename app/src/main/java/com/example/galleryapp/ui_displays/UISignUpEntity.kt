@@ -1,4 +1,4 @@
-package com.example.galleryapp.ui_ntities
+package com.example.galleryapp.ui_displays
 
 data class UISignUpEntity(
     val username: String,
