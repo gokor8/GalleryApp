@@ -1,19 +1,19 @@
 package com.example.galleryapp.fragments
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.domain.core.ValidationTypes
+import com.example.domain.entities.AuthState
 import com.example.domain.entities.SignUpEntity
 import com.example.domain.usecases.RegistrationUseCase
+import com.example.galleryapp.R
 import com.example.galleryapp.ValidationHandler
-import com.example.galleryapp.ui_ntities.UISignUpEntity
+import com.example.galleryapp.ui_displays.BaseValidationParser
+import com.example.galleryapp.ui_displays.UISignUpEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import java.text.SimpleDateFormat
 import javax.inject.Inject
 
 @HiltViewModel
@@ -34,10 +34,8 @@ class SignUpFragmentViewModel @Inject constructor(
         postLiveData: MutableLiveData<String?>
     ) {
         if (str.isNotEmpty()) {
-            val errorId = validatorHandler.findValidator(validationType).validate(str)?: ""
-            errorId?.run {
-                postLiveData.postValue(application.resources.getString(errorId))
-            }
+            val errorId = validatorHandler.findValidator(validationType).validate(str)?: R.string.empty_error
+            postLiveData.postValue(application.resources.getString(errorId))
         }
     }
 
@@ -51,12 +49,14 @@ class SignUpFragmentViewModel @Inject constructor(
                 uiSignUpEntity.email
             )
 
-            val errorsMap = registrationUseCase.registrationUser(signUpEntity)
-            if (errorsMap == null) {
-                "Регистрация успешна".let(authViewModel::postValue)
-            } else {
-                errorsMap.forEach { errorMap ->
-                    validationTypeToLiveData(errorMap)
+            val authState = registrationUseCase.registrationUser(signUpEntity)
+            when(authState){
+                is AuthState.Success ->  "Регистрация успешна".let(authViewModel::postValue)
+                is AuthState.Error -> {
+                    val errorsMap = BaseValidationParser().parse(authState.error)
+                    errorsMap.forEach { errorMap ->
+                        validationTypeToLiveData(errorMap)
+                    }
                 }
             }
         }
