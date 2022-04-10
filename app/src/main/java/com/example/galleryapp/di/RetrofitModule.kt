@@ -1,7 +1,9 @@
 package com.example.galleryapp.di
 
+import com.example.data.api.TokenService
 import com.example.data.datasource.CloudAuthDataSource
 import com.example.data.api.UserService
+import com.example.data.datasource.CloudTokenDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -45,4 +47,10 @@ object RetrofitModule {
 
     @Provides
     fun provideApiAuth(userService: UserService) = CloudAuthDataSource(userService)
+
+    @Provides
+    fun provideApiTokenService(retrofit: Retrofit) = retrofit.create(TokenService::class.java)
+
+    @Provides
+    fun provideCloudTokenDataSource(tokenService: TokenService) = CloudTokenDataSource(tokenService)
 }
