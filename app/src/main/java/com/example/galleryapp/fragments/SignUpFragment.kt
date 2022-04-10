@@ -11,13 +11,12 @@ import android.widget.EditText
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.example.domain.core.ValidationTypes
-import com.example.domain.entities.SignUpEntity
 import com.example.galleryapp.databinding.FragmentSignUpBinding
-import com.example.galleryapp.ValidationHandler
 import com.example.galleryapp.ui_ntities.UISignUpEntity
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
+
 
 @AndroidEntryPoint
 class SignUpFragment : BaseFragment<FragmentSignUpBinding, SignUpFragmentViewModel>() {
@@ -42,15 +41,15 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding, SignUpFragmentViewMod
                 val birthdayEditText = birthdayInputLayout.editText as TextInputEditText
 
                 vm.usernameLiveData.observe(viewLifecycleOwner) {
-                    usernameInputLayout.error = it
+                    usernameInputLayout.error = it ?: ""
                 }
 
                 vm.emailLiveData.observe(viewLifecycleOwner) {
-                    emailInputLayout.error = it
+                    emailInputLayout.error = it ?: ""
                 }
 
                 vm.birthdayLiveData.observe(viewLifecycleOwner) {
-                    birthdayInputLayout.error = it
+                    birthdayInputLayout.error = it ?: ""
                 }
 
                 vm.authViewModel.observe(viewLifecycleOwner) {

@@ -2,7 +2,7 @@ package com.example.galleryapp.di
 
 import android.content.Context
 import com.example.data.storages.CacheService
-import com.example.data.storages.SharedPreferencesDataSource
+import com.example.data.datasource.SharedPreferencesDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

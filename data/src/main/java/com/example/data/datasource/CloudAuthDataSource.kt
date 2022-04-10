@@ -1,6 +1,6 @@
-package com.example.data.api
+package com.example.data.datasource
 
-import android.util.Log
+import com.example.data.api.UserService
 import com.example.data.api.entities.ErrorUserResponse
 import com.example.data.api.entities.RegUserRequestEntity
 import com.example.domain.entities.SignUpEntity
@@ -8,7 +8,7 @@ import com.google.gson.Gson
 import javax.inject.Inject
 
 
-class ApiSignUpDataSource @Inject constructor(private val userService: UserService) {
+class CloudAuthDataSource @Inject constructor(private val userService: UserService) {
 
     suspend fun signUpUser(signUpEntity: SignUpEntity): String? {
         val userResponseModel =

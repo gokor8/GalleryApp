@@ -1,7 +1,7 @@
 package com.example.galleryapp.di
 
-import com.example.data.api.ApiSignUpDataSource
-import com.example.data.repository.UserAuthorizationRepository
+import com.example.data.datasource.CloudAuthDataSource
+import com.example.data.repository.UserAuthorizationRepositoryImpl
 import com.example.data.storages.CacheService
 import com.example.domain.repository.AuthorizationRepository
 import dagger.Module
@@ -15,8 +15,8 @@ class RepositoriesModule {
 
     @Provides
     fun provideUserAuthRepository(
-        apiSignUpDataSource: ApiSignUpDataSource,
+        authCloudDataSource: CloudAuthDataSource,
         sharedPreferencesService: CacheService
     ): AuthorizationRepository =
-        UserAuthorizationRepository(apiSignUpDataSource, sharedPreferencesService)
+        UserAuthorizationRepositoryImpl(authCloudDataSource, sharedPreferencesService)
 }
