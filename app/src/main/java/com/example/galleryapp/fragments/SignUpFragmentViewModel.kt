@@ -34,7 +34,7 @@ class SignUpFragmentViewModel @Inject constructor(
         postLiveData: MutableLiveData<String?>
     ) {
         if (str.isNotEmpty()) {
-            val errorId = validatorHandler.findValidator(validationType).validate(str)
+            val errorId = validatorHandler.findValidator(validationType).validate(str)?: ""
             errorId?.run {
                 postLiveData.postValue(application.resources.getString(errorId))
             }
@@ -42,7 +42,7 @@ class SignUpFragmentViewModel @Inject constructor(
     }
 
     fun trySignUp(uiSignUpEntity: UISignUpEntity) {
-        viewModelScope.launch(Dispatchers.IO) {
+        viewModelScope.launch {
 
             val signUpEntity = SignUpEntity(
                 uiSignUpEntity.username,
