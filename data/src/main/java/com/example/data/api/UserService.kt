@@ -11,7 +11,8 @@ import retrofit2.http.POST
 
 interface UserService {
 
+    // Interceptors
     @Headers("Content-Type: application/json")
     @POST("/api/users")
-    suspend fun createUser(@Body userRequestInfo: RegUserRequestEntity): Response<ErrorUserResponse>
+    suspend fun createUser(@Body userRequestInfo: RegUserRequestEntity): Response<Unit>
 }
