@@ -1,6 +1,7 @@
 package com.example.galleryapp.fragments
 
 import android.app.Application
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -19,23 +20,29 @@ import javax.inject.Inject
 @HiltViewModel
 class SignUpFragmentViewModel @Inject constructor(
     private val application: Application,
-    private val registrationUseCase: RegistrationUseCase
+    private val registrationUseCase: RegistrationUseCase,
+    private val validatorHandler: ValidationHandler
 ) : ViewModel() {
-    val usernameLiveData = MutableLiveData<String?>()
-    val emailLiveData = MutableLiveData<String?>()
-    val birthdayLiveData = MutableLiveData<String?>()
-    val authViewModel = MutableLiveData<String>()
 
-    private val validatorHandler = ValidationHandler()
+    private val _usernameErrorLiveData = MutableLiveData<String>()
+    private val _emailErrorLiveData = MutableLiveData<String>()
+    private val _birthdayErrorLiveData = MutableLiveData<String>()
+    private val _passwordErrorLiveData = MutableLiveData<String>()
+    private val _authViewModel = MutableLiveData<String>()
+
+    val usernameErrorLiveData: LiveData<String> = _usernameErrorLiveData
+    val emailErrorLiveData: LiveData<String> = _emailErrorLiveData
+    val birthdayErrorLiveData: LiveData<String> = _birthdayErrorLiveData
+    val passwordErrorLiveData: LiveData<String> = _passwordErrorLiveData
+    val authViewModel: LiveData<String> = _authViewModel
 
     fun validate(
         str: String,
         validationType: ValidationTypes,
-        postLiveData: MutableLiveData<String?>
     ) {
         if (str.isNotEmpty()) {
             val errorId = validatorHandler.findValidator(validationType).validate(str)?: R.string.empty_error
-            postLiveData.postValue(application.resources.getString(errorId))
+            validationTypeToLiveData(validationType, application.resources.getString(errorId))
         }
     }
 
@@ -51,22 +58,32 @@ class SignUpFragmentViewModel @Inject constructor(
 
             val authState = registrationUseCase.registrationUser(signUpEntity)
             when(authState){
-                is AuthState.Success ->  "Регистрация успешна".let(authViewModel::postValue)
+                is AuthState.Success ->  {
+                    clearValidationErrors()
+                    "Регистрация успешна".let(_authViewModel::postValue)
+                }
                 is AuthState.Error -> {
                     val errorsMap = BaseValidationParser().parse(authState.error)
                     errorsMap.forEach { errorMap ->
-                        validationTypeToLiveData(errorMap)
+                        validationTypeToLiveData(errorMap.key, errorMap.value)
                     }
                 }
             }
         }
     }
 
-    private fun validationTypeToLiveData(errorMap: Map.Entry<ValidationTypes, String>) {
-        when (errorMap.key) {
-            ValidationTypes.Email -> emailLiveData.postValue(errorMap.value)
-            ValidationTypes.Username -> usernameLiveData.postValue(errorMap.value)
-            //ValidationTypes.Date -> emailLiveData.postValue(errorMap.value)
+    private fun validationTypeToLiveData(validationType: ValidationTypes, errorString: String) {
+        when (validationType) {
+            ValidationTypes.Email -> _emailErrorLiveData.postValue(errorString)
+            ValidationTypes.Username -> _usernameErrorLiveData.postValue(errorString)
+            ValidationTypes.Password -> _passwordErrorLiveData.postValue(errorString)
         }
+    }
+
+    private fun clearValidationErrors(){
+        _emailErrorLiveData.postValue("")
+        _emailErrorLiveData.postValue("")
+        _birthdayErrorLiveData.postValue("")
+        _passwordErrorLiveData.postValue("")
     }
 }

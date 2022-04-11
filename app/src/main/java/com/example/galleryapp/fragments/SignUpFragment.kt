@@ -35,19 +35,21 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding, SignUpFragmentViewMod
             }
 
             viewModel?.let { vm ->
+                val usernameEditText = usernameInputLayout.editText as TextInputEditText
                 val emailEditText = emailInputLayout.editText as TextInputEditText
                 val birthdayEditText = birthdayInputLayout.editText as TextInputEditText
 
-                vm.usernameLiveData.observe(viewLifecycleOwner) {
-                    usernameInputLayout.error = it ?: ""
+                vm.usernameErrorLiveData.observe(viewLifecycleOwner) {
+                    checkErrorTextInputLayout(usernameInputLayout, it)
                 }
 
-                vm.emailLiveData.observe(viewLifecycleOwner) {
-                    emailInputLayout.error = it ?: ""
+                vm.emailErrorLiveData.observe(viewLifecycleOwner) {
+                    checkErrorTextInputLayout(emailInputLayout, it)
                 }
 
-                vm.birthdayLiveData.observe(viewLifecycleOwner) {
-                    birthdayInputLayout.error = it ?: ""
+
+                vm.passwordErrorLiveData.observe(viewLifecycleOwner) {
+                    checkErrorTextInputLayout(confirmPasswordInputLayout, it)
                 }
 
                 vm.authViewModel.observe(viewLifecycleOwner) {
@@ -61,9 +63,27 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding, SignUpFragmentViewMod
                     vm.validate(
                         emailEditText.text.toString(),
                         ValidationTypes.Email,
-                        vm.emailLiveData
                     )
                 }
+
+                /*usernameEditText.setOnFocusChangeListener { _, isFocused ->
+                    if (isFocused) return@setOnFocusChangeListener
+
+                    vm.validate(
+                        usernameEditText.text.toString(),
+                        ValidationTypes.Username,
+                    )
+                }*/
+
+                confirmPassword.setOnFocusChangeListener { _, isFocused ->
+                    if (isFocused) return@setOnFocusChangeListener
+
+                    vm.validate(
+                        confirmPassword.text.toString(),
+                        ValidationTypes.Password,
+                    )
+                }
+
 
                 birthdayEditText.setOnClickListener {
                     datePickerDialog?.let {
@@ -85,16 +105,19 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding, SignUpFragmentViewMod
                 }
 
                 signUpButton.setOnClickListener {
-                    val isNotEmpty = username.text!!.isNotEmpty()
-                            && birthday.text!!.isNotEmpty()
-                            && email.text!!.isNotEmpty() && oldPassword.text!!.isNotEmpty() &&
-                            confirmPassword.text!!.isNotEmpty()
+                    val isNotEmpty = username.text.toString().isNotEmpty()
+                            && birthday.text.toString().isNotEmpty()
+                            && email.text.toString().isNotEmpty()
+                            && oldPassword.text.toString().isNotEmpty()
+                            && confirmPassword.text.toString().isNotEmpty()
 
-                    val withoutErrors = username.error.isNullOrEmpty() && birthday.error.isNullOrEmpty()
-                            && email.error.isNullOrEmpty() && oldPassword.error.isNullOrEmpty() &&
-                            confirmPassword.error.isNullOrEmpty()
+                    val withErrors = usernameInputLayout.isErrorEnabled
+                            || birthdayInputLayout.isErrorEnabled
+                            || emailInputLayout.isErrorEnabled
+                            || oldPasswordInputLayout.isErrorEnabled
+                            || confirmPasswordInputLayout.isErrorEnabled
 
-                    if (isNotEmpty && withoutErrors) {
+                    if (isNotEmpty && !withErrors) {
                         vm.trySignUp(
                             UISignUpEntity(
                                 username = username.text.toString(),
@@ -104,7 +127,7 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding, SignUpFragmentViewMod
                             )
                         )
                     } else
-                        signUpButton.setBackgroundColor(Color.RED)
+                        Snackbar.make(it, "Fill all fields!", Snackbar.LENGTH_SHORT).show()
                 }
             }
         }
