@@ -33,7 +33,7 @@ object RetrofitModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(baseUrl: String, okHttpClient: OkHttpClient) = Retrofit.Builder()
+    fun provideRetrofit(baseUrl: String, okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
         .client(okHttpClient)
         .addConverterFactory(GsonConverterFactory.create())
         .baseUrl(baseUrl)
@@ -41,16 +41,12 @@ object RetrofitModule {
 
     @Provides
     @Singleton
+    fun provideApiTokenService(retrofit: Retrofit): TokenService =
+        retrofit.create(TokenService::class.java)
+
+    @Provides
+    @Singleton
     fun provideApiService(retrofit: Retrofit): UserService {
         return retrofit.create(UserService::class.java)
     }
-
-    @Provides
-    fun provideApiAuth(userService: UserService) = CloudAuthDataSource(userService)
-
-    @Provides
-    fun provideApiTokenService(retrofit: Retrofit) = retrofit.create(TokenService::class.java)
-
-    @Provides
-    fun provideCloudTokenDataSource(tokenService: TokenService) = CloudTokenDataSource(tokenService)
 }

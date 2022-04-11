@@ -2,6 +2,7 @@ package com.example.galleryapp.di
 
 import android.content.Context
 import com.example.data.api.TokenService
+import com.example.data.api.UserService
 import com.example.data.datasource.CloudAuthDataSource
 import com.example.data.datasource.CloudTokenDataSource
 import com.example.data.datasource.SharedPreferencesDataSource
@@ -17,6 +18,12 @@ import dagger.hilt.components.SingletonComponent
 @Module
 @InstallIn(SingletonComponent::class)
 class RepositoriesModule {
+
+    @Provides
+    fun provideApiAuth(userService: UserService) = CloudAuthDataSource(userService)
+
+    @Provides
+    fun provideCloudTokenDataSource(tokenService: TokenService) = CloudTokenDataSource(tokenService)
 
     @Provides
     fun provideApiTokenManager(
