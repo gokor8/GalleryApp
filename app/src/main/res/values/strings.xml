@@ -21,6 +21,7 @@
     <string name="birthday">Birthday</string>
     <string name="error_email">Uncorrected Email</string>
     <string name="error_date">Invalid Date</string>
+    <string name="error_password">Password less than 5 characters</string>
     <string name="not_found_key">Not Found</string>
     <string name="empty_error" />
 </resources>
