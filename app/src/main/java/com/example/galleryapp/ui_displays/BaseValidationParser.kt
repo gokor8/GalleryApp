@@ -7,6 +7,7 @@ open class BaseValidationParser {
     protected val baseErrorList = mapOf(
         ValidationTypes.Email to "This email already used",
         ValidationTypes.Username to "This username already used",
+        ValidationTypes.Password to null
     )
 
     fun parse(error: String): Map<ValidationTypes, String> {
@@ -14,12 +15,16 @@ open class BaseValidationParser {
 
         val errors = error.split('.')
         for (validationType in baseErrorList) {
+            map[validationType.key] = ""
+
             validationType.key.errorTrigger?.let { trigger ->
                 errors.firstOrNull {
                     it.contains(trigger)
                 }?.apply {
-                    map[validationType.key] = validationType.value
-                    //map[validationType] = substringAfter(trigger)
+                    if(validationType.value != null)
+                        map[validationType.key] = validationType.value!!
+                    else
+                        map[validationType.key] = substringAfter(trigger)
                 }
             }
         }
@@ -28,19 +33,3 @@ open class BaseValidationParser {
     }
 
 }
-
-/*fun parse(error: String): Map<ValidationTypes, String> {
-        val map = mutableMapOf<ValidationTypes, String>()
-
-        val errors = error.split('.')
-        for (validationType in ValidationTypes.values()) {
-            validationType.errorTrigger?.let { trigger ->
-                errors.firstOrNull { it.contains(trigger) }?.apply {
-                    baseErrorList.first { it.first == validationType }.second
-                    //map[validationType] = substringAfter(trigger)
-                }
-            }
-        }
-
-        return map
-    }*/
