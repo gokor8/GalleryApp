@@ -30,6 +30,7 @@ class UserAuthorizationRepositoryImpl @Inject constructor(
     }
 
     override suspend fun signInUser(signInEntity: SignInEntity): AuthState {
+
         return AuthState.Error("Я ничего не написал тут, поэтому ошибка")//authCloudDataSource.signInUser(signInEntity)
     }
 }
