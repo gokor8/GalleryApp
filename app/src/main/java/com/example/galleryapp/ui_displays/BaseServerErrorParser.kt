@@ -2,7 +2,7 @@ package com.example.galleryapp.ui_displays
 
 import com.example.domain.core.ValidationTypes
 
-open class BaseValidationParser {
+open class BaseServerErrorParser {
 
     protected val baseErrorList = mapOf(
         ValidationTypes.Email to "This email already used",

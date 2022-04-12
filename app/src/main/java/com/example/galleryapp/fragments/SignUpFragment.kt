@@ -6,9 +6,11 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.example.domain.core.ValidationTypes
+import com.example.galleryapp.R
 import com.example.galleryapp.databinding.FragmentSignUpBinding
 import com.example.galleryapp.ui_displays.UISignUpEntity
 import com.google.android.material.snackbar.Snackbar
@@ -17,7 +19,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class SignUpFragment : BaseFragment<FragmentSignUpBinding, SignUpFragmentViewModel>() {
+class SignUpFragment : ValidationFragment<FragmentSignUpBinding, SignUpFragmentViewModel>() {
 
     private var datePickerDialog: DatePickerDialog? = null
 
@@ -39,18 +41,10 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding, SignUpFragmentViewMod
                 val emailEditText = emailInputLayout.editText as TextInputEditText
                 val birthdayEditText = birthdayInputLayout.editText as TextInputEditText
 
-                vm.usernameErrorLiveData.observe(viewLifecycleOwner) {
-                    checkErrorTextInputLayout(usernameInputLayout, it)
-                }
-
-                vm.emailErrorLiveData.observe(viewLifecycleOwner) {
-                    checkErrorTextInputLayout(emailInputLayout, it)
-                }
-
-
-                vm.passwordErrorLiveData.observe(viewLifecycleOwner) {
-                    checkErrorTextInputLayout(confirmPasswordInputLayout, it)
-                }
+                setErrorObserver(vm.usernameErrorLiveData, usernameInputLayout)
+                setErrorObserver(vm.emailErrorLiveData, emailInputLayout)
+                setErrorObserver(vm.passwordErrorLiveData, confirmPasswordInputLayout)
+                setErrorObserver(vm.oldPasswordErrorLiveData, oldPasswordInputLayout)
 
                 vm.authViewModel.observe(viewLifecycleOwner) {
                     if (it != null)
@@ -66,14 +60,14 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding, SignUpFragmentViewMod
                     )
                 }
 
-                /*usernameEditText.setOnFocusChangeListener { _, isFocused ->
+                usernameEditText.setOnFocusChangeListener { _, isFocused ->
                     if (isFocused) return@setOnFocusChangeListener
 
                     vm.validate(
                         usernameEditText.text.toString(),
                         ValidationTypes.Username,
                     )
-                }*/
+                }
 
                 confirmPassword.setOnFocusChangeListener { _, isFocused ->
                     if (isFocused) return@setOnFocusChangeListener
@@ -84,10 +78,20 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding, SignUpFragmentViewMod
                     )
                 }
 
+                oldPassword.setOnFocusChangeListener { _, isFocused ->
+                    if (isFocused) return@setOnFocusChangeListener
+
+                    vm.validate(
+                        oldPassword.text.toString(),
+                        ValidationTypes.Password,
+                        vm.oldPasswordErrorLiveData
+                    )
+                }
+
 
                 birthdayEditText.setOnClickListener {
                     datePickerDialog?.let {
-                        if(it.isShowing)
+                        if (it.isShowing)
                             return@setOnClickListener
                     }
 
@@ -117,7 +121,9 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding, SignUpFragmentViewMod
                             || oldPasswordInputLayout.isErrorEnabled
                             || confirmPasswordInputLayout.isErrorEnabled
 
-                    if (isNotEmpty && !withErrors) {
+                    val isPasswordFieldsSame = confirmPassword.text.toString() == oldPassword.text.toString()
+
+                    if (isNotEmpty && !withErrors && isPasswordFieldsSame) {
                         vm.trySignUp(
                             UISignUpEntity(
                                 username = username.text.toString(),
@@ -127,7 +133,11 @@ class SignUpFragment : BaseFragment<FragmentSignUpBinding, SignUpFragmentViewMod
                             )
                         )
                     } else
-                        Snackbar.make(it, "Fill all fields!", Snackbar.LENGTH_SHORT).show()
+                        Snackbar.make(
+                            it,
+                            getString(R.string.notify_fill_all_fields),
+                            Snackbar.LENGTH_SHORT
+                        ).show()
                 }
             }
         }

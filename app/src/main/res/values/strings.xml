@@ -22,6 +22,8 @@
     <string name="error_email">Uncorrected Email</string>
     <string name="error_date">Invalid Date</string>
     <string name="error_password">Password less than 5 characters</string>
+    <string name="error_passwords">Passwords are not equals</string>
     <string name="not_found_key">Not Found</string>
     <string name="empty_error" />
+    <string name="notify_fill_all_fields">"Fill all fields!"</string>
 </resources>
