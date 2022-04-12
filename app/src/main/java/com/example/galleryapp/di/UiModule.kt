@@ -4,8 +4,7 @@ import com.example.galleryapp.ValidationHandler
 import com.example.galleryapp.validators.EmailValidator
 import com.example.galleryapp.validators.PasswordValidator
 import com.example.galleryapp.validators.Validator
-import com.example.galleryapp.validators.multi_data_validators.MultiDataValidator
-import com.example.galleryapp.validators.multi_data_validators.PasswordsMultiDataValidator
+import com.example.galleryapp.validators.PasswordsMultiDataValidator
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

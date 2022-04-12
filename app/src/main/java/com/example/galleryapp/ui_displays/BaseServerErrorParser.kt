@@ -1,30 +1,31 @@
 package com.example.galleryapp.ui_displays
 
 import com.example.domain.core.ValidationTypes
+import com.example.galleryapp.validators.EmailValidator
+import com.example.galleryapp.validators.ParsebleCloudValidator
+import com.example.galleryapp.validators.PasswordValidator
 
 open class BaseServerErrorParser {
 
-    protected val baseErrorList = mapOf(
-        ValidationTypes.Email to "This email already used",
-        ValidationTypes.Username to "This username already used",
-        ValidationTypes.Password to null
+    protected val parsebleCloudValidatorы: List<ParsebleCloudValidator> = listOf(
+        EmailValidator(""), PasswordValidator("")
     )
 
-    fun parse(error: String): Map<ValidationTypes, String> {
-        val map = mutableMapOf<ValidationTypes, String>()
+    fun parse(error: String): Map<ParsebleCloudValidator, String> {
+        val map = mutableMapOf<ParsebleCloudValidator, String>()
 
         val errors = error.split('.')
-        for (validationType in baseErrorList) {
-            map[validationType.key] = ""
+        for (validator in parsebleCloudValidatorы) {
+            map[validator] = ""
 
-            validationType.key.errorTrigger?.let { trigger ->
+            validator.errorTrigger?.let { trigger ->
                 errors.firstOrNull {
                     it.contains(trigger)
                 }?.apply {
-                    if(validationType.value != null)
-                        map[validationType.key] = validationType.value!!
+                    if(validator.errorTrigger != null)
+                        map[validator] = validator.errorTrigger!!
                     else
-                        map[validationType.key] = substringAfter(trigger)
+                        map[validator] = substringAfter(trigger)
                 }
             }
         }

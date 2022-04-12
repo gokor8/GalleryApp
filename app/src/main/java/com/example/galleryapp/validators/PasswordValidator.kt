@@ -3,15 +3,16 @@ package com.example.galleryapp.validators
 import com.example.domain.core.ValidationTypes
 import com.example.galleryapp.R
 
-class PasswordValidator : Validator {
+class PasswordValidator(override val validateStr: String = "") : Validators(), Validator, ParsebleCloudValidator {
+    override val isNullData: Boolean
+        get() = validateStr.isEmpty()
 
-    override val validateValue: Int? = null
-    override val validationType: ValidationTypes = ValidationTypes.Password
-
-    override fun validate(str: String): Int? {
-        if (str.length < 5)
+    override fun validate(): Int? {
+        if (validateStr.length < 5)
             return R.string.error_password
 
         return null
     }
+
+    override val errorTrigger: String = "password"
 }

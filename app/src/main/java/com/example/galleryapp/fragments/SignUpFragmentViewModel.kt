@@ -12,6 +12,10 @@ import com.example.galleryapp.R
 import com.example.galleryapp.ValidationHandler
 import com.example.galleryapp.ui_displays.BaseServerErrorParser
 import com.example.galleryapp.ui_displays.UISignUpEntity
+import com.example.galleryapp.validators.EmailValidator
+import com.example.galleryapp.validators.PasswordValidator
+import com.example.galleryapp.validators.PasswordsMultiDataValidator
+import com.example.galleryapp.validators.Validators
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -32,67 +36,65 @@ class SignUpFragmentViewModel @Inject constructor(
     val usernameErrorLiveData: LiveData<String> = _usernameErrorLiveData
     val emailErrorLiveData: LiveData<String> = _emailErrorLiveData
     val birthdayErrorLiveData: LiveData<String> = _birthdayErrorLiveData
-    val passwordErrorLiveData: LiveData<String> = _passwordErrorLiveData
+    val confirmPasswordErrorLiveData: LiveData<String> = _passwordErrorLiveData
     val oldPasswordErrorLiveData = MutableLiveData<String>()
     val authViewModel: LiveData<String> = _authViewModel
+
+    fun validate(
+        validator: Validators,
+    ) {
+        if (validator.isNullData) {
+            val errorId = validator.validate() ?: R.string.empty_error
+            validatorToLiveData(
+                validator,
+                application.resources.getString(errorId)
+            )
+        }
+    }
+
+    fun validate(
+        validator: Validators,
+        liveData: MutableLiveData<String>
+    ) {
+        if (validator.isNullData) {
+            val errorId = validator.validate() ?: R.string.empty_error
+            application.resources.getString(errorId).let(liveData::postValue)
+        }
+    }
 
     fun trySignUp(uiSignUpEntity: UISignUpEntity) {
         viewModelScope.launch {
 
             val authState = registrationUseCase.registrationUser(uiSignUpEntity.mapTo())
 
-            when(authState){
-                is AuthState.Success ->  {
+            when (authState) {
+                is AuthState.Success -> {
                     clearValidationErrors()
                     "Регистрация успешна".let(_authViewModel::postValue)
                 }
                 is AuthState.Error -> {
                     val errorsMap = BaseServerErrorParser().parse(authState.error)
                     errorsMap.forEach { errorMap ->
-                        validationTypeToLiveData(errorMap.key, errorMap.value)
+                        validatorToLiveData(errorMap.key as Validators, errorMap.value)
+                        // errorMap.key as Validators могу избавиться от Validators унаследовавши все интерфейсы валидации от него
                     }
                 }
             }
         }
     }
 
-    fun validate(
-        str: String,
-        validationType: ValidationTypes
-    ) {
-        if (str.isNotEmpty()) {
-            validatorHandler.findValidator(validationType)?.run {
-                val errorId = validate(str) ?: R.string.empty_error
-                    validationTypeToLiveData(
-                        validationType,
-                        application.resources.getString(errorId)
-                    )
-                }
-        }
-    }
-
-    fun validate(
-        str: String,
-        validationType: ValidationTypes,
-        liveData: MutableLiveData<String>
-    ) {
-        if (str.isNotEmpty()) {
-            validatorHandler.findValidator(validationType)?.run {
-                val errorId = validate(str) ?: R.string.empty_error
-                application.resources.getString(errorId).let(liveData::postValue)
+    private fun validatorToLiveData(validator: Validators, errorString: String) {
+        when (validator) {
+            is EmailValidator -> _emailErrorLiveData.postValue(errorString)
+            is PasswordValidator -> _passwordErrorLiveData.postValue(errorString)
+            is PasswordsMultiDataValidator -> {
+                _passwordErrorLiveData.postValue(errorString)
+                oldPasswordErrorLiveData.postValue(errorString)
             }
         }
     }
 
-    private fun validationTypeToLiveData(validationType: ValidationTypes, errorString: String) {
-        when (validationType) {
-            ValidationTypes.Email -> _emailErrorLiveData.postValue(errorString)
-            ValidationTypes.Username -> _usernameErrorLiveData.postValue(errorString)
-            ValidationTypes.Password -> _passwordErrorLiveData.postValue(errorString)
-        }
-    }
-
-    private fun clearValidationErrors(){
+    private fun clearValidationErrors() {
         _emailErrorLiveData.postValue("")
         _emailErrorLiveData.postValue("")
         _birthdayErrorLiveData.postValue("")

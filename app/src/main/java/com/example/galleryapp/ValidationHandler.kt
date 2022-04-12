@@ -2,17 +2,14 @@ package com.example.galleryapp
 
 import com.example.domain.core.ValidationTypes
 import com.example.galleryapp.validators.Validator
-import com.example.galleryapp.validators.multi_data_validators.MultiDataValidator
+import com.example.galleryapp.validators.Validators
 import javax.inject.Inject
 
 class ValidationHandler @Inject constructor(
-    private val validators: List<Validator>,
-    private val multiDataValidators: List<MultiDataValidator>
+    private val validators: List<Validators>,
 ) {
 
-    fun findValidator(validationType: ValidationTypes) =
-        validators.firstOrNull { validationType == it.validationType }
+    fun findValidator(validator: Validators) =
+        validators.firstOrNull { validator == it }
 
-    fun findMultiDataValidator(validationType: ValidationTypes) =
-        multiDataValidators.firstOrNull { validationType == it.validationType }
 }

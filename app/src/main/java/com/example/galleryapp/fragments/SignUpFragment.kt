@@ -13,6 +13,8 @@ import com.example.domain.core.ValidationTypes
 import com.example.galleryapp.R
 import com.example.galleryapp.databinding.FragmentSignUpBinding
 import com.example.galleryapp.ui_displays.UISignUpEntity
+import com.example.galleryapp.validators.EmailValidator
+import com.example.galleryapp.validators.PasswordValidator
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
@@ -43,7 +45,7 @@ class SignUpFragment : ValidationFragment<FragmentSignUpBinding, SignUpFragmentV
 
                 setErrorObserver(vm.usernameErrorLiveData, usernameInputLayout)
                 setErrorObserver(vm.emailErrorLiveData, emailInputLayout)
-                setErrorObserver(vm.passwordErrorLiveData, confirmPasswordInputLayout)
+                setErrorObserver(vm.confirmPasswordErrorLiveData, confirmPasswordInputLayout)
                 setErrorObserver(vm.oldPasswordErrorLiveData, oldPasswordInputLayout)
 
                 vm.authViewModel.observe(viewLifecycleOwner) {
@@ -55,26 +57,24 @@ class SignUpFragment : ValidationFragment<FragmentSignUpBinding, SignUpFragmentV
                     if (isFocused) return@setOnFocusChangeListener
 
                     vm.validate(
-                        emailEditText.text.toString(),
-                        ValidationTypes.Email,
+                        EmailValidator(emailEditText.text.toString())
                     )
                 }
 
-                usernameEditText.setOnFocusChangeListener { _, isFocused ->
+                /*usernameEditText.setOnFocusChangeListener { _, isFocused ->
                     if (isFocused) return@setOnFocusChangeListener
 
                     vm.validate(
                         usernameEditText.text.toString(),
                         ValidationTypes.Username,
                     )
-                }
+                }*/
 
                 confirmPassword.setOnFocusChangeListener { _, isFocused ->
                     if (isFocused) return@setOnFocusChangeListener
 
                     vm.validate(
-                        confirmPassword.text.toString(),
-                        ValidationTypes.Password,
+                        PasswordValidator(confirmPassword.text.toString())
                     )
                 }
 
@@ -82,8 +82,7 @@ class SignUpFragment : ValidationFragment<FragmentSignUpBinding, SignUpFragmentV
                     if (isFocused) return@setOnFocusChangeListener
 
                     vm.validate(
-                        oldPassword.text.toString(),
-                        ValidationTypes.Password,
+                        PasswordValidator(oldPassword.text.toString()),
                         vm.oldPasswordErrorLiveData
                     )
                 }
@@ -122,7 +121,7 @@ class SignUpFragment : ValidationFragment<FragmentSignUpBinding, SignUpFragmentV
                             || confirmPasswordInputLayout.isErrorEnabled
 
                     val isPasswordFieldsSame = confirmPassword.text.toString() == oldPassword.text.toString()
-
+                    // Добавить валидацию сюда MiltuPasswordValidation
                     if (isNotEmpty && !withErrors && isPasswordFieldsSame) {
                         vm.trySignUp(
                             UISignUpEntity(
