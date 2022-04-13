@@ -1,20 +1,20 @@
 package com.example.galleryapp.fragments
 
 import android.app.DatePickerDialog
-import android.graphics.Color
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.viewModels
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
-import com.example.domain.core.ValidationTypes
 import com.example.galleryapp.R
 import com.example.galleryapp.databinding.FragmentSignUpBinding
 import com.example.galleryapp.ui_displays.UISignUpEntity
-import com.example.galleryapp.validators.EmailValidator
-import com.example.galleryapp.validators.PasswordValidator
+import com.example.galleryapp.validators.validators_impl.EmailSingleValidator
+import com.example.galleryapp.validators.validators_impl.PasswordSingleValidator
+import com.example.galleryapp.validators.validators_impl.PasswordsMultiDataValidator
+import com.example.galleryapp.validators.validators_impl.UsernameParsableValidator
 import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
@@ -24,6 +24,7 @@ import dagger.hilt.android.AndroidEntryPoint
 class SignUpFragment : ValidationFragment<FragmentSignUpBinding, SignUpFragmentViewModel>() {
 
     private var datePickerDialog: DatePickerDialog? = null
+    private var lastValidationField: TextInputEditText? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -54,27 +55,30 @@ class SignUpFragment : ValidationFragment<FragmentSignUpBinding, SignUpFragmentV
                 }
 
                 emailEditText.setOnFocusChangeListener { _, isFocused ->
-                    if (isFocused) return@setOnFocusChangeListener
+                    if (isFocused) {
+                        lastValidationField = emailEditText
+                        return@setOnFocusChangeListener
+                    }
 
                     vm.validate(
-                        EmailValidator(emailEditText.text.toString())
+                        EmailSingleValidator(emailEditText.text.toString())
                     )
                 }
 
-                /*usernameEditText.setOnFocusChangeListener { _, isFocused ->
-                    if (isFocused) return@setOnFocusChangeListener
+                usernameEditText.setOnFocusChangeListener { _, isFocused ->
+                    if (isFocused)
+                        return@setOnFocusChangeListener
 
                     vm.validate(
-                        usernameEditText.text.toString(),
-                        ValidationTypes.Username,
+                        UsernameParsableValidator(usernameEditText.text.toString()),
                     )
-                }*/
+                }
 
                 confirmPassword.setOnFocusChangeListener { _, isFocused ->
                     if (isFocused) return@setOnFocusChangeListener
 
                     vm.validate(
-                        PasswordValidator(confirmPassword.text.toString())
+                        PasswordSingleValidator(confirmPassword.text.toString())
                     )
                 }
 
@@ -82,7 +86,7 @@ class SignUpFragment : ValidationFragment<FragmentSignUpBinding, SignUpFragmentV
                     if (isFocused) return@setOnFocusChangeListener
 
                     vm.validate(
-                        PasswordValidator(oldPassword.text.toString()),
+                        PasswordSingleValidator(oldPassword.text.toString()),
                         vm.oldPasswordErrorLiveData
                     )
                 }
@@ -108,35 +112,24 @@ class SignUpFragment : ValidationFragment<FragmentSignUpBinding, SignUpFragmentV
                 }
 
                 signUpButton.setOnClickListener {
-                    val isNotEmpty = username.text.toString().isNotEmpty()
-                            && birthday.text.toString().isNotEmpty()
-                            && email.text.toString().isNotEmpty()
-                            && oldPassword.text.toString().isNotEmpty()
-                            && confirmPassword.text.toString().isNotEmpty()
-
-                    val withErrors = usernameInputLayout.isErrorEnabled
-                            || birthdayInputLayout.isErrorEnabled
-                            || emailInputLayout.isErrorEnabled
-                            || oldPasswordInputLayout.isErrorEnabled
-                            || confirmPasswordInputLayout.isErrorEnabled
-
-                    val isPasswordFieldsSame = confirmPassword.text.toString() == oldPassword.text.toString()
-                    // Добавить валидацию сюда MiltuPasswordValidation
-                    if (isNotEmpty && !withErrors && isPasswordFieldsSame) {
-                        vm.trySignUp(
-                            UISignUpEntity(
-                                username = username.text.toString(),
-                                password = confirmPassword.text.toString(),
-                                birthday = birthday.text.toString(),
-                                email = email.text.toString()
+                    //val isLastFieldCorrect = vm.validate()
+                    vm.validate(
+                        PasswordsMultiDataValidator(
+                            listOf(
+                                oldPassword.text.toString(),
+                                confirmPassword.text.toString()
                             )
                         )
-                    } else
-                        Snackbar.make(
-                            it,
-                            getString(R.string.notify_fill_all_fields),
-                            Snackbar.LENGTH_SHORT
-                        ).show()
+                    )
+
+                    vm.trySignUp(
+                        UISignUpEntity(
+                            username = username.text.toString(),
+                            password = confirmPassword.text.toString(),
+                            birthday = birthday.text.toString(),
+                            email = email.text.toString()
+                        )
+                    )
                 }
             }
         }

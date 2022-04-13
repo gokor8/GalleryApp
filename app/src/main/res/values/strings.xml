@@ -23,7 +23,12 @@
     <string name="error_date">Invalid Date</string>
     <string name="error_password">Password less than 5 characters</string>
     <string name="error_passwords">Passwords are not equals</string>
+    <string name="error_fill_blank">Fill blank</string>
+    <string name="cloud_error_email">This is email already used</string>
+    <string name="cloud_error_username">This is username already used</string>
     <string name="not_found_key">Not Found</string>
     <string name="empty_error" />
     <string name="notify_fill_all_fields">"Fill all fields!"</string>
+    <string name="notify_check_all_fields">Check all the fields for correctness!</string>
+    <string name="notify_success_registration">Registration Success!</string>
 </resources>

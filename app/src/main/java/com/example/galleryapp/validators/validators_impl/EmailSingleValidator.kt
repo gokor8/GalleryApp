@@ -1,10 +1,11 @@
-package com.example.galleryapp.validators
+package com.example.galleryapp.validators.validators_impl
 
-import com.example.domain.core.ValidationTypes
 import com.example.galleryapp.R
-import com.example.galleryapp.ValidationHandler
+import com.example.galleryapp.validators.ParsableCloudValidator
+import com.example.galleryapp.validators.SingleValidator
 
-class EmailValidator(override val validateStr: String = "") : Validators(), Validator, ParsebleCloudValidator {
+class EmailSingleValidator(override val validateStr: String = "") : SingleValidator,
+    ParsableCloudValidator {
 
     override val isNullData: Boolean
         get() = validateStr.isEmpty()
@@ -17,6 +18,8 @@ class EmailValidator(override val validateStr: String = "") : Validators(), Vali
         else
             R.string.error_email
     }
+
+    override val myErrorResponse: Int = R.string.cloud_error_email
 
     override val errorTrigger: String = "email"
 }

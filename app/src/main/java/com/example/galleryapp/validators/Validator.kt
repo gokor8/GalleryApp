@@ -1,8 +1,8 @@
 package com.example.galleryapp.validators
 
-import com.example.domain.core.ValidationTypes
-import com.example.galleryapp.ValidationHandler
+import com.example.galleryapp.R
 
 interface Validator {
-    val validateStr: String
+    val isNullData: Boolean
+    fun validate(): Int? = R.string.empty_error
 }
