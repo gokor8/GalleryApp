@@ -7,7 +7,7 @@ class ErrorObserver {
 
     private val errorsList = mutableListOf<Pair<LiveData<ErrorEntity>, ErrorEntity>>()
 
-    fun addOrRemove(liveData: LiveData<ErrorEntity>, errorEntity: ErrorEntity): ErrorEntity {
+    /*fun addOrRemove(liveData: LiveData<ErrorEntity>, errorEntity: ErrorEntity): ErrorEntity {
         val liveDataError = Pair(liveData, errorEntity)
 
         if (!errorEntity.hasError) {
@@ -29,5 +29,5 @@ class ErrorObserver {
             }
             ErrorEntity(errorMessage)
         }
-    }
+    }*/
 }

@@ -19,7 +19,8 @@ open class ValidationFragment<B : ViewBinding, V : ViewModel>() :
     }
 
     protected fun setError(textInputLayout: TextInputLayout, errorEntity: ErrorEntity) {
-        textInputLayout.error = errorEntity.errorMessage
+        textInputLayout.error =
+            errorEntity.errorId.filterNotNull().joinToString(separator = "\r\n") { getString(it) }
         textInputLayout.isErrorEnabled = errorEntity.hasError
     }
 }

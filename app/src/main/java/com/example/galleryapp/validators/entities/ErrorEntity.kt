@@ -3,7 +3,11 @@ package com.example.galleryapp.validators.entities
 import com.example.galleryapp.validators.Validator
 
 data class ErrorEntity(
-    val errorMessage: String
+    val errorId: ArrayList<Int?>
 ) {
-    val hasError = errorMessage.isNotEmpty()
+    val hasError = errorId.isNotEmpty()
+
+    fun clearErrors() {
+        errorId.clear()
+    }
 }

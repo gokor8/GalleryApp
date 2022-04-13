@@ -16,7 +16,7 @@ class PasswordsMultiDataValidator(override val listValidateStr: List<String>) : 
             } else
                 true
 
-    override fun validate(): Int {
+    override fun validate(): Int? {
         var previous: String? = null
         for (str in listValidateStr) {
             if (previous == null)
@@ -25,6 +25,6 @@ class PasswordsMultiDataValidator(override val listValidateStr: List<String>) : 
                 return R.string.error_passwords
         }
 
-        return R.string.empty_error
+        return null
     }
 }

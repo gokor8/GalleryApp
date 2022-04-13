@@ -8,8 +8,10 @@ import com.example.galleryapp.R
 import com.example.galleryapp.ui_displays.BaseServerErrorParser
 import com.example.galleryapp.ui_displays.ErrorObserver
 import com.example.galleryapp.ui_displays.UISignUpEntity
+import com.example.galleryapp.validators.SingleValidator
 import com.example.galleryapp.validators.Validator
 import com.example.galleryapp.validators.entities.ErrorEntity
+import com.example.galleryapp.validators.entities.FieldContainer
 import com.example.galleryapp.validators.validators_impl.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -23,46 +25,33 @@ class SignUpFragmentViewModel @Inject constructor(
 
     private val errorObserver = ErrorObserver()
 
-    private val _usernameErrorLiveData = MutableLiveData<ErrorEntity>()
-    private val _emailErrorLiveData = MutableLiveData<ErrorEntity>()
-    private val _birthdayErrorLiveData = MutableLiveData<ErrorEntity>()
-    private val _passwordErrorLiveData = MutableLiveData<ErrorEntity>()
-    private val _authViewModel = MutableLiveData<Int>()
-
-    val usernameErrorLiveData: LiveData<ErrorEntity> = _usernameErrorLiveData
-    val emailErrorLiveData: LiveData<ErrorEntity> = _emailErrorLiveData
-    val birthdayErrorLiveData: LiveData<ErrorEntity> = _birthdayErrorLiveData
-    val confirmPasswordErrorLiveData: LiveData<ErrorEntity> = _passwordErrorLiveData
+    val usernameErrorLiveData = MutableLiveData<ErrorEntity>()
+    val emailErrorLiveData = MutableLiveData<ErrorEntity>()
+    val birthdayErrorLiveData = MutableLiveData<ErrorEntity>()
+    val passwordErrorLiveData = MutableLiveData<ErrorEntity>()
+    val authViewModel = MutableLiveData<Int>()
     val oldPasswordErrorLiveData = MutableLiveData<ErrorEntity>()
-    val authViewModel: LiveData<Int> = _authViewModel
 
     fun validate(
         validator: Validator,
+        liveDataList: List<MutableLiveData<ErrorEntity>>
     ) {
         if (!validator.isNullData) {
-            val errorId = validator.validate() ?: R.string.empty_error
+            // val errorId = validator.validate() ?: R.string.empty_error
+            liveDataList.forEach {
+                val errorId = validator.validate()
 
-            validatorToLiveData(
-                validator
-            ) {
-                errorObserver.addOrRemove(
-                    it,
-                    ErrorEntity(fragmentApplication.resources.getString(errorId))
-                ).let(it::postValue)
-            }
-        } else {
-            validatorToLiveData(
-                validator
-            ) {
-                errorObserver.addOrRemove(
-                    it,
-                    ErrorEntity(fragmentApplication.resources.getString(R.string.error_fill_blank))
-                ).let(it::postValue)
+                if(it.value != null) {
+                    it.value!!.errorId.add(errorId)
+                    it.postValue(ErrorEntity(it.value!!.errorId))
+                } else {
+                    it.postValue(ErrorEntity(arrayListOf(errorId)))
+                }
             }
         }
     }
 
-    fun validate(
+    /*fun validate(
         validator: Validator,
         liveData: MutableLiveData<ErrorEntity>
     ) {
@@ -77,13 +66,13 @@ class SignUpFragmentViewModel @Inject constructor(
             ErrorEntity(fragmentApplication.resources.getString(R.string.error_fill_blank))
                 .let(liveData::postValue)
         }
-    }
+    }*/
 
     fun trySignUp(uiSignUpEntity: UISignUpEntity) {
         val allErrorVm = listOf(
-            _usernameErrorLiveData,
-            _emailErrorLiveData,
-            _passwordErrorLiveData,
+            usernameErrorLiveData,
+            emailErrorLiveData,
+            passwordErrorLiveData,
             oldPasswordErrorLiveData
         )
         var withoutErrors = true
@@ -96,7 +85,7 @@ class SignUpFragmentViewModel @Inject constructor(
         }
 
         if (!withoutErrors) {
-            _authViewModel.postValue(R.string.notify_check_all_fields)
+            authViewModel.postValue(R.string.notify_check_all_fields)
             return
         }
 
@@ -106,18 +95,18 @@ class SignUpFragmentViewModel @Inject constructor(
 
             when (authState) {
                 is AuthState.Success -> {
-                    clearValidationErrors()
-                    R.string.notify_success_registration.let(_authViewModel::postValue)
+                    //clearValidationErrors()
+                    R.string.notify_success_registration.let(authViewModel::postValue)
                 }
                 is AuthState.Error -> {
                     val errorsMap =
                         BaseServerErrorParser(fragmentApplication).parse(authState.error)
                     errorsMap.forEach { errorMap ->
-                        if (errorMap.key is Validator) {
-                            validatorToLiveData(errorMap.key as Validator){
-                                it.postValue(ErrorEntity(errorMap.value))
-                            }
+                        /* if (errorMap.key is Validator) {
+                        validatorToLiveData(errorMap.key as Validator) {
+                            it.postValue(ErrorEntity(errorMap.value))
                         }
+                    }*/
                         // errorMap.key as Validator могу избавиться от Validator унаследовавши все интерфейсы валидации от него
                     }
                 }
@@ -125,27 +114,30 @@ class SignUpFragmentViewModel @Inject constructor(
         }
     }
 
-    private inline fun validatorToLiveData(
+   /* private fun validatorToLiveData(
         validator: Validator,
-        lifeDataDo: (liveData: MutableLiveData<ErrorEntity>) -> Unit
     ) {
         when (validator) {
-            is UsernameParsableValidator -> lifeDataDo(_usernameErrorLiveData)
-            is EmailSingleValidator -> lifeDataDo(_emailErrorLiveData)
-            is PasswordSingleValidator -> lifeDataDo(_passwordErrorLiveData)
             is PasswordsMultiDataValidator -> {
-                lifeDataDo(_passwordErrorLiveData)
-                lifeDataDo(oldPasswordErrorLiveData)
+
+            }
+            is PasswordSingleValidator -> {
+                confirmPasswordContainer.addOrRemoveError(validator)
+                passwordErrorLiveData.postValue(ErrorEntity(confirmPasswordContainer.getStringErrors() {
+                    fragmentApplication.resources.getString(
+                        it
+                    )
+                }))
             }
         }
-    }
+    }*/
 
     private fun clearValidationErrors() {
-        val noErrorEntity = ErrorEntity("")
+        val noErrorEntity = ErrorEntity(arrayListOf<Int?>())
 
-        _emailErrorLiveData.postValue(noErrorEntity)
-        _emailErrorLiveData.postValue(noErrorEntity)
-        _birthdayErrorLiveData.postValue(noErrorEntity)
-        _passwordErrorLiveData.postValue(noErrorEntity)
+        emailErrorLiveData.postValue(noErrorEntity)
+        emailErrorLiveData.postValue(noErrorEntity)
+        birthdayErrorLiveData.postValue(noErrorEntity)
+        passwordErrorLiveData.postValue(noErrorEntity)
     }
 }

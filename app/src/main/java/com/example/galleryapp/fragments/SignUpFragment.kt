@@ -46,7 +46,7 @@ class SignUpFragment : ValidationFragment<FragmentSignUpBinding, SignUpFragmentV
 
                 setErrorObserver(vm.usernameErrorLiveData, usernameInputLayout)
                 setErrorObserver(vm.emailErrorLiveData, emailInputLayout)
-                setErrorObserver(vm.confirmPasswordErrorLiveData, confirmPasswordInputLayout)
+                setErrorObserver(vm.passwordErrorLiveData, confirmPasswordInputLayout)
                 setErrorObserver(vm.oldPasswordErrorLiveData, oldPasswordInputLayout)
 
                 vm.authViewModel.observe(viewLifecycleOwner) {
@@ -60,34 +60,49 @@ class SignUpFragment : ValidationFragment<FragmentSignUpBinding, SignUpFragmentV
                         return@setOnFocusChangeListener
                     }
 
-                    vm.validate(
+                   /* vm.validate(
                         EmailSingleValidator(emailEditText.text.toString())
-                    )
+                    )*/
                 }
 
                 usernameEditText.setOnFocusChangeListener { _, isFocused ->
                     if (isFocused)
                         return@setOnFocusChangeListener
 
-                    vm.validate(
+                    /*vm.validate(
                         UsernameParsableValidator(usernameEditText.text.toString()),
-                    )
+                    )*/
                 }
 
                 confirmPassword.setOnFocusChangeListener { _, isFocused ->
-                    if (isFocused) return@setOnFocusChangeListener
+                    if (isFocused) {
+                        vm.passwordErrorLiveData.value?.clearErrors()
+                        return@setOnFocusChangeListener
+                    }
 
                     vm.validate(
-                        PasswordSingleValidator(confirmPassword.text.toString())
+                        PasswordsMultiDataValidator(listOf(confirmPassword.text.toString(), oldPassword.text.toString())),
+                        listOf(vm.passwordErrorLiveData)
+                    )
+                    vm.validate(
+                        PasswordSingleValidator(confirmPassword.text.toString()),
+                        listOf(vm.passwordErrorLiveData)
                     )
                 }
 
                 oldPassword.setOnFocusChangeListener { _, isFocused ->
-                    if (isFocused) return@setOnFocusChangeListener
+                    if (isFocused) {
+                        vm.oldPasswordErrorLiveData.value?.clearErrors()
+                        return@setOnFocusChangeListener
+                    }
 
                     vm.validate(
+                        PasswordsMultiDataValidator(listOf(confirmPassword.text.toString(), oldPassword.text.toString())),
+                        listOf(vm.oldPasswordErrorLiveData)
+                    )
+                    vm.validate(
                         PasswordSingleValidator(oldPassword.text.toString()),
-                        vm.oldPasswordErrorLiveData
+                        listOf(vm.oldPasswordErrorLiveData)
                     )
                 }
 
@@ -113,14 +128,14 @@ class SignUpFragment : ValidationFragment<FragmentSignUpBinding, SignUpFragmentV
 
                 signUpButton.setOnClickListener {
                     //val isLastFieldCorrect = vm.validate()
-                    vm.validate(
+                    /*vm.validate(
                         PasswordsMultiDataValidator(
                             listOf(
                                 oldPassword.text.toString(),
                                 confirmPassword.text.toString()
                             )
                         )
-                    )
+                    )*/
 
                     vm.trySignUp(
                         UISignUpEntity(
