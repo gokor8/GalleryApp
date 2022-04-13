@@ -41,6 +41,7 @@ class SignUpFragmentViewModel @Inject constructor(
     ) {
         if (!validator.isNullData) {
             val errorId = validator.validate() ?: R.string.empty_error
+
             validatorToLiveData(
                 validator
             ) {
@@ -67,14 +68,14 @@ class SignUpFragmentViewModel @Inject constructor(
     ) {
         if (!validator.isNullData) {
             val errorId = validator.validate() ?: R.string.empty_error
+
             errorObserver.addOrRemove(
                 liveData,
                 ErrorEntity(fragmentApplication.resources.getString(errorId))
             ).let(liveData::postValue)
         } else {
-            ErrorEntity(fragmentApplication.resources.getString(R.string.error_fill_blank)).let(
-                liveData::postValue
-            )
+            ErrorEntity(fragmentApplication.resources.getString(R.string.error_fill_blank))
+                .let(liveData::postValue)
         }
     }
 
