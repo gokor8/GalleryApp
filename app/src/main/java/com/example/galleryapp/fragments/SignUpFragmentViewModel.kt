@@ -21,8 +21,6 @@ class SignUpFragmentViewModel @Inject constructor(
     private val fragmentApplication: Application,
 ) : AndroidViewModel(fragmentApplication) {
 
-    private val res = fragmentApplication.resources
-
     val usernameErrorLiveData = MutableLiveData<ErrorEntity>()
     val emailErrorLiveData = MutableLiveData<ErrorEntity>()
     val birthdayErrorLiveData = MutableLiveData<ErrorEntity>()
@@ -48,19 +46,7 @@ class SignUpFragmentViewModel @Inject constructor(
         }
     }
 
-    fun addValidate(
-        validator: Validator,
-        vararg liveDatas: MutableLiveData<ErrorEntity>
-    ) {
-        for (liveData in liveDatas) {
-            var sourceError = ""
-            liveData.value?.let { sourceError = it.errorMessage }
-
-            ErrorEntity(sourceError + validator.validate())
-                .let(liveData::postValue)
-        }
-    }
-
+    // Тут пока ничего не менял по логике со старой архитектуры валдиации
     fun trySignUp(uiSignUpEntity: UISignUpEntity) {
         val allErrorVm = listOf(
             usernameErrorLiveData,
@@ -106,13 +92,4 @@ class SignUpFragmentViewModel @Inject constructor(
             }
         }
     }
-
-    /*private fun clearValidationErrors() {
-        val noErrorEntity = ErrorEntity(arrayListOf<Int?>())
-
-        emailErrorLiveData.postValue(noErrorEntity)
-        emailErrorLiveData.postValue(noErrorEntity)
-        birthdayErrorLiveData.postValue(noErrorEntity)
-        passwordErrorLiveData.postValue(noErrorEntity)
-    }*/
 }
