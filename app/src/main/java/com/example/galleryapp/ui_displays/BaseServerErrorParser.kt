@@ -10,9 +10,9 @@ import dagger.hilt.android.qualifiers.ApplicationContext
 open class BaseServerErrorParser(@ApplicationContext private val context: Context) {
 
     protected val parsableCloudValidator: List<ParsableCloudValidator> = listOf(
-        UsernameParsableValidator(""),
+        /*UsernameParsableValidator(""),
         EmailSingleValidator(""),
-        LengthSingleValidator("")
+        LengthSingleValidator("")*/
     )
 
     fun parse(error: String): Map<ParsableCloudValidator, String> {

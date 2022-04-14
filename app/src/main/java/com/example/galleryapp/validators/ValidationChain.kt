@@ -5,9 +5,21 @@ class ValidationChain(
     private val next: Validator
 ) : Validator {
 
-    override fun validate(errorMessage: String): String {
-        var errorMessage: String = ""
+    override val errorMessage: String = ""
 
-        begin.validate()
+    override fun validate(): String {
+        var errorMessage = ""
+
+        errorMessage += buildErrorMessage(begin.validate())
+        errorMessage += buildErrorMessage(next.validate())
+
+        return errorMessage
+    }
+
+    private fun buildErrorMessage(errorMessage: String): String {
+        return if(errorMessage != "")
+             "$errorMessage\r\n"
+        else
+            errorMessage
     }
 }

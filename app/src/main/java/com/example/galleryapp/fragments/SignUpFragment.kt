@@ -7,9 +7,11 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import com.example.galleryapp.R
 import com.example.galleryapp.databinding.FragmentSignUpBinding
 import com.example.galleryapp.ui_displays.UISignUpEntity
 import com.example.galleryapp.validators.ValidationChain
+import com.example.galleryapp.validators.validators_impl.EmailSingleValidator
 import com.example.galleryapp.validators.validators_impl.LengthSingleValidator
 import com.example.galleryapp.validators.validators_impl.StringsMultiDataValidator
 import com.google.android.material.snackbar.Snackbar
@@ -57,52 +59,78 @@ class SignUpFragment : ValidationFragment<FragmentSignUpBinding, SignUpFragmentV
                         return@setOnFocusChangeListener
                     }
 
-                    /* vm.validate(
-                         EmailSingleValidator(emailEditText.text.toString())
-                     )*/
-                }
-
-                usernameEditText.setOnFocusChangeListener { _, isFocused ->
-                    if (isFocused)
-                        return@setOnFocusChangeListener
-
-                    /*vm.validate(
-                        UsernameParsableValidator(usernameEditText.text.toString()),
-                    )*/
+                    vm.newValidate(
+                        EmailSingleValidator(
+                            emailEditText.text.toString(),
+                            getString(R.string.error_email)
+                        ),
+                        vm.emailErrorLiveData
+                    )
                 }
 
                 confirmPassword.setOnFocusChangeListener { _, isFocused ->
                     if (isFocused) return@setOnFocusChangeListener
 
-                    vm.validate(
-                        StringsMultiDataValidator(
-                            listOf(
+                    vm.newValidate(
+                        ValidationChain(
+                            LengthSingleValidator(
+                                vm.passwordValidationLength,
                                 confirmPassword.text.toString(),
-                                oldPassword.text.toString()
+                                getString(R.string.error_password)
+                            ),
+                            StringsMultiDataValidator(
+                                listOf(
+                                    confirmPassword.text.toString(),
+                                    oldPassword.text.toString()
+                                ),
+                                getString(R.string.error_passwords)
                             )
                         ),
                         vm.passwordErrorLiveData
                     )
-                    vm.validate(
-                        LengthSingleValidator(confirmPassword.text.toString()),
-                        vm.passwordErrorLiveData
+
+                    vm.addValidate(
+                        StringsMultiDataValidator(
+                            listOf(
+                                confirmPassword.text.toString(),
+                                oldPassword.text.toString()
+                            ),
+                            getString(R.string.error_passwords)
+                        ),
+                        vm.oldPasswordErrorLiveData
                     )
                 }
 
                 oldPassword.setOnFocusChangeListener { _, isFocused ->
                     if (isFocused) return@setOnFocusChangeListener
 
-                    vm.validate(
+                    vm.newValidate(
                         ValidationChain(
-                            LengthSingleValidator(oldPassword.text.toString()),
+                            LengthSingleValidator(
+                                vm.passwordValidationLength,
+                                confirmPassword.text.toString(),
+                                getString(R.string.error_password)
+                            ),
                             StringsMultiDataValidator(
                                 listOf(
                                     confirmPassword.text.toString(),
                                     oldPassword.text.toString()
-                                )
+                                ),
+                                getString(R.string.error_passwords)
                             )
                         ),
                         vm.oldPasswordErrorLiveData
+                    )
+
+                    vm.addValidate(
+                        StringsMultiDataValidator(
+                            listOf(
+                                confirmPassword.text.toString(),
+                                oldPassword.text.toString()
+                            ),
+                            getString(R.string.error_passwords)
+                        ),
+                        vm.passwordErrorLiveData
                     )
                 }
 

@@ -32,19 +32,32 @@ class SignUpFragmentViewModel @Inject constructor(
 
     val passwordValidationLength = 5
 
-    fun validate(
+    fun newValidate(
         validator: Validator,
         liveData: MutableLiveData<ErrorEntity>
     ) {
         ErrorEntity(validator.validate()).let(liveData::postValue)
     }
 
-    fun validate(
-        validationChain: List<Validator>,
+    fun newValidate(
+        validator: Validator,
         vararg liveDatas: MutableLiveData<ErrorEntity>
     ) {
-        for(liveData in liveDatas) {
-            validationChain.map { ErrorEntity(it.validate()).let(liveData::postValue) }
+        for (liveData in liveDatas) {
+            ErrorEntity(validator.validate()).let(liveData::postValue)
+        }
+    }
+
+    fun addValidate(
+        validator: Validator,
+        vararg liveDatas: MutableLiveData<ErrorEntity>
+    ) {
+        for (liveData in liveDatas) {
+            var sourceError = ""
+            liveData.value?.let { sourceError = it.errorMessage }
+
+            ErrorEntity(sourceError + validator.validate())
+                .let(liveData::postValue)
         }
     }
 
@@ -93,24 +106,6 @@ class SignUpFragmentViewModel @Inject constructor(
             }
         }
     }
-
-   /* private fun validatorToLiveData(
-        validator: Validator,
-    ) {
-        when (validator) {
-            is StringsMultiDataValidator -> {
-
-            }
-            is LengthSingleValidator -> {
-                confirmPasswordContainer.addOrRemoveError(validator)
-                passwordErrorLiveData.postValue(ErrorEntity(confirmPasswordContainer.getStringErrors() {
-                    fragmentApplication.resources.getString(
-                        it
-                    )
-                }))
-            }
-        }
-    }*/
 
     /*private fun clearValidationErrors() {
         val noErrorEntity = ErrorEntity(arrayListOf<Int?>())
