@@ -19,7 +19,7 @@ import javax.inject.Inject
 class SignUpFragmentViewModel @Inject constructor(
     private val registrationUseCase: RegistrationUseCase,
     private val fragmentApplication: Application,
-) : AndroidViewModel(fragmentApplication) {
+) : AndroidViewModel(fragmentApplication), ValidationViewModel {
 
     val usernameErrorLiveData = MutableLiveData<ErrorEntity>()
     val emailErrorLiveData = MutableLiveData<ErrorEntity>()
@@ -28,24 +28,8 @@ class SignUpFragmentViewModel @Inject constructor(
     val authViewModel = MutableLiveData<Int>()
     val oldPasswordErrorLiveData = MutableLiveData<ErrorEntity>()
 
-    val baseLengthValidation = 1
+    override val baseLengthValidation = 1
     val passwordValidationLength = 5
-
-    fun validate(
-        validator: Validator,
-        liveData: MutableLiveData<ErrorEntity>
-    ) {
-        ErrorEntity(validator.validate()).let(liveData::postValue)
-    }
-
-    fun validate(
-        validator: Validator,
-        vararg liveDatas: MutableLiveData<ErrorEntity>
-    ) {
-        for (liveData in liveDatas) {
-            ErrorEntity(validator.validate()).let(liveData::postValue)
-        }
-    }
 
     // Тут пока ничего не менял по логике со старой архитектуры валдиации
     fun trySignUp(uiSignUpEntity: UISignUpEntity) {
@@ -93,9 +77,5 @@ class SignUpFragmentViewModel @Inject constructor(
                 }
             }
         }
-    }
-
-    private fun getString() {
-
     }
 }
