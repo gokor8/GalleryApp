@@ -28,16 +28,17 @@ class SignUpFragmentViewModel @Inject constructor(
     val authViewModel = MutableLiveData<Int>()
     val oldPasswordErrorLiveData = MutableLiveData<ErrorEntity>()
 
+    val baseLengthValidation = 1
     val passwordValidationLength = 5
 
-    fun newValidate(
+    fun validate(
         validator: Validator,
         liveData: MutableLiveData<ErrorEntity>
     ) {
         ErrorEntity(validator.validate()).let(liveData::postValue)
     }
 
-    fun newValidate(
+    fun validate(
         validator: Validator,
         vararg liveDatas: MutableLiveData<ErrorEntity>
     ) {
@@ -80,16 +81,21 @@ class SignUpFragmentViewModel @Inject constructor(
                 is AuthState.Error -> {
                     val errorsMap =
                         BaseServerErrorParser(fragmentApplication).parse(authState.error)
-                    errorsMap.forEach { errorMap ->
-                        /* if (errorMap.key is Validator) {
-                        validatorToLiveData(errorMap.key as Validator) {
-                            it.postValue(ErrorEntity(errorMap.value))
+
+                   /* errorsMap.forEach { errorMap ->
+                        if (errorMap.key is Validator) {
+                            validatorToLiveData(errorMap.key as Validator) {
+                                it.postValue(ErrorEntity(errorMap.value))
+                            }
                         }
-                    }*/
                         // errorMap.key as Validator могу избавиться от Validator унаследовавши все интерфейсы валидации от него
-                    }
+                    }*/
                 }
             }
         }
+    }
+
+    private fun getString() {
+
     }
 }
