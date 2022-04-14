@@ -6,15 +6,7 @@ import com.example.galleryapp.validators.MultiValidator
 class PasswordsMultiDataValidator(override val listValidateStr: List<String>) : MultiValidator {
 
     override val isNullData: Boolean
-        get() =
-            if (listValidateStr.isNotEmpty()) {
-                var hasEmpty = false
-                listValidateStr.forEach {
-                    if (it.isEmpty()) hasEmpty = true
-                }
-                hasEmpty
-            } else
-                true
+        get() = listValidateStr.isEmpty()
 
     override fun validate(): Int? {
         var previous: String? = null

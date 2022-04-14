@@ -42,10 +42,10 @@ class SignUpFragmentViewModel @Inject constructor(
                 val errorId = validator.validate()
 
                 if(it.value != null) {
-                    it.value!!.errorId.add(errorId)
-                    it.postValue(ErrorEntity(it.value!!.errorId))
+                    it.value!!.addOrRemove(validator, errorId)
+                    it.postValue(ErrorEntity(it.value!!.getErrorIds()))
                 } else {
-                    it.postValue(ErrorEntity(arrayListOf(errorId)))
+                    it.value = ErrorEntity(mutableMapOf(validator::class.simpleName!! to errorId))
                 }
             }
         }
@@ -132,12 +132,12 @@ class SignUpFragmentViewModel @Inject constructor(
         }
     }*/
 
-    private fun clearValidationErrors() {
+    /*private fun clearValidationErrors() {
         val noErrorEntity = ErrorEntity(arrayListOf<Int?>())
 
         emailErrorLiveData.postValue(noErrorEntity)
         emailErrorLiveData.postValue(noErrorEntity)
         birthdayErrorLiveData.postValue(noErrorEntity)
         passwordErrorLiveData.postValue(noErrorEntity)
-    }
+    }*/
 }

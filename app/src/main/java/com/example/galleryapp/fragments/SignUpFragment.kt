@@ -82,7 +82,7 @@ class SignUpFragment : ValidationFragment<FragmentSignUpBinding, SignUpFragmentV
 
                     vm.validate(
                         PasswordsMultiDataValidator(listOf(confirmPassword.text.toString(), oldPassword.text.toString())),
-                        listOf(vm.passwordErrorLiveData)
+                        listOf(vm.oldPasswordErrorLiveData, vm.passwordErrorLiveData)
                     )
                     vm.validate(
                         PasswordSingleValidator(confirmPassword.text.toString()),
@@ -98,7 +98,7 @@ class SignUpFragment : ValidationFragment<FragmentSignUpBinding, SignUpFragmentV
 
                     vm.validate(
                         PasswordsMultiDataValidator(listOf(confirmPassword.text.toString(), oldPassword.text.toString())),
-                        listOf(vm.oldPasswordErrorLiveData)
+                        listOf(vm.oldPasswordErrorLiveData, vm.passwordErrorLiveData)
                     )
                     vm.validate(
                         PasswordSingleValidator(oldPassword.text.toString()),

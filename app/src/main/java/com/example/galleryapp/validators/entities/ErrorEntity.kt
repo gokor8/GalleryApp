@@ -3,11 +3,22 @@ package com.example.galleryapp.validators.entities
 import com.example.galleryapp.validators.Validator
 
 data class ErrorEntity(
-    val errorId: ArrayList<Int?>
+    private val errorIds: MutableMap<String, Int?>
 ) {
-    val hasError = errorId.isNotEmpty()
+    val hasError = errorIds.isNotEmpty()
+
+    fun addOrRemove(validator: Validator, errorId: Int?) {
+        val validatorName = validator::class.simpleName
+
+        if(errorIds.contains(validatorName) && errorId == null)
+            errorIds.remove(validatorName)
+        else
+            errorIds[validatorName!!] = errorId
+    }
+
+    fun getErrorIds() = errorIds
 
     fun clearErrors() {
-        errorId.clear()
+        errorIds.clear()
     }
 }
