@@ -86,18 +86,7 @@ class SignUpFragment : ValidationFragment<FragmentSignUpBinding, SignUpFragmentV
                                 getString(R.string.error_passwords)
                             )
                         ),
-                        vm.passwordErrorLiveData
-                    )
-
-                    vm.addValidate(
-                        StringsMultiDataValidator(
-                            listOf(
-                                confirmPassword.text.toString(),
-                                oldPassword.text.toString()
-                            ),
-                            getString(R.string.error_passwords)
-                        ),
-                        vm.oldPasswordErrorLiveData
+                        vm.passwordErrorLiveData, vm.oldPasswordErrorLiveData
                     )
                 }
 
@@ -119,18 +108,7 @@ class SignUpFragment : ValidationFragment<FragmentSignUpBinding, SignUpFragmentV
                                 getString(R.string.error_passwords)
                             )
                         ),
-                        vm.oldPasswordErrorLiveData
-                    )
-
-                    vm.addValidate(
-                        StringsMultiDataValidator(
-                            listOf(
-                                confirmPassword.text.toString(),
-                                oldPassword.text.toString()
-                            ),
-                            getString(R.string.error_passwords)
-                        ),
-                        vm.passwordErrorLiveData
+                        vm.passwordErrorLiveData, vm.oldPasswordErrorLiveData
                     )
                 }
 
