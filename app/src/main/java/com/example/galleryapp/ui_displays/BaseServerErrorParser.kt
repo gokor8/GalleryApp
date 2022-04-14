@@ -3,7 +3,7 @@ package com.example.galleryapp.ui_displays
 import android.content.Context
 import com.example.galleryapp.validators.validators_impl.EmailSingleValidator
 import com.example.galleryapp.validators.ParsableCloudValidator
-import com.example.galleryapp.validators.validators_impl.PasswordSingleValidator
+import com.example.galleryapp.validators.validators_impl.LengthSingleValidator
 import com.example.galleryapp.validators.validators_impl.UsernameParsableValidator
 import dagger.hilt.android.qualifiers.ApplicationContext
 
@@ -12,7 +12,7 @@ open class BaseServerErrorParser(@ApplicationContext private val context: Contex
     protected val parsableCloudValidator: List<ParsableCloudValidator> = listOf(
         UsernameParsableValidator(""),
         EmailSingleValidator(""),
-        PasswordSingleValidator("")
+        LengthSingleValidator("")
     )
 
     fun parse(error: String): Map<ParsableCloudValidator, String> {

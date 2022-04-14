@@ -6,13 +6,11 @@ import com.example.domain.entities.AuthState
 import com.example.domain.usecases.RegistrationUseCase
 import com.example.galleryapp.R
 import com.example.galleryapp.ui_displays.BaseServerErrorParser
-import com.example.galleryapp.ui_displays.ErrorObserver
 import com.example.galleryapp.ui_displays.UISignUpEntity
 import com.example.galleryapp.validators.SingleValidator
+import com.example.galleryapp.validators.ValidationChain
 import com.example.galleryapp.validators.Validator
 import com.example.galleryapp.validators.entities.ErrorEntity
-import com.example.galleryapp.validators.entities.FieldContainer
-import com.example.galleryapp.validators.validators_impl.*
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -23,7 +21,7 @@ class SignUpFragmentViewModel @Inject constructor(
     private val fragmentApplication: Application,
 ) : AndroidViewModel(fragmentApplication) {
 
-    private val errorObserver = ErrorObserver()
+    private val res = fragmentApplication.resources
 
     val usernameErrorLiveData = MutableLiveData<ErrorEntity>()
     val emailErrorLiveData = MutableLiveData<ErrorEntity>()
@@ -32,41 +30,23 @@ class SignUpFragmentViewModel @Inject constructor(
     val authViewModel = MutableLiveData<Int>()
     val oldPasswordErrorLiveData = MutableLiveData<ErrorEntity>()
 
+    val passwordValidationLength = 5
+
     fun validate(
-        validator: Validator,
-        liveDataList: List<MutableLiveData<ErrorEntity>>
-    ) {
-        if (!validator.isNullData) {
-            // val errorId = validator.validate() ?: R.string.empty_error
-            liveDataList.forEach {
-                val errorId = validator.validate()
-
-                if(it.value != null) {
-                    it.value!!.addOrRemove(validator, errorId)
-                    it.postValue(ErrorEntity(it.value!!.getErrorIds()))
-                } else {
-                    it.value = ErrorEntity(mutableMapOf(validator::class.simpleName!! to errorId))
-                }
-            }
-        }
-    }
-
-    /*fun validate(
         validator: Validator,
         liveData: MutableLiveData<ErrorEntity>
     ) {
-        if (!validator.isNullData) {
-            val errorId = validator.validate() ?: R.string.empty_error
+        ErrorEntity(validator.validate()).let(liveData::postValue)
+    }
 
-            errorObserver.addOrRemove(
-                liveData,
-                ErrorEntity(fragmentApplication.resources.getString(errorId))
-            ).let(liveData::postValue)
-        } else {
-            ErrorEntity(fragmentApplication.resources.getString(R.string.error_fill_blank))
-                .let(liveData::postValue)
+    fun validate(
+        validationChain: List<Validator>,
+        vararg liveDatas: MutableLiveData<ErrorEntity>
+    ) {
+        for(liveData in liveDatas) {
+            validationChain.map { ErrorEntity(it.validate()).let(liveData::postValue) }
         }
-    }*/
+    }
 
     fun trySignUp(uiSignUpEntity: UISignUpEntity) {
         val allErrorVm = listOf(
@@ -118,10 +98,10 @@ class SignUpFragmentViewModel @Inject constructor(
         validator: Validator,
     ) {
         when (validator) {
-            is PasswordsMultiDataValidator -> {
+            is StringsMultiDataValidator -> {
 
             }
-            is PasswordSingleValidator -> {
+            is LengthSingleValidator -> {
                 confirmPasswordContainer.addOrRemoveError(validator)
                 passwordErrorLiveData.postValue(ErrorEntity(confirmPasswordContainer.getStringErrors() {
                     fragmentApplication.resources.getString(
