@@ -59,7 +59,7 @@ class SignUpFragment : ValidationFragment<FragmentSignUpBinding, SignUpFragmentV
                         return@setOnFocusChangeListener
                     }
 
-                    vm.newValidate(
+                    vm.validate(
                         EmailSingleValidator(
                             emailEditText.text.toString(),
                             getString(R.string.error_email)
@@ -71,45 +71,13 @@ class SignUpFragment : ValidationFragment<FragmentSignUpBinding, SignUpFragmentV
                 confirmPassword.setOnFocusChangeListener { _, isFocused ->
                     if (isFocused) return@setOnFocusChangeListener
 
-                    vm.newValidate(
-                        ValidationChain(
-                            LengthSingleValidator(
-                                vm.passwordValidationLength,
-                                confirmPassword.text.toString(),
-                                getString(R.string.error_password)
-                            ),
-                            StringsMultiDataValidator(
-                                listOf(
-                                    confirmPassword.text.toString(),
-                                    oldPassword.text.toString()
-                                ),
-                                getString(R.string.error_passwords)
-                            )
-                        ),
-                        vm.passwordErrorLiveData, vm.oldPasswordErrorLiveData
-                    )
+                    passwordValidation()
                 }
 
                 oldPassword.setOnFocusChangeListener { _, isFocused ->
                     if (isFocused) return@setOnFocusChangeListener
 
-                    vm.newValidate(
-                        ValidationChain(
-                            LengthSingleValidator(
-                                vm.passwordValidationLength,
-                                confirmPassword.text.toString(),
-                                getString(R.string.error_password)
-                            ),
-                            StringsMultiDataValidator(
-                                listOf(
-                                    confirmPassword.text.toString(),
-                                    oldPassword.text.toString()
-                                ),
-                                getString(R.string.error_passwords)
-                            )
-                        ),
-                        vm.passwordErrorLiveData, vm.oldPasswordErrorLiveData
-                    )
+                    passwordValidation()
                 }
 
 
@@ -156,5 +124,47 @@ class SignUpFragment : ValidationFragment<FragmentSignUpBinding, SignUpFragmentV
         }
 
         return binding?.root
+    }
+
+    private fun passwordValidation() {
+        binding?.apply {
+            viewModel?.also { vm ->
+                vm.validate(
+                    ValidationChain(
+                        LengthSingleValidator(
+                            vm.passwordValidationLength,
+                            confirmPassword.text.toString(),
+                            getString(R.string.error_password)
+                        ),
+                        StringsMultiDataValidator(
+                            listOf(
+                                confirmPassword.text.toString(),
+                                oldPassword.text.toString()
+                            ),
+                            getString(R.string.error_passwords)
+                        )
+                    ),
+                    vm.passwordErrorLiveData
+                )
+
+                vm.validate(
+                    ValidationChain(
+                        LengthSingleValidator(
+                            vm.passwordValidationLength,
+                            oldPassword.text.toString(),
+                            getString(R.string.error_password)
+                        ),
+                        StringsMultiDataValidator(
+                            listOf(
+                                confirmPassword.text.toString(),
+                                oldPassword.text.toString()
+                            ),
+                            getString(R.string.error_passwords)
+                        )
+                    ),
+                    vm.oldPasswordErrorLiveData
+                )
+            }
+        }
     }
 }
