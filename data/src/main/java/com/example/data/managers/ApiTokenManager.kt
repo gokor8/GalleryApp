@@ -16,12 +16,13 @@ class ApiTokenManager @Inject constructor(
         {
             token = cloudTokenDataSource.getNewToken().mapTo()
             sharedPreferencesDataSource.saveKeys(token)
-        } else {
+        }
+        /*else {
             val apiTokens = cloudTokenDataSource.getAvailableToken(token.clientId!!).mapTo()
             if(apiTokens != token)
                 sharedPreferencesDataSource.saveKeys(apiTokens)
             token = apiTokens
-        }
+        }*/
 
         return token
     }
