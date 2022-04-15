@@ -2,14 +2,11 @@ package com.example.galleryapp.fragments
 
 import android.app.Application
 import androidx.lifecycle.*
+import com.example.domain.core.ErrorType
 import com.example.domain.entities.AuthState
 import com.example.domain.usecases.RegistrationUseCase
 import com.example.galleryapp.R
-import com.example.galleryapp.ui_displays.BaseServerErrorParser
 import com.example.galleryapp.ui_displays.UISignUpEntity
-import com.example.galleryapp.validators.SingleValidator
-import com.example.galleryapp.validators.ValidationChain
-import com.example.galleryapp.validators.Validator
 import com.example.galleryapp.validators.entities.ErrorEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -18,17 +15,18 @@ import javax.inject.Inject
 @HiltViewModel
 class SignUpFragmentViewModel @Inject constructor(
     private val registrationUseCase: RegistrationUseCase,
-    private val fragmentApplication: Application,
+    fragmentApplication: Application,
 ) : AndroidViewModel(fragmentApplication), ValidationViewModel {
+
+    private val res = fragmentApplication.resources
 
     val usernameErrorLiveData = MutableLiveData<ErrorEntity>()
     val emailErrorLiveData = MutableLiveData<ErrorEntity>()
     val birthdayErrorLiveData = MutableLiveData<ErrorEntity>()
-    val passwordErrorLiveData = MutableLiveData<ErrorEntity>()
+    val confirmPasswordErrorLiveData = MutableLiveData<ErrorEntity>()
     val authViewModel = MutableLiveData<Int>()
     val oldPasswordErrorLiveData = MutableLiveData<ErrorEntity>()
 
-    override val baseLengthValidation = 1
     val passwordValidationLength = 5
 
     // Тут пока ничего не менял по логике со старой архитектуры валдиации
@@ -36,7 +34,7 @@ class SignUpFragmentViewModel @Inject constructor(
         val allErrorVm = listOf(
             usernameErrorLiveData,
             emailErrorLiveData,
-            passwordErrorLiveData,
+            confirmPasswordErrorLiveData,
             oldPasswordErrorLiveData
         )
         var withoutErrors = true
@@ -59,23 +57,21 @@ class SignUpFragmentViewModel @Inject constructor(
 
             when (authState) {
                 is AuthState.Success -> {
-                    //clearValidationErrors()
                     R.string.notify_success_registration.let(authViewModel::postValue)
                 }
                 is AuthState.Error -> {
-                    val errorsMap =
-                        BaseServerErrorParser(fragmentApplication).parse(authState.error)
-
-                   /* errorsMap.forEach { errorMap ->
-                        if (errorMap.key is Validator) {
-                            validatorToLiveData(errorMap.key as Validator) {
-                                it.postValue(ErrorEntity(errorMap.value))
-                            }
-                        }
-                        // errorMap.key as Validator могу избавиться от Validator унаследовавши все интерфейсы валидации от него
-                    }*/
+                    authState.errorMap.forEach { errorType: ErrorType, errorMessage ->
+                        val errorPair = mapError(errorType, errorMessage)
+                        errorPair.first.value = ErrorEntity(errorPair.second)
+                    }
                 }
             }
         }
     }
+
+    private fun mapError(errorType: ErrorType, errorMessage: String): Pair<MutableLiveData<ErrorEntity>, String> =
+        when (errorType) {
+            ErrorType.Username -> Pair(usernameErrorLiveData, res.getString(R.string.cloud_error_username))
+            ErrorType.Email -> Pair(emailErrorLiveData, res.getString(R.string.cloud_error_email))
+        }
 }
