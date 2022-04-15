@@ -11,7 +11,7 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_splash)
 
-        //Imitation some validates
+        // TODO Imitation some validates
         var state = RedirectStates.UnAuthorizate
         goToValidActivity(state)
         finish()

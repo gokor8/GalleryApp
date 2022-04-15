@@ -13,7 +13,7 @@ class ApiTokenManager @Inject constructor(
     suspend fun getFreshToken(): KeysEntity {
         var token = sharedPreferencesDataSource.getKeys()
         if(token.clientId == null)
-        {
+        { // TODO Шарпы
             token = cloudTokenDataSource.getNewToken().mapTo()
             sharedPreferencesDataSource.saveKeys(token)
         }

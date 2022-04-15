@@ -8,9 +8,11 @@ import com.example.galleryapp.R
 import com.example.galleryapp.databinding.ActivitySignBinding
 import dagger.hilt.android.AndroidEntryPoint
 
+// TODO Активности желательно хранить в ui
 @AndroidEntryPoint
 class SignActivity : AppCompatActivity() {
 
+    // TODO Можешь сделать как в фрагментах
     private var _binding: ActivitySignBinding? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {

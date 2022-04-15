@@ -28,6 +28,7 @@ class SignUpFragmentFocus : BaseFragment<FragmentSignUpBinding, SignUpFragmentVi
     private var datePickerDialog: DatePickerDialog? = null
     override var lastValidationField: TextInputEditText? = null
 
+    // TODO Не раздувать метод onCreateView
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -36,6 +37,7 @@ class SignUpFragmentFocus : BaseFragment<FragmentSignUpBinding, SignUpFragmentVi
         binding = FragmentSignUpBinding.inflate(inflater, container, false)
         viewModel = ViewModelProvider(this)[SignUpFragmentViewModel::class.java]
 
+        // TODO Попытаться избавиться от нуллабильности binding и viewmodel
         binding?.apply {
             toolbarLayout.cancelTextView.setOnClickListener {
                 it.findNavController().popBackStack()
@@ -66,6 +68,8 @@ class SignUpFragmentFocus : BaseFragment<FragmentSignUpBinding, SignUpFragmentVi
 
                 usernameEditText.setBaseOnFocusChangeListener(vm.usernameErrorLiveData) {
                     viewModel?.validate(
+                        // TODO Создавать такие штуки вне вызова методов
+                        // TODO Желательно не создавать валидатор во вью 
                         EmptyValidator(
                             usernameEditText.text.toString(),
                             getString(R.string.error_fill_blank)
@@ -99,7 +103,7 @@ class SignUpFragmentFocus : BaseFragment<FragmentSignUpBinding, SignUpFragmentVi
                         if (it.isShowing)
                             return@setOnClickListener
                     }
-
+                    // TODO requireContext()
                     context?.let { context ->
                         datePickerDialog = DatePickerDialog(
                             context
@@ -117,6 +121,8 @@ class SignUpFragmentFocus : BaseFragment<FragmentSignUpBinding, SignUpFragmentVi
                     lastValidationField?.clearFocus()
 
                     vm.trySignUp(
+                        // TODO Сущности создавать не во вью
+                        // Можешь называть их как params?
                         UISignUpEntity(
                             username = username.text.toString(),
                             password = confirmPassword.text.toString(),
@@ -134,6 +140,7 @@ class SignUpFragmentFocus : BaseFragment<FragmentSignUpBinding, SignUpFragmentVi
     private fun passwordValidation() {
         binding?.apply {
             viewModel?.also { vm ->
+                // TODO Упростить два вызова
                 vm.validate(
                     ValidationChain(
                         LengthSingleValidator(

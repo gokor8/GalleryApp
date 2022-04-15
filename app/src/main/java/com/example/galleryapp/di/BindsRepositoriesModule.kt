@@ -6,11 +6,14 @@ import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-interface BindsRepositoriesModule {
+abstract class BindsRepositoriesModule {
 
+    // TODO Проверишь
     @Binds
-    fun bindServerErrorParser(baseServerErrorParserImpl: BaseServerErrorParserImpl): ServerErrorParser
+    @Singleton
+    abstract fun bindServerErrorParser(baseServerErrorParserImpl: BaseServerErrorParserImpl): ServerErrorParser
 }

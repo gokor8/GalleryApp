@@ -11,6 +11,7 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 class UseCasesModule {
 
+    // TODO @Binds
     @Provides
     fun provideRegistrationUseCase(authorizationRepository: AuthorizationRepository) =
         RegistrationUseCase(authorizationRepository)

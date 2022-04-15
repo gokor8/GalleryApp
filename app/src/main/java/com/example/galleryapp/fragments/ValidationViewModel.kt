@@ -26,6 +26,7 @@ interface ValidationViewModel {
         validator: Validator,
         liveData: MutableLiveData<ErrorEntity>
     ) {
+        // TODO За !! руки вырву
         if(liveData.value != null)
             liveData.value!!.errorMessage += validator.validate()
         else

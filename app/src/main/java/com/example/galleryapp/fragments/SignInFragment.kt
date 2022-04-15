@@ -15,13 +15,22 @@ class SignInFragment : BaseFragment<FragmentSignInBinding, SignInFragmentViewMod
         savedInstanceState: Bundle?
     ): View? {
         binding = FragmentSignInBinding.inflate(inflater, container, false)
-
-        binding?.apply {
-            toolbarLayout.cancelTextView.setOnClickListener {
-                it.findNavController().popBackStack()
-            }
-        }
         return binding?.root
     }
+
+// TODO
+//
+//    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+//        super.onViewCreated(view, savedInstanceState)
+//        setupListeners()
+//    }
+//
+//    fun setupListeners() {
+//        binding?.apply {
+//            toolbarLayout.cancelTextView.setOnClickListener {
+//                it.findNavController().popBackStack()
+//            }
+//        }
+//    }
 
 }
