@@ -7,9 +7,12 @@ import com.example.data.datasource.CloudAuthDataSource
 import com.example.data.datasource.CloudTokenDataSource
 import com.example.data.datasource.SharedPreferencesDataSource
 import com.example.data.managers.ApiTokenManager
+import com.example.data.parsers.BaseServerErrorParserImpl
+import com.example.data.parsers.ServerErrorParser
 import com.example.data.repository.UserAuthorizationRepositoryImpl
 import com.example.data.storages.CacheService
 import com.example.domain.repository.AuthorizationRepository
+import dagger.Binds
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -20,7 +23,11 @@ import dagger.hilt.components.SingletonComponent
 class RepositoriesModule {
 
     @Provides
-    fun provideApiAuth(userService: UserService) = CloudAuthDataSource(userService)
+    fun provideBaseServerErrorParserImpl() = BaseServerErrorParserImpl()
+
+    @Provides
+    fun provideApiAuth(userService: UserService, serverErrorParser: ServerErrorParser) =
+        CloudAuthDataSource(userService, serverErrorParser)
 
     @Provides
     fun provideCloudTokenDataSource(tokenService: TokenService) = CloudTokenDataSource(tokenService)
