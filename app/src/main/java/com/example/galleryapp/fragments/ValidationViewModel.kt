@@ -1,14 +1,10 @@
 package com.example.galleryapp.fragments
 
 import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import com.example.domain.core.ValidationTypes
 import com.example.galleryapp.validators.Validator
 import com.example.galleryapp.validators.entities.ErrorEntity
 
 interface ValidationViewModel {
-
-    val baseLengthValidation: Int
 
     fun validate(
         validator: Validator,
@@ -24,5 +20,15 @@ interface ValidationViewModel {
         for (liveData in liveDatas) {
             ErrorEntity(validator.validate()).let(liveData::postValue)
         }
+    }
+
+    fun validateAddError(
+        validator: Validator,
+        liveData: MutableLiveData<ErrorEntity>
+    ) {
+        if(liveData.value != null)
+            liveData.value!!.errorMessage += validator.validate()
+        else
+            ErrorEntity(validator.validate()).let(liveData::postValue)
     }
 }
