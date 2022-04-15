@@ -33,146 +33,151 @@ class SignUpFragmentFocus : BaseFragment<FragmentSignUpBinding, SignUpFragmentVi
         inflater: LayoutInflater,
         container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        binding = FragmentSignUpBinding.inflate(inflater, container, false)
-        viewModel = ViewModelProvider(this)[SignUpFragmentViewModel::class.java]
+    ): View {
+        _binding = FragmentSignUpBinding.inflate(inflater, container, false)
+        _viewModel = ViewModelProvider(this)[SignUpFragmentViewModel::class.java]
 
         // TODO Попытаться избавиться от нуллабильности binding и viewmodel
-        binding?.apply {
-            toolbarLayout.cancelTextView.setOnClickListener {
-                it.findNavController().popBackStack()
-            }
+        setObservers()
+        setListeners()
 
-            viewModel?.let { vm ->
-                val usernameEditText = usernameInputLayout.editText as TextInputEditText
-                val emailEditText = emailInputLayout.editText as TextInputEditText
-                val birthdayEditText = birthdayInputLayout.editText as TextInputEditText
-
-                vm.usernameErrorLiveData.observe(viewLifecycleOwner) {
-                    setError(usernameInputLayout, it)
-                }
-                vm.emailErrorLiveData.observe(viewLifecycleOwner) {
-                    setError(emailInputLayout, it)
-                }
-                vm.confirmPasswordErrorLiveData.observe(viewLifecycleOwner) {
-                    setError(confirmPasswordInputLayout, it)
-                }
-                vm.oldPasswordErrorLiveData.observe(viewLifecycleOwner) {
-                    setError(oldPasswordInputLayout, it)
-                }
-
-                vm.authViewModel.observe(viewLifecycleOwner) {
-                    if (it != null)
-                        Snackbar.make(root, it, Snackbar.LENGTH_SHORT).show()
-                }
-
-                usernameEditText.setBaseOnFocusChangeListener(vm.usernameErrorLiveData) {
-                    viewModel?.validate(
-                        // TODO Создавать такие штуки вне вызова методов
-                        // TODO Желательно не создавать валидатор во вью 
-                        EmptyValidator(
-                            usernameEditText.text.toString(),
-                            getString(R.string.error_fill_blank)
-                        ),
-                        it
-                    )
-                }
-
-                emailEditText.setBaseOnFocusChangeListener(
-                    vm.emailErrorLiveData
-                ) {
-                    vm.validate(
-                        EmailSingleValidator(
-                            emailEditText.text.toString(),
-                            getString(R.string.error_email)
-                        ),
-                        it
-                    )
-                }
-
-                confirmPassword.setBaseOnFocusChangeListener(vm.confirmPasswordErrorLiveData) {
-                    passwordValidation()
-                }
-
-                oldPassword.setBaseOnFocusChangeListener(vm.oldPasswordErrorLiveData) {
-                    passwordValidation()
-                }
-
-                birthdayEditText.setOnClickListener {
-                    datePickerDialog?.let {
-                        if (it.isShowing)
-                            return@setOnClickListener
-                    }
-                    // TODO requireContext()
-                    context?.let { context ->
-                        datePickerDialog = DatePickerDialog(
-                            context
-                        ).apply {
-                            datePicker.maxDate = System.currentTimeMillis() - 1000
-                            datePicker.setOnDateChangedListener { _, year, mounth, day ->
-                                birthdayEditText.setText("$day.$mounth.$year")
-                            }
-                            show()
-                        }
-                    }
-                }
-
-                signUpButton.setOnClickListener {
-                    lastValidationField?.clearFocus()
-
-                    vm.trySignUp(
-                        // TODO Сущности создавать не во вью
-                        // Можешь называть их как params?
-                        UISignUpEntity(
-                            username = username.text.toString(),
-                            password = confirmPassword.text.toString(),
-                            birthday = birthday.text.toString(),
-                            email = email.text.toString()
-                        )
-                    )
-                }
-            }
+        binding.toolbarLayout.cancelTextView.setOnClickListener {
+            it.findNavController().popBackStack()
         }
 
-        return binding?.root
+        return binding.root
     }
 
     private fun passwordValidation() {
-        binding?.apply {
-            viewModel?.also { vm ->
-                // TODO Упростить два вызова
-                vm.validate(
-                    ValidationChain(
-                        LengthSingleValidator(
-                            vm.passwordValidationLength,
-                            confirmPassword.text.toString(),
-                            getString(R.string.error_password)
-                        ),
-                        StringsMultiDataValidator(
-                            listOf(
-                                confirmPassword.text.toString(),
-                                oldPassword.text.toString()
-                            ), getString(R.string.error_passwords)
-                        )
-                    ), vm.confirmPasswordErrorLiveData
+        // TODO Упростить два вызова
+        viewModel.validate(
+            ValidationChain(
+                LengthSingleValidator(
+                    viewModel.passwordValidationLength,
+                    binding.confirmPassword.text.toString(),
+                    getString(R.string.error_password)
+                ),
+                StringsMultiDataValidator(
+                    listOf(
+                        binding.confirmPassword.text.toString(),
+                        binding.oldPassword.text.toString()
+                    ), getString(R.string.error_passwords)
                 )
+            ), viewModel.confirmPasswordErrorLiveData
+        )
 
-                vm.validate(
-                    ValidationChain(
-                        LengthSingleValidator(
-                            vm.passwordValidationLength,
-                            oldPassword.text.toString(),
-                            getString(R.string.error_password)
-                        ),
-                        StringsMultiDataValidator(
-                            listOf(
-                                confirmPassword.text.toString(),
-                                oldPassword.text.toString()
-                            ), getString(R.string.error_passwords)
-                        )
-                    ), vm.oldPasswordErrorLiveData
+        viewModel.validate(
+            ValidationChain(
+                LengthSingleValidator(
+                    viewModel.passwordValidationLength,
+                    binding.oldPassword.text.toString(),
+                    getString(R.string.error_password)
+                ),
+                StringsMultiDataValidator(
+                    listOf(
+                        binding.confirmPassword.text.toString(),
+                        binding.oldPassword.text.toString()
+                    ), getString(R.string.error_passwords)
+                )
+            ), viewModel.oldPasswordErrorLiveData
+        )
+    }
+
+    override fun setObservers() {
+        viewModel.usernameErrorLiveData.observe(viewLifecycleOwner) {
+            setError(binding.usernameInputLayout, it)
+        }
+        viewModel.emailErrorLiveData.observe(viewLifecycleOwner) {
+            setError(binding.emailInputLayout, it)
+        }
+        viewModel.confirmPasswordErrorLiveData.observe(viewLifecycleOwner) {
+            setError(binding.confirmPasswordInputLayout, it)
+        }
+        viewModel.oldPasswordErrorLiveData.observe(viewLifecycleOwner) {
+            setError(binding.oldPasswordInputLayout, it)
+        }
+
+        viewModel.authViewModel.observe(viewLifecycleOwner) {
+            if (it != null)
+                Snackbar.make(binding.root, it, Snackbar.LENGTH_SHORT).show()
+        }
+    }
+
+    override fun setListeners() {
+        binding.apply {
+            val usernameEditText = usernameInputLayout.editText as TextInputEditText
+            val emailEditText = emailInputLayout.editText as TextInputEditText
+            val birthdayEditText = birthdayInputLayout.editText as TextInputEditText
+
+            usernameEditText.setBaseOnFocusChangeListener(viewModel.usernameErrorLiveData) {
+                viewModel.validate(
+                    // TODO Создавать такие штуки вне вызова методов
+                    // TODO Желательно не создавать валидатор во вью
+                    EmptyValidator(
+                        usernameEditText.text.toString(),
+                        getString(R.string.error_fill_blank)
+                    ),
+                    it
+                )
+            }
+
+            emailEditText.setBaseOnFocusChangeListener(
+                viewModel.emailErrorLiveData
+            ) {
+                viewModel.validate(
+                    EmailSingleValidator(
+                        emailEditText.text.toString(),
+                        getString(R.string.error_email)
+                    ),
+                    it
+                )
+            }
+
+            confirmPassword.setBaseOnFocusChangeListener(viewModel.confirmPasswordErrorLiveData) {
+                passwordValidation()
+            }
+
+            oldPassword.setBaseOnFocusChangeListener(viewModel.oldPasswordErrorLiveData) {
+                passwordValidation()
+            }
+
+            birthdayEditText.setOnClickListener {
+                datePickerDialog?.let {
+                    if (it.isShowing)
+                        return@setOnClickListener
+                }
+                // TODO requireContext()
+                context?.let { context ->
+                    datePickerDialog = DatePickerDialog(
+                        context
+                    ).apply {
+                        datePicker.maxDate = System.currentTimeMillis() - 1000
+                        datePicker.setOnDateChangedListener { _, year, mounth, day ->
+                            birthdayEditText.setText("$day.$mounth.$year")
+                        }
+                        show()
+                    }
+                }
+            }
+
+            signUpButton.setOnClickListener {
+                lastValidationField?.clearFocus()
+
+                viewModel.trySignUp(
+                    // TODO Сущности создавать не во вью
+                    // Можешь называть их как params?
+                    UISignUpEntity(
+                        username = username.text.toString(),
+                        password = confirmPassword.text.toString(),
+                        birthday = birthday.text.toString(),
+                        email = email.text.toString()
+                    )
                 )
             }
         }
+    }
+
+    override fun setMainLogic() {
+
     }
 }
