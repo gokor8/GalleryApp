@@ -5,13 +5,16 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.example.galleryapp.R
 import com.example.galleryapp.databinding.FragmentSignUpBinding
 import com.example.galleryapp.ui_displays.UISignUpEntity
 import com.example.galleryapp.validators.ValidationChain
+import com.example.galleryapp.validators.entities.ErrorEntity
 import com.example.galleryapp.validators.validators_impl.EmailSingleValidator
+import com.example.galleryapp.validators.validators_impl.EmptyValidator
 import com.example.galleryapp.validators.validators_impl.LengthSingleValidator
 import com.example.galleryapp.validators.validators_impl.StringsMultiDataValidator
 import com.google.android.material.snackbar.Snackbar
@@ -20,10 +23,10 @@ import dagger.hilt.android.AndroidEntryPoint
 
 
 @AndroidEntryPoint
-class SignUpFragment : ValidationFragment<FragmentSignUpBinding, SignUpFragmentViewModel>() {
-
+class SignUpFragmentFocus : BaseFragment<FragmentSignUpBinding, SignUpFragmentViewModel>(),
+    FocusValidationFragment {
     private var datePickerDialog: DatePickerDialog? = null
-    private var lastValidationField: TextInputEditText? = null
+    override var lastValidationField: TextInputEditText? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -43,43 +46,53 @@ class SignUpFragment : ValidationFragment<FragmentSignUpBinding, SignUpFragmentV
                 val emailEditText = emailInputLayout.editText as TextInputEditText
                 val birthdayEditText = birthdayInputLayout.editText as TextInputEditText
 
-                setErrorObserver(vm.usernameErrorLiveData, usernameInputLayout)
-                setErrorObserver(vm.emailErrorLiveData, emailInputLayout)
-                setErrorObserver(vm.passwordErrorLiveData, confirmPasswordInputLayout)
-                setErrorObserver(vm.oldPasswordErrorLiveData, oldPasswordInputLayout)
+                vm.usernameErrorLiveData.observe(viewLifecycleOwner) {
+                    setError(usernameInputLayout, it)
+                }
+                vm.emailErrorLiveData.observe(viewLifecycleOwner) {
+                    setError(emailInputLayout, it)
+                }
+                vm.confirmPasswordErrorLiveData.observe(viewLifecycleOwner) {
+                    setError(confirmPasswordInputLayout, it)
+                }
+                vm.oldPasswordErrorLiveData.observe(viewLifecycleOwner) {
+                    setError(oldPasswordInputLayout, it)
+                }
 
                 vm.authViewModel.observe(viewLifecycleOwner) {
                     if (it != null)
                         Snackbar.make(root, it, Snackbar.LENGTH_SHORT).show()
                 }
 
-                emailEditText.setOnFocusChangeListener { _, isFocused ->
-                    if (isFocused) {
-                        lastValidationField = emailEditText
-                        return@setOnFocusChangeListener
-                    }
+                usernameEditText.setBaseOnFocusChangeListener(vm.usernameErrorLiveData) {
+                    viewModel?.validate(
+                        EmptyValidator(
+                            usernameEditText.text.toString(),
+                            getString(R.string.error_fill_blank)
+                        ),
+                        it
+                    )
+                }
 
+                emailEditText.setBaseOnFocusChangeListener(
+                    vm.emailErrorLiveData
+                ) {
                     vm.validate(
                         EmailSingleValidator(
                             emailEditText.text.toString(),
                             getString(R.string.error_email)
                         ),
-                        vm.emailErrorLiveData
+                        it
                     )
                 }
 
-                confirmPassword.setOnFocusChangeListener { _, isFocused ->
-                    if (isFocused) return@setOnFocusChangeListener
-
+                confirmPassword.setBaseOnFocusChangeListener(vm.confirmPasswordErrorLiveData) {
                     passwordValidation()
                 }
 
-                oldPassword.setOnFocusChangeListener { _, isFocused ->
-                    if (isFocused) return@setOnFocusChangeListener
-
+                oldPassword.setBaseOnFocusChangeListener(vm.oldPasswordErrorLiveData) {
                     passwordValidation()
                 }
-
 
                 birthdayEditText.setOnClickListener {
                     datePickerDialog?.let {
@@ -101,15 +114,7 @@ class SignUpFragment : ValidationFragment<FragmentSignUpBinding, SignUpFragmentV
                 }
 
                 signUpButton.setOnClickListener {
-                    //val isLastFieldCorrect = vm.validate()
-                    /*vm.validate(
-                        StringsMultiDataValidator(
-                            listOf(
-                                oldPassword.text.toString(),
-                                confirmPassword.text.toString()
-                            )
-                        )
-                    )*/
+                    lastValidationField?.clearFocus()
 
                     vm.trySignUp(
                         UISignUpEntity(
@@ -140,11 +145,9 @@ class SignUpFragment : ValidationFragment<FragmentSignUpBinding, SignUpFragmentV
                             listOf(
                                 confirmPassword.text.toString(),
                                 oldPassword.text.toString()
-                            ),
-                            getString(R.string.error_passwords)
+                            ), getString(R.string.error_passwords)
                         )
-                    ),
-                    vm.passwordErrorLiveData
+                    ), vm.confirmPasswordErrorLiveData
                 )
 
                 vm.validate(
@@ -158,11 +161,9 @@ class SignUpFragment : ValidationFragment<FragmentSignUpBinding, SignUpFragmentV
                             listOf(
                                 confirmPassword.text.toString(),
                                 oldPassword.text.toString()
-                            ),
-                            getString(R.string.error_passwords)
+                            ), getString(R.string.error_passwords)
                         )
-                    ),
-                    vm.oldPasswordErrorLiveData
+                    ), vm.oldPasswordErrorLiveData
                 )
             }
         }
