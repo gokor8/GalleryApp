@@ -1,6 +1,6 @@
-package com.example.data.api.entities
+package com.example.data.api.models
 
-data class RegUserRequestEntity(
+data class RequestSignUpUserModel(
     val email: String,
     val username: String,
     val password: String,

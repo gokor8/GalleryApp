@@ -1,18 +1,16 @@
-package com.example.galleryapp.fragments
+package com.example.galleryapp.ui.fragments
 
 import android.app.DatePickerDialog
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import com.example.galleryapp.R
 import com.example.galleryapp.databinding.FragmentSignUpBinding
-import com.example.galleryapp.ui_displays.UISignUpEntity
+import com.example.galleryapp.ui.models.UISignUpModel
 import com.example.galleryapp.validators.ValidationChain
-import com.example.galleryapp.validators.entities.ErrorEntity
 import com.example.galleryapp.validators.validators_impl.EmailSingleValidator
 import com.example.galleryapp.validators.validators_impl.EmptyValidator
 import com.example.galleryapp.validators.validators_impl.LengthSingleValidator
@@ -59,7 +57,7 @@ class SignUpFragmentFocus : BaseFragment<FragmentSignUpBinding, SignUpFragmentVi
                     setError(oldPasswordInputLayout, it)
                 }
 
-                vm.authViewModel.observe(viewLifecycleOwner) {
+                vm.signInResultViewModel.observe(viewLifecycleOwner) {
                     if (it != null)
                         Snackbar.make(root, it, Snackbar.LENGTH_SHORT).show()
                 }
@@ -117,7 +115,7 @@ class SignUpFragmentFocus : BaseFragment<FragmentSignUpBinding, SignUpFragmentVi
                     lastValidationField?.clearFocus()
 
                     vm.trySignUp(
-                        UISignUpEntity(
+                        UISignUpModel(
                             username = username.text.toString(),
                             password = confirmPassword.text.toString(),
                             birthday = birthday.text.toString(),

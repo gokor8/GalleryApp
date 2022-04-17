@@ -1,10 +1,7 @@
-package com.example.galleryapp.activities
+package com.example.galleryapp.ui.activities
 
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import androidx.navigation.findNavController
-import androidx.navigation.fragment.NavHostFragment
-import com.example.galleryapp.R
 import com.example.galleryapp.databinding.ActivitySignBinding
 import dagger.hilt.android.AndroidEntryPoint
 

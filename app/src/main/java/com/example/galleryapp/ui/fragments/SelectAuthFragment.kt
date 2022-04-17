@@ -1,13 +1,11 @@
-package com.example.galleryapp.fragments
+package com.example.galleryapp.ui.fragments
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
-import com.example.galleryapp.R
 import com.example.galleryapp.databinding.FragmentSelectAuthBinding
 
 class SelectAuthFragment : Fragment() {

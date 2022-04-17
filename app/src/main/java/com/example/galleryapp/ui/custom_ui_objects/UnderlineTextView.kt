@@ -1,4 +1,4 @@
-package com.example.galleryapp.custom_ui_objects
+package com.example.galleryapp.ui.custom_ui_objects
 
 import android.content.Context
 import android.graphics.Canvas
@@ -8,8 +8,8 @@ import android.util.AttributeSet
 import androidx.annotation.IntDef
 import androidx.appcompat.widget.AppCompatTextView
 import com.example.galleryapp.R
-import com.example.galleryapp.custom_ui_objects.UnderlineTextView.UnderLinePosition.Companion.POSITION_BASELINE
-import com.example.galleryapp.custom_ui_objects.UnderlineTextView.UnderLinePosition.Companion.POSITION_BELOW
+import com.example.galleryapp.ui.custom_ui_objects.UnderlineTextView.UnderLinePosition.Companion.POSITION_BASELINE
+import com.example.galleryapp.ui.custom_ui_objects.UnderlineTextView.UnderLinePosition.Companion.POSITION_BELOW
 
 class UnderlineTextView @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0

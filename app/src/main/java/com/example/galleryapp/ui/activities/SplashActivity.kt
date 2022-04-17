@@ -1,10 +1,10 @@
-package com.example.galleryapp.activities
+package com.example.galleryapp.ui.activities
 
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import com.example.galleryapp.R
-import com.example.galleryapp.activities.splash_activity_addons.RedirectStates
+import com.example.galleryapp.ui.activities.addons.RedirectStates
 
 class SplashActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {

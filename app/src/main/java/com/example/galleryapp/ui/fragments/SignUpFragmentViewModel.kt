@@ -1,4 +1,4 @@
-package com.example.galleryapp.fragments
+package com.example.galleryapp.ui.fragments
 
 import android.app.Application
 import androidx.lifecycle.*
@@ -6,7 +6,7 @@ import com.example.domain.core.ErrorType
 import com.example.domain.entities.AuthState
 import com.example.domain.usecases.RegistrationUseCase
 import com.example.galleryapp.R
-import com.example.galleryapp.ui_displays.UISignUpEntity
+import com.example.galleryapp.ui.models.UISignUpModel
 import com.example.galleryapp.validators.entities.ErrorEntity
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -24,14 +24,14 @@ class SignUpFragmentViewModel @Inject constructor(
     val emailErrorLiveData = MutableLiveData<ErrorEntity>()
     val birthdayErrorLiveData = MutableLiveData<ErrorEntity>()
     val confirmPasswordErrorLiveData = MutableLiveData<ErrorEntity>()
-    val authViewModel = MutableLiveData<Int>()
     val oldPasswordErrorLiveData = MutableLiveData<ErrorEntity>()
+
+    val signInResultViewModel = MutableLiveData<String>()
 
     val passwordValidationLength = 5
 
-    // Тут пока ничего не менял по логике со старой архитектуры валдиации
-    fun trySignUp(uiSignUpEntity: UISignUpEntity) {
-        val allErrorVm = listOf(
+    fun trySignUp(uiSignUpModel: UISignUpModel) {
+        val errorLiveDates = listOf(
             usernameErrorLiveData,
             emailErrorLiveData,
             confirmPasswordErrorLiveData,
@@ -39,32 +39,35 @@ class SignUpFragmentViewModel @Inject constructor(
         )
         var withoutErrors = true
 
-        allErrorVm.forEach {
-            if (it.value == null)
+        errorLiveDates.forEach {
+            if (it.value == null) {
                 withoutErrors = false
-            else if (it.value!!.hasError)
+            }
+            else if (it.value!!.hasError) {
                 withoutErrors = false
+            }
         }
 
         if (!withoutErrors) {
-            authViewModel.postValue(R.string.notify_check_all_fields)
+            signInResultViewModel.value = res.getString(R.string.notify_check_all_fields)
             return
         }
 
         viewModelScope.launch {
 
-            val authState = registrationUseCase.registrationUser(uiSignUpEntity.mapTo())
+            val authState = registrationUseCase.registrationUser(uiSignUpModel.mapTo())
 
             when (authState) {
                 is AuthState.Success -> {
-                    R.string.notify_success_registration.let(authViewModel::postValue)
+                    res.getString(R.string.notify_success_registration).let(signInResultViewModel::postValue)
                 }
                 is AuthState.Error -> {
-                    authState.errorMap.forEach { errorType: ErrorType, errorMessage ->
+                    authState.errorMap.forEach { (errorType: ErrorType, errorMessage) ->
                         val errorPair = mapError(errorType, errorMessage)
                         errorPair.first.value = ErrorEntity(errorPair.second)
                     }
                 }
+                is AuthState.Exception -> signInResultViewModel.value = authState.errorMessage
             }
         }
     }

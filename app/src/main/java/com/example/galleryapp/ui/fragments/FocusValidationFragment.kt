@@ -1,4 +1,4 @@
-package com.example.galleryapp.fragments
+package com.example.galleryapp.ui.fragments
 
 import androidx.lifecycle.MutableLiveData
 import com.example.galleryapp.validators.entities.ErrorEntity
@@ -20,6 +20,17 @@ interface FocusValidationFragment {
             }
 
             otherLogic(postedliveData)
+        }
+    }
+
+    fun TextInputEditText.setBaseOnFocusChangeListener(
+        postedliveData: MutableLiveData<ErrorEntity>
+    ) {
+        this.setOnFocusChangeListener { _, isFocused ->
+            if (isFocused) {
+                lastValidationField = this
+                return@setOnFocusChangeListener
+            }
         }
     }
 

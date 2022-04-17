@@ -1,4 +1,4 @@
-package com.example.galleryapp.fragments
+package com.example.galleryapp.ui.fragments
 
 import androidx.lifecycle.MutableLiveData
 import com.example.galleryapp.validators.Validator
