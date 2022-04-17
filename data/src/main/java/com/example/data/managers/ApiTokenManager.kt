@@ -41,13 +41,15 @@ class ApiTokenManager @Inject constructor(
     }
 
     suspend fun refreshToken(): KeysEntity {
-        var clientId = sharedPreferencesDataSource.getKeys().clientId
+        var tokens = sharedPreferencesDataSource.getKeys()
 
-        if(clientId != null) {
-            val apiTokens = apiTokenDataSource.getAvailableToken(clientId).mapTo()
+        tokens.clientId?.let {
+            val apiTokens = apiTokenDataSource.getAvailableToken(it).mapTo()
             sharedPreferencesDataSource.saveKeys(apiTokens)
             return apiTokens
         }
+
+        return tokens
     }
 
 }
