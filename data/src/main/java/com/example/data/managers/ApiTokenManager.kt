@@ -11,11 +11,11 @@ class ApiTokenManager @Inject constructor(
     private val sharedPreferencesDataSource: SharedPreferencesDataSource
 ) {
 
-    suspend inline fun<R> sendWithToken(request: (tokens: KeysEntity) -> Response<R>): Response<R> {
+    suspend inline fun <R> sendWithToken(request: (tokens: KeysEntity) -> Response<R>): Response<R> {
         var tokens = getSavedToken()
         val response = request(tokens)
 
-        if(response.code() == 400) {
+        if (response.code() == 400) {
             tokens = refreshToken()
             return request(tokens)
         }
@@ -25,8 +25,7 @@ class ApiTokenManager @Inject constructor(
 
     suspend fun getSavedToken(): KeysEntity {
         var token = sharedPreferencesDataSource.getKeys()
-        if(token.clientId == null)
-        {
+        if (token.clientId == null) {
             token = apiTokenDataSource.getNewToken().mapTo()
             sharedPreferencesDataSource.saveKeys(token)
         }
@@ -50,6 +49,13 @@ class ApiTokenManager @Inject constructor(
         }
 
         return tokens
+    }
+
+    private suspend fun getFreshToken(clientId: String): KeysEntity {
+        val apiTokens = apiTokenDataSource.getAvailableToken(clientId).mapTo()
+        sharedPreferencesDataSource.saveKeys(apiTokens)
+
+        return apiTokens
     }
 
 }
