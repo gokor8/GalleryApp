@@ -1,6 +1,6 @@
 package com.example.data.repository
 
-import com.example.data.datasource.CloudAuthDataSource
+import com.example.data.datasource.ApiAuthDataSource
 import com.example.data.managers.ApiTokenManager
 import com.example.domain.entities.AuthState
 import com.example.domain.entities.SignInEntity
@@ -11,13 +11,13 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 class UserAuthorizationRepositoryImpl @Inject constructor(
-    private val cloudAuthDataSource: CloudAuthDataSource,
+    private val apiAuthDataSource: ApiAuthDataSource,
     private val apiTokenManager: ApiTokenManager
 ) : AuthorizationRepository {
 
     override suspend fun signUpUser(signUpEntity: SignUpEntity): AuthState {
         return withContext(Dispatchers.IO) {
-            return@withContext cloudAuthDataSource.signUpUser(signUpEntity)
+            return@withContext apiAuthDataSource.signUpUser(signUpEntity)
         }
     }
 

@@ -1,8 +1,9 @@
 package com.example.data.datasource
 
 import com.example.data.api.UserService
-import com.example.data.api.entities.ErrorUserResponse
-import com.example.data.api.entities.RegUserRequestEntity
+import com.example.data.api.models.ErrorGsonParsableModel
+import com.example.data.api.models.RequestSignUpUserModel
+import com.example.data.api.models.ResponseErrorSignUpModel
 import com.example.data.managers.RetrofitResponseManager
 import com.example.data.parsers.ServerErrorParser
 import com.example.domain.entities.AuthState
@@ -11,14 +12,15 @@ import com.google.gson.Gson
 import javax.inject.Inject
 
 
-class CloudAuthDataSource @Inject constructor(
+class ApiAuthDataSource @Inject constructor(
     private val userService: UserService,
-    private val serverErrorParser: ServerErrorParser
+    private val serverErrorParser: ServerErrorParser,
+    private val gson: Gson
 ) {
 
     suspend fun signUpUser(signUpEntity: SignUpEntity): AuthState {
         val userResponseModel =
-            RegUserRequestEntity(
+            RequestSignUpUserModel(
                 username = signUpEntity.username,
                 password = signUpEntity.password,
                 email = signUpEntity.email,
@@ -27,6 +29,9 @@ class CloudAuthDataSource @Inject constructor(
             )
         val userResponse = userService.createUser(userResponseModel)
 
-        return RetrofitResponseManager(serverErrorParser).getAuthState(userResponse)
+        return RetrofitResponseManager(
+            serverErrorParser,
+            ErrorGsonParsableModel(gson, ResponseErrorSignUpModel::class.java)
+        ).getAuthState(userResponse)
     }
 }

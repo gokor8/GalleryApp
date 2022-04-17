@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.SignInFragment">
+    tools:context=".ui.fragments.SignInFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -24,7 +24,7 @@
                 />
         </com.google.android.material.appbar.AppBarLayout>
 
-        <com.example.galleryapp.custom_ui_objects.UnderlineTextView
+        <com.example.galleryapp.ui.custom_ui_objects.UnderlineTextView
             android:id="@+id/title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

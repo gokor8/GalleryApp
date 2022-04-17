@@ -14,7 +14,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.GalleryApp">
         <activity
-            android:name=".activities.SplashActivity"
+            android:name="com.example.galleryapp.ui.activities.SplashActivity"
             android:exported="true"
             android:theme="@style/Theme.GalleryApp.Launcher">
             <intent-filter>
@@ -23,10 +23,10 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".activities.UserActivity"
+            android:name="com.example.galleryapp.ui.activities.UserActivity"
             android:exported="false" />
         <activity
-            android:name=".activities.SignActivity"
+            android:name="com.example.galleryapp.ui.activities.SignActivity"
             android:exported="false"/>
     </application>
 

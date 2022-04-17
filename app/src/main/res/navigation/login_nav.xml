@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/selectAuthFragment"
-        android:name="com.example.galleryapp.fragments.SelectAuthFragment"
+        android:name="com.example.galleryapp.ui.fragments.SelectAuthFragment"
         android:label="SelectAuthFragment"
         tools:layout="@layout/fragment_select_auth">
         <action
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/signInFragment"
-        android:name="com.example.galleryapp.fragments.SignInFragment"
+        android:name="com.example.galleryapp.ui.fragments.SignInFragment"
         android:label="fragment_sign_in"
         tools:layout="@layout/fragment_sign_in" >
         <action
@@ -28,7 +28,7 @@
     </fragment>
     <fragment
         android:id="@+id/signUpFragment"
-        android:name="com.example.galleryapp.fragments.SignUpFragmentFocus"
+        android:name="com.example.galleryapp.ui.fragments.SignUpFragmentFocus"
         android:label="fragment_sign_up"
         tools:layout="@layout/fragment_sign_up" />
 </navigation>
