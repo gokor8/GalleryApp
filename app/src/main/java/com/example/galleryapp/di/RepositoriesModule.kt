@@ -1,47 +1,50 @@
 package com.example.galleryapp.di
 
-import android.content.Context
 import com.example.data.api.TokenService
 import com.example.data.api.UserService
-import com.example.data.datasource.CloudAuthDataSource
-import com.example.data.datasource.CloudTokenDataSource
+import com.example.data.datasource.ApiAuthDataSource
+import com.example.data.datasource.ApiTokenDataSource
 import com.example.data.datasource.SharedPreferencesDataSource
 import com.example.data.managers.ApiTokenManager
 import com.example.data.parsers.BaseServerErrorParserImpl
 import com.example.data.parsers.ServerErrorParser
 import com.example.data.repository.UserAuthorizationRepositoryImpl
-import com.example.data.storages.CacheService
 import com.example.domain.repository.AuthorizationRepository
-import dagger.Binds
+import com.google.gson.Gson
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 class RepositoriesModule {
 
     @Provides
+    @Singleton
+    fun provideGson() = Gson()
+
+    @Provides
     fun provideBaseServerErrorParserImpl() = BaseServerErrorParserImpl()
 
     @Provides
-    fun provideApiAuth(userService: UserService, serverErrorParser: ServerErrorParser) =
-        CloudAuthDataSource(userService, serverErrorParser)
+    fun provideApiAuth(userService: UserService, serverErrorParser: ServerErrorParser, gson: Gson) =
+        ApiAuthDataSource(userService, serverErrorParser, gson)
 
     @Provides
-    fun provideCloudTokenDataSource(tokenService: TokenService) = CloudTokenDataSource(tokenService)
+    fun provideCloudTokenDataSource(tokenService: TokenService) = ApiTokenDataSource(tokenService)
 
     @Provides
     fun provideApiTokenManager(
-        cloudTokenDataSource: CloudTokenDataSource,
+        apiTokenDataSource: ApiTokenDataSource,
         sharedPreferencesDataSource: SharedPreferencesDataSource
-    ) = ApiTokenManager(cloudTokenDataSource, sharedPreferencesDataSource)
+    ) = ApiTokenManager(apiTokenDataSource, sharedPreferencesDataSource)
 
     @Provides
     fun provideUserAuthRepository(
-        authCloudDataSource: CloudAuthDataSource,
+        authApiDataSource: ApiAuthDataSource,
         apiTokenManager: ApiTokenManager
     ): AuthorizationRepository =
-        UserAuthorizationRepositoryImpl(authCloudDataSource, apiTokenManager)
+        UserAuthorizationRepositoryImpl(authApiDataSource, apiTokenManager)
 }

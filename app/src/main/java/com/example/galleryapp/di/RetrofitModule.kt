@@ -1,9 +1,7 @@
 package com.example.galleryapp.di
 
 import com.example.data.api.TokenService
-import com.example.data.datasource.CloudAuthDataSource
 import com.example.data.api.UserService
-import com.example.data.datasource.CloudTokenDataSource
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
