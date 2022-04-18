@@ -9,8 +9,8 @@ import dagger.hilt.components.SingletonComponent
 
 @Module
 @InstallIn(SingletonComponent::class)
-interface BindsRepositoriesModule {
+abstract class BindsRepositoriesModule {
 
     @Binds
-    fun bindServerErrorParser(baseServerErrorParserImpl: BaseServerErrorParserImpl): ServerErrorParser
+    abstract fun bindServerErrorParser(baseServerErrorParserImpl: BaseServerErrorParserImpl): ServerErrorParser
 }

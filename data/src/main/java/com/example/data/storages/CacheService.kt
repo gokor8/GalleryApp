@@ -5,6 +5,4 @@ interface CacheService {
     fun saveKeys(keys: KeysEntity)
 
     fun getKeys(): KeysEntity
-
-    fun refreshKeys()
 }

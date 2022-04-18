@@ -2,33 +2,34 @@ package com.example.galleryapp.ui.fragments
 
 import androidx.lifecycle.MutableLiveData
 import com.example.galleryapp.validators.Validator
-import com.example.galleryapp.validators.entities.ErrorEntity
+import com.example.galleryapp.validators.entities.ErrorUiModel
 
 interface ValidationViewModel {
 
     fun validate(
         validator: Validator,
-        liveData: MutableLiveData<ErrorEntity>
+        liveData: MutableLiveData<ErrorUiModel>
     ) {
-        ErrorEntity(validator.validate()).let(liveData::postValue)
+        liveData.value = ErrorUiModel(validator.validate())
     }
 
     fun validate(
         validator: Validator,
-        vararg liveDatas: MutableLiveData<ErrorEntity>
+        vararg liveDatas: MutableLiveData<ErrorUiModel>
     ) {
         for (liveData in liveDatas) {
-            ErrorEntity(validator.validate()).let(liveData::postValue)
+            liveData.value = ErrorUiModel(validator.validate())
         }
     }
 
     fun validateAddError(
         validator: Validator,
-        liveData: MutableLiveData<ErrorEntity>
+        liveData: MutableLiveData<ErrorUiModel>
     ) {
-        if(liveData.value != null)
-            liveData.value!!.errorMessage += validator.validate()
+        val lvValue = liveData.value
+        if(lvValue != null)
+            liveData.value = ErrorUiModel("${lvValue.errorMessage}\r\n${validator.validate()}")
         else
-            ErrorEntity(validator.validate()).let(liveData::postValue)
+            liveData.value = ErrorUiModel(validator.validate())
     }
 }

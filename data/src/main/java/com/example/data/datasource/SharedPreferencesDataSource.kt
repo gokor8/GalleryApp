@@ -26,8 +26,4 @@ class SharedPreferencesDataSource @Inject constructor(@ApplicationContext contex
             sharedPreferences.getString(KeysEntity.RANDOM_ID, "Not Found").toString(),
             sharedPreferences.getString(KeysEntity.SECRET, "Not Found").toString()
         )
-
-    override fun refreshKeys() {
-        TODO("Not yet implemented")
-    }
 }

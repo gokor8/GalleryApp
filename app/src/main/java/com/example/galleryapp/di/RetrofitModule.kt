@@ -17,7 +17,7 @@ import javax.inject.Singleton
 object RetrofitModule {
 
     @Provides
-    fun provideBaseUrl(): String = "http://gallery.dev.webant.ru/"
+    fun provideBaseUrl(): String = "http://gallery.dev.webant.ru"
 
     @Provides
     @Singleton

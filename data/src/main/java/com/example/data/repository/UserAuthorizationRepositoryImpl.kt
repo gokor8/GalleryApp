@@ -17,7 +17,11 @@ class UserAuthorizationRepositoryImpl @Inject constructor(
 
     override suspend fun signUpUser(signUpEntity: SignUpEntity): AuthState {
         return withContext(Dispatchers.IO) {
-            return@withContext apiAuthDataSource.signUpUser(signUpEntity)
+            try {
+                return@withContext apiAuthDataSource.signUpUser(signUpEntity)
+            }catch (e: Exception) {
+                AuthState.Exception("Произошла ошибка с сетью.\r\nПовторите еще раз")
+            }
         }
     }
 

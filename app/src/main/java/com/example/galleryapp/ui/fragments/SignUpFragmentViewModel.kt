@@ -7,7 +7,7 @@ import com.example.domain.entities.AuthState
 import com.example.domain.usecases.RegistrationUseCase
 import com.example.galleryapp.R
 import com.example.galleryapp.ui.models.UISignUpModel
-import com.example.galleryapp.validators.entities.ErrorEntity
+import com.example.galleryapp.validators.entities.ErrorUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -20,11 +20,11 @@ class SignUpFragmentViewModel @Inject constructor(
 
     private val res = fragmentApplication.resources
 
-    val usernameErrorLiveData = MutableLiveData<ErrorEntity>()
-    val emailErrorLiveData = MutableLiveData<ErrorEntity>()
-    val birthdayErrorLiveData = MutableLiveData<ErrorEntity>()
-    val confirmPasswordErrorLiveData = MutableLiveData<ErrorEntity>()
-    val oldPasswordErrorLiveData = MutableLiveData<ErrorEntity>()
+    val usernameErrorLiveData = MutableLiveData<ErrorUiModel>()
+    val emailErrorLiveData = MutableLiveData<ErrorUiModel>()
+    val birthdayErrorLiveData = MutableLiveData<ErrorUiModel>()
+    val confirmPasswordErrorLiveData = MutableLiveData<ErrorUiModel>()
+    val oldPasswordErrorLiveData = MutableLiveData<ErrorUiModel>()
 
     val signInResultViewModel = MutableLiveData<String>()
 
@@ -42,8 +42,7 @@ class SignUpFragmentViewModel @Inject constructor(
         errorLiveDates.forEach {
             if (it.value == null) {
                 withoutErrors = false
-            }
-            else if (it.value!!.hasError) {
+            } else if (it.value!!.hasError) {
                 withoutErrors = false
             }
         }
@@ -59,12 +58,13 @@ class SignUpFragmentViewModel @Inject constructor(
 
             when (authState) {
                 is AuthState.Success -> {
-                    res.getString(R.string.notify_success_registration).let(signInResultViewModel::postValue)
+                    res.getString(R.string.notify_success_registration)
+                        .let(signInResultViewModel::postValue)
                 }
                 is AuthState.Error -> {
                     authState.errorMap.forEach { (errorType: ErrorType, errorMessage) ->
                         val errorPair = mapError(errorType, errorMessage)
-                        errorPair.first.value = ErrorEntity(errorPair.second)
+                        errorPair.first.value = ErrorUiModel(errorPair.second)
                     }
                 }
                 is AuthState.Exception -> signInResultViewModel.value = authState.errorMessage
@@ -72,9 +72,12 @@ class SignUpFragmentViewModel @Inject constructor(
         }
     }
 
-    private fun mapError(errorType: ErrorType, errorMessage: String): Pair<MutableLiveData<ErrorEntity>, String> =
+    private fun mapError(
+        errorType: ErrorType,
+        errorMessage: String
+    ): Pair<MutableLiveData<ErrorUiModel>, String> =
         when (errorType) {
-            ErrorType.Username -> Pair(usernameErrorLiveData, res.getString(R.string.cloud_error_username))
-            ErrorType.Email -> Pair(emailErrorLiveData, res.getString(R.string.cloud_error_email))
+            ErrorType.Username -> Pair(usernameErrorLiveData, errorMessage)
+            ErrorType.Email -> Pair(emailErrorLiveData, errorMessage)
         }
 }

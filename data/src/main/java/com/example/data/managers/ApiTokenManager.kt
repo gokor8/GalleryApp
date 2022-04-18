@@ -15,7 +15,7 @@ class ApiTokenManager @Inject constructor(
         var tokens = getSavedToken()
         val response = request(tokens)
 
-        if (response.code() == 400) {
+        if (response.code() != 200) {
             tokens = refreshToken()
             return request(tokens)
         }

@@ -13,10 +13,9 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object CacheModule {
+abstract class CacheModule {
 
-    @Provides
+    @Binds
     @Singleton
-    fun provideSharedPreferencesService(@ApplicationContext context: Context): CacheService =
-        SharedPreferencesDataSource(context)
+    abstract fun bindsSharedPreferencesService(sharedPreferencesDataSource: SharedPreferencesDataSource): CacheService
 }
