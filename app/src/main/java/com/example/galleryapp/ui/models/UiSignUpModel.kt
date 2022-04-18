@@ -3,7 +3,7 @@ package com.example.galleryapp.ui.models
 import com.example.domain.core.Mapper
 import com.example.domain.entities.SignUpEntity
 
-data class UISignUpModel(
+data class UiSignUpModel(
     val username: String,
     val email: String,
     val password: String,

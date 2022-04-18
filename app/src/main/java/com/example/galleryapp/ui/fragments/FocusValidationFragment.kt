@@ -1,7 +1,7 @@
 package com.example.galleryapp.ui.fragments
 
 import androidx.lifecycle.MutableLiveData
-import com.example.galleryapp.validators.entities.ErrorUiModel
+import com.example.galleryapp.validators.entities.BaseErrorUiModel
 import com.google.android.material.textfield.TextInputEditText
 import com.google.android.material.textfield.TextInputLayout
 
@@ -10,8 +10,8 @@ interface FocusValidationFragment {
     var lastValidationField: TextInputEditText?
 
     fun TextInputEditText.setBaseOnFocusChangeListener(
-        postedliveData: MutableLiveData<ErrorUiModel>,
-        otherLogic: (postedliveData: MutableLiveData<ErrorUiModel>) -> Unit
+        postedliveData: MutableLiveData<BaseErrorUiModel>,
+        otherLogic: (postedliveData: MutableLiveData<BaseErrorUiModel>) -> Unit
     ) {
         this.setOnFocusChangeListener { _, isFocused ->
             if (isFocused) {
@@ -24,7 +24,7 @@ interface FocusValidationFragment {
     }
 
     fun TextInputEditText.setBaseOnFocusChangeListener(
-        postedliveData: MutableLiveData<ErrorUiModel>
+        postedliveData: MutableLiveData<BaseErrorUiModel>
     ) {
         this.setOnFocusChangeListener { _, isFocused ->
             if (isFocused) {
@@ -34,8 +34,8 @@ interface FocusValidationFragment {
         }
     }
 
-    fun setError(textInputLayout: TextInputLayout, errorUiModel: ErrorUiModel) {
-        textInputLayout.error = errorUiModel.errorMessage
-        textInputLayout.isErrorEnabled = errorUiModel.hasError
+    fun setError(textInputLayout: TextInputLayout, baseErrorUiModel: BaseErrorUiModel) {
+        textInputLayout.error = baseErrorUiModel.errorMessage
+        textInputLayout.isErrorEnabled = baseErrorUiModel.hasError
     }
 }

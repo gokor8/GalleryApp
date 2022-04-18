@@ -2,7 +2,7 @@ package com.example.galleryapp.di
 
 import com.example.data.api.TokenService
 import com.example.data.api.UserService
-import com.example.data.datasource.ApiAuthDataSource
+import com.example.data.datasource.ApiSignUpDataSource
 import com.example.data.datasource.ApiTokenDataSource
 import com.example.data.datasource.SharedPreferencesDataSource
 import com.example.data.managers.ApiTokenManager
@@ -30,7 +30,7 @@ class RepositoriesModule {
 
     @Provides
     fun provideApiAuth(userService: UserService, serverErrorParser: ServerErrorParser, gson: Gson) =
-        ApiAuthDataSource(userService, serverErrorParser, gson)
+        ApiSignUpDataSource(userService, serverErrorParser, gson)
 
     @Provides
     fun provideCloudTokenDataSource(tokenService: TokenService) = ApiTokenDataSource(tokenService)
@@ -43,7 +43,7 @@ class RepositoriesModule {
 
     @Provides
     fun provideUserAuthRepository(
-        authApiDataSource: ApiAuthDataSource,
+        authApiDataSource: ApiSignUpDataSource,
         apiTokenManager: ApiTokenManager
     ): AuthorizationRepository =
         UserAuthorizationRepositoryImpl(authApiDataSource, apiTokenManager)

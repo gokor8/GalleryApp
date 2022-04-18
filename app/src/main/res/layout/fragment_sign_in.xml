@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.fragments.SignInFragment">
+    tools:context=".ui.fragments.SignInFragmentFocus">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -101,7 +101,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             android:padding="@dimen/padding_button"
             android:layout_marginTop="19dp"
-            android:text="@string/sign_in"
+            android:text="@string/sign_up"
             android:gravity="center"
             />
 

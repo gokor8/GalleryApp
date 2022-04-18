@@ -12,7 +12,7 @@ import com.google.gson.Gson
 import javax.inject.Inject
 
 
-class ApiAuthDataSource @Inject constructor(
+class ApiSignUpDataSource @Inject constructor(
     private val userService: UserService,
     private val serverErrorParser: ServerErrorParser,
     private val gson: Gson

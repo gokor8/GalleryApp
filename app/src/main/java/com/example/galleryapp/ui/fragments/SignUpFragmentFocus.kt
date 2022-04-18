@@ -8,7 +8,7 @@ import android.view.ViewGroup
 import androidx.navigation.findNavController
 import com.example.galleryapp.R
 import com.example.galleryapp.databinding.FragmentSignUpBinding
-import com.example.galleryapp.ui.models.UISignUpModel
+import com.example.galleryapp.ui.models.UiSignUpModel
 import com.example.galleryapp.validators.ValidationChain
 import com.example.galleryapp.validators.validators_impl.EmailSingleValidator
 import com.example.galleryapp.validators.validators_impl.EmptyValidator
@@ -124,7 +124,7 @@ class SignUpFragmentFocus :
                 lastValidationField?.clearFocus()
 
                 viewModel.trySignUp(
-                    UISignUpModel(
+                    UiSignUpModel(
                         username = username.text.toString(),
                         password = confirmPassword.text.toString(),
                         birthday = birthday.text.toString(),
