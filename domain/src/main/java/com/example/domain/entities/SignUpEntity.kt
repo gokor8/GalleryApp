@@ -1,8 +1,8 @@
 package com.example.domain.entities
 
 class SignUpEntity(
-    username: String,
+    email: String,
     password: String,
     val birthday: String?,
-    val email: String,
+    val username: String,
 ) : SignInEntity(username, password) {}

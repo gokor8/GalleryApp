@@ -1,6 +1,6 @@
 package com.example.domain.entities
 
 open class SignInEntity(
-    val username: String,
+    val email: String,
     val password: String
     ) {}

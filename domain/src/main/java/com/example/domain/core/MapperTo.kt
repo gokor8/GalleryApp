@@ -1,6 +1,6 @@
 package com.example.domain.core
 
-interface Mapper<M> {
+interface MapperTo<M> {
 
     fun mapTo() : M
 }

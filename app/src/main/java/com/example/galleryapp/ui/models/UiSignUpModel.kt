@@ -1,6 +1,6 @@
 package com.example.galleryapp.ui.models
 
-import com.example.domain.core.Mapper
+import com.example.domain.core.MapperTo
 import com.example.domain.entities.SignUpEntity
 
 data class UiSignUpModel(
@@ -8,7 +8,7 @@ data class UiSignUpModel(
     val email: String,
     val password: String,
     val birthday: String?
-) : Mapper<SignUpEntity> {
+) : MapperTo<SignUpEntity> {
 
     override fun mapTo(): SignUpEntity =
         SignUpEntity(

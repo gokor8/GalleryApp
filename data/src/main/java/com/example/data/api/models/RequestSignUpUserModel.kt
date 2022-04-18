@@ -1,8 +1,7 @@
 package com.example.data.api.models
 
-import com.example.domain.core.IntoMapper
-import com.example.domain.core.Mapper
-import com.example.domain.entities.SignInEntity
+import com.example.domain.core.MapperFrom
+import com.example.domain.entities.SignUpEntity
 
 data class RequestSignUpUserModel(
     val email: String,
@@ -10,11 +9,16 @@ data class RequestSignUpUserModel(
     val password: String,
     val birthday: String?,
     val roles: List<String>,
-) : IntoMapper {
-    override fun <I, R : IntoMapper> mapTo(inputModel: I): R {
-        TODO("Not yet implemented")
-    }
-    override fun<I: SignInEntity, R: RequestSignUpUserModel> mapTo(inputModel: I): R {
+) : MapperFrom<SignUpEntity, RequestSignUpUserModel> {
 
-    }
+    constructor(): this("","","",null, listOf())
+
+    override fun mapTo(inputModel: SignUpEntity) =
+        RequestSignUpUserModel(
+            username = inputModel.username,
+            password = inputModel.password,
+            email = inputModel.email,
+            birthday = inputModel.birthday,
+            roles = listOf("User")
+        )
 }
