@@ -33,6 +33,10 @@ class ApiSignInDataSource @Inject constructor(
             )
         ).let(RegistrationKeysModel()::mapTo)
 
+        if(keys.clientId == null)
+            // Делать дефолтное значение.
+                // Либо хранить дефолтное значение при первом запуске, записывать его в бд
+
         val userResponse = userService.loginUser(
             RequestSignInUserModel(
                 id = keys.clientId,
