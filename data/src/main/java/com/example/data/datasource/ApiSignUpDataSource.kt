@@ -1,12 +1,10 @@
 package com.example.data.datasource
 
 import com.example.data.api.UserService
-import com.example.data.api.models.ErrorGsonParsableModel
-import com.example.data.api.models.RequestSignInUserModel
-import com.example.data.api.models.RequestSignUpUserModel
-import com.example.data.api.models.ResponseErrorSignUpModel
+import com.example.data.api.models.*
 import com.example.data.managers.RetrofitResponseManager
 import com.example.data.parsers.ServerErrorParser
+import com.example.data.storages.RegistrationKeysModel
 import com.example.domain.entities.AuthState
 import com.example.domain.entities.SignInEntity
 import com.example.domain.entities.SignUpEntity
@@ -17,6 +15,8 @@ import javax.inject.Inject
 
 class ApiSignUpDataSource @Inject constructor(
     private val userService: UserService,
+    private val apiTokenDataSource: ApiTokenDataSource,
+    private val sharedPreferencesDataSource: SharedPreferencesDataSource,
     serverErrorParser: ServerErrorParser,
     gson: Gson
 ) : BaseApiAuthDataSource<SignUpEntity, ResponseErrorSignUpModel>(
@@ -25,23 +25,22 @@ class ApiSignUpDataSource @Inject constructor(
     ResponseErrorSignUpModel::class.java
 ) {
 
-    /*suspend fun signUpUser(signUpEntity: SignUpEntity): AuthState {
-        val userResponseModel =
-            RequestSignUpUserModel(
-                username = signUpEntity.username,
-                password = signUpEntity.password,
-                email = signUpEntity.email,
-                birthday = signUpEntity.birthday,
-                roles = listOf("User")
-            )
-        val userResponse = userService.createUser(userResponseModel)
+    override suspend fun sendAuthRequest(signUpEntity: SignUpEntity): Response<*> {
+        val userResponse = userService.createUser(RequestSignUpUserModel().mapTo(signUpEntity))
 
-        return RetrofitResponseManager(
-            serverErrorParser,
-            ErrorGsonParsableModel(gson, ResponseErrorSignUpModel::class.java)
-        ).getAuthState(userResponse)
-    }*/
+        if (!userResponse.isSuccessful) {
+            return userResponse
+        }
 
-    override suspend fun sendAuthRequest(signUpEntity: SignUpEntity): Response<Any?> =
-        userService.createUser(RequestSignUpUserModel().mapTo(signUpEntity))
+        val responseModel = userResponse.body()!!
+        val tokenModel = apiTokenDataSource.getUserToken(responseModel.id).mapTo()
+
+        mapOf(
+            RegistrationKeysModel.CLIENT_ID to tokenModel.clientId,
+            RegistrationKeysModel.RANDOM_ID to tokenModel.randomId,
+            RegistrationKeysModel.SECRET to tokenModel.secret
+        ).let (sharedPreferencesDataSource::saveKeys)
+
+        return userResponse
+    }
 }

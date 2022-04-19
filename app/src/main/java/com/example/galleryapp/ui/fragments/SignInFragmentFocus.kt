@@ -10,8 +10,11 @@ import com.example.galleryapp.databinding.FragmentSignInBinding
 import com.example.galleryapp.ui.models.UiSignInModel
 import com.example.galleryapp.validators.validators_impl.EmailSingleValidator
 import com.example.galleryapp.validators.validators_impl.LengthSingleValidator
+import com.google.android.material.snackbar.Snackbar
 import com.google.android.material.textfield.TextInputEditText
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class SignInFragmentFocus :
     BaseFragment<FragmentSignInBinding, SignInFragmentViewModel>(
         SignInFragmentViewModel::class.java
@@ -45,6 +48,10 @@ class SignInFragmentFocus :
         viewModel.passwordErrorLiveData.observe(viewLifecycleOwner) {
             setError(binding.passwordTextInputLayout, it)
         }
+
+        viewModel.signInResultViewModel.observe(viewLifecycleOwner) {
+            Snackbar.make(binding.root, it, Snackbar.LENGTH_SHORT).show()
+        }
     }
 
     override fun setListeners() {
@@ -76,7 +83,7 @@ class SignInFragmentFocus :
                 UiSignInModel(
                     emailInputEditText.text.toString(),
                     passwordInputEditText.text.toString()
-                )
+                ).let(viewModel::trySignIn)
             }
         }
     }

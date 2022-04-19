@@ -2,7 +2,11 @@ package com.example.data.storages
 
 interface CacheService {
 
-    fun saveKeys(keys: KeysEntity)
+    fun saveKey(key: String, value: String)
 
-    fun getKeys(): KeysEntity
+    fun saveKeys(keys: Map<String, String>)
+
+    fun getKeys(keys: List<String>): Map<String,String>
+
+    fun getKey(key: String): String?
 }

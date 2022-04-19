@@ -9,13 +9,15 @@ import com.example.domain.usecases.AuthorizationUseCase
 import com.example.galleryapp.R
 import com.example.galleryapp.ui.models.UiSignInModel
 import com.example.galleryapp.validators.entities.BaseErrorUiModel
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class SignInFragmentViewModel(
+@HiltViewModel
+class SignInFragmentViewModel @Inject constructor(
     private val authorizationUseCase: AuthorizationUseCase,
     application: Application
-) : BaseViewModel(application),
-    ValidationViewModel {
+) : BaseViewModel(application), ValidationViewModel {
 
     private val res = application.resources
     val passwordValidationLength = 5
@@ -46,7 +48,7 @@ class SignInFragmentViewModel(
     override fun mapAuthState(authState: AuthState) {
         when (authState) {
             is AuthState.Success -> {
-                res.getString(R.string.notify_success_registration)
+                res.getString(R.string.notify_success_sign_in)
                     .let(signInResultViewModel::postValue)
             }
             is AuthState.Error -> {

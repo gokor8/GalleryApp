@@ -2,7 +2,7 @@ package com.example.data.datasource
 
 import android.content.Context
 import com.example.data.storages.CacheService
-import com.example.data.storages.KeysEntity
+import com.example.data.storages.RegistrationKeysModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
@@ -12,18 +12,27 @@ class SharedPreferencesDataSource @Inject constructor(@ApplicationContext contex
 
     private val sharedPreferences = context.getSharedPreferences(keys, Context.MODE_PRIVATE)
 
-    override fun saveKeys(keys: KeysEntity) {
+    override fun saveKey(key: String, value: String) {
         sharedPreferences.edit()
-            .putString(KeysEntity.CLIENT_ID, keys.clientId)
-            .putString(KeysEntity.RANDOM_ID, keys.randomId)
-            .putString(KeysEntity.SECRET, keys.secret)
-            .apply()
+            .putString(RegistrationKeysModel.CLIENT_ID, value).apply()
     }
 
-    override fun getKeys() =
-        KeysEntity(
-            sharedPreferences.getString(KeysEntity.CLIENT_ID, null).toString(),
-            sharedPreferences.getString(KeysEntity.RANDOM_ID, "Not Found").toString(),
-            sharedPreferences.getString(KeysEntity.SECRET, "Not Found").toString()
-        )
+    override fun saveKeys(keys: Map<String, String>) {
+        val editSharedPreferences = sharedPreferences.edit()
+        for (key in keys)
+            editSharedPreferences.putString(key.key, key.value)
+
+        editSharedPreferences.apply()
+    }
+
+    override fun getKeys(keys: List<String>): Map<String,String> {
+        val gotKeys = mutableMapOf<String, String>()
+        for (key in keys)
+            gotKeys[key] = sharedPreferences.getString(key, null).toString()
+
+        return gotKeys
+    }
+
+    override fun getKey(key: String) =
+        sharedPreferences.getString(key, null).toString()
 }

@@ -6,9 +6,9 @@ import javax.inject.Inject
 
 class ApiTokenDataSource @Inject constructor(private val tokenService: TokenService) {
 
-    suspend fun getAvailableToken(clientId: String) =
+    suspend fun getUserToken(clientId: String) =
         tokenService.getTokenById(clientId)
 
-    suspend fun getNewToken() =
-        tokenService.getNewToken(RequestNewTokenModel("WebAntAndroidApp", listOf("Aboba")))
+    /*suspend fun getNewToken(requestNewTokenModel: RequestNewTokenModel) =
+        tokenService.getNewToken(requestNewTokenModel)*/
 }

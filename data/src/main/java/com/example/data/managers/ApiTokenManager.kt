@@ -2,7 +2,7 @@ package com.example.data.managers
 
 import com.example.data.datasource.ApiTokenDataSource
 import com.example.data.datasource.SharedPreferencesDataSource
-import com.example.data.storages.KeysEntity
+import com.example.data.storages.RegistrationKeysModel
 import retrofit2.Response
 import javax.inject.Inject
 
@@ -11,7 +11,7 @@ class ApiTokenManager @Inject constructor(
     private val sharedPreferencesDataSource: SharedPreferencesDataSource
 ) {
 
-    suspend inline fun <R> sendWithToken(request: (tokens: KeysEntity) -> Response<R>): Response<R> {
+    /*suspend inline fun <R> sendWithToken(request: (tokens: RegistrationKeysModel) -> Response<R>): Response<R> {
         var tokens = getSavedToken()
         val response = request(tokens)
 
@@ -23,27 +23,27 @@ class ApiTokenManager @Inject constructor(
         return response
     }
 
-    suspend fun getSavedToken(): KeysEntity {
+    suspend fun getSavedToken(): RegistrationKeysModel {
         var token = sharedPreferencesDataSource.getKeys()
         if (token.clientId == null) {
             token = apiTokenDataSource.getNewToken().mapTo()
             sharedPreferencesDataSource.saveKeys(token)
         }
-        /*else {
-            val apiTokens = apiTokenDataSource.getAvailableToken(token.clientId!!).mapTo()
+        *//*else {
+            val apiTokens = apiTokenDataSource.getUserToken(token.clientId!!).mapTo()
             if(apiTokens != token)
                 sharedPreferencesDataSource.saveKeys(apiTokens)
             token = apiTokens
-        }*/
+        }*//*
 
         return token
     }
 
-    suspend fun refreshToken(): KeysEntity {
+    suspend fun refreshToken(): RegistrationKeysModel {
         var tokens = sharedPreferencesDataSource.getKeys()
 
         tokens.clientId?.let {
-            val apiTokens = apiTokenDataSource.getAvailableToken(it).mapTo()
+            val apiTokens = apiTokenDataSource.getUserToken(it).mapTo()
             sharedPreferencesDataSource.saveKeys(apiTokens)
             return apiTokens
         }
@@ -51,11 +51,11 @@ class ApiTokenManager @Inject constructor(
         return tokens
     }
 
-    private suspend fun getFreshToken(clientId: String): KeysEntity {
-        val apiTokens = apiTokenDataSource.getAvailableToken(clientId).mapTo()
+    private suspend fun getFreshToken(clientId: String): RegistrationKeysModel {
+        val apiTokens = apiTokenDataSource.getUserToken(clientId).mapTo()
         sharedPreferencesDataSource.saveKeys(apiTokens)
 
         return apiTokens
-    }
+    }*/
 
 }

@@ -31,4 +31,5 @@
     <string name="notify_fill_all_fields">"Fill all fields!"</string>
     <string name="notify_check_all_fields">Check all the fields for correctness!</string>
     <string name="notify_success_registration">Registration Success!</string>
+    <string name="notify_success_sign_in">Sign In Success!</string>
 </resources>
