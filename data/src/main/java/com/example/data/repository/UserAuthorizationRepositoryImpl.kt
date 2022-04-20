@@ -4,7 +4,7 @@ import com.example.data.api.models.ErrorResponseModel
 import com.example.data.datasource.ApiSignInDataSource
 import com.example.data.datasource.ApiSignUpDataSource
 import com.example.data.datasource.BaseApiAuthDataSource
-import com.example.data.managers.ApiTokenManager
+import com.example.data.managers.ApiTokenManagerBabijon
 import com.example.domain.entities.AuthState
 import com.example.domain.entities.SignInEntity
 import com.example.domain.entities.SignUpEntity
@@ -17,7 +17,6 @@ import javax.inject.Inject
 class UserAuthorizationRepositoryImpl @Inject constructor(
     private val apiSignUpDataSource: ApiSignUpDataSource,
     private val apiSignInDataSource: ApiSignInDataSource,
-    private val apiTokenManager: ApiTokenManager
 ) : AuthorizationRepository {
 
     override suspend fun signUpUser(signUpEntity: SignUpEntity): AuthState =

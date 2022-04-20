@@ -13,5 +13,5 @@ interface UserService {
 
     @Headers("Content-Type: application/json")
     @GET("/oauth/v2/token")
-    suspend fun loginUser(@QueryMap queryMap: Map<String, String>): Response<ResponseLogining>
+    suspend fun loginUser(@QueryMap queryMap: Map<String, String>): Response<ResponseLogin>
 }

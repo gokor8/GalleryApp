@@ -6,7 +6,7 @@ interface CacheService {
 
     fun saveKeys(keys: Map<String, String>)
 
-    fun getKeys(keys: List<String>): Map<String,String>
+    fun getKeys(keys: List<String>): Map<String,String?>
 
     fun getKey(key: String): String?
 }

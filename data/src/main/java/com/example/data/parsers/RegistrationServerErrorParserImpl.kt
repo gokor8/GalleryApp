@@ -1,11 +1,8 @@
 package com.example.data.parsers
 
-import android.content.Context
 import com.example.domain.core.ErrorType
-import dagger.hilt.android.qualifiers.ApplicationContext
-import javax.inject.Inject
 
-open class BaseServerErrorParserImpl :
+open class RegistrationServerErrorParserImpl :
     ServerErrorParser {
 
     override fun parse(errorMessage: String): Map<ErrorType, String> {

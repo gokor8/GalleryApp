@@ -25,10 +25,10 @@ class SharedPreferencesDataSource @Inject constructor(@ApplicationContext contex
         editSharedPreferences.apply()
     }
 
-    override fun getKeys(keys: List<String>): Map<String,String> {
-        val gotKeys = mutableMapOf<String, String>()
+    override fun getKeys(keys: List<String>): Map<String,String?> {
+        val gotKeys = mutableMapOf<String, String?>()
         for (key in keys)
-            gotKeys[key] = sharedPreferences.getString(key, null).toString()
+            gotKeys[key] = sharedPreferences.getString(key, null)
 
         return gotKeys
     }

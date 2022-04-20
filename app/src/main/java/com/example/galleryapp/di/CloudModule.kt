@@ -10,14 +10,19 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object RetrofitModule {
+object CloudModule {
 
     @Provides
     fun provideBaseUrl(): String = "http://gallery.dev.webant.ru"
+
+    @Provides
+    @Named("default_token")
+    fun provideDefaultToken(): String = "960"
 
     @Provides
     @Singleton

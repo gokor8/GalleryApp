@@ -2,7 +2,8 @@ package com.example.data.storages
 
 import com.example.domain.core.MapperFrom
 
-class RegistrationKeysModel(clientId: String, randomId: String, secret: String) : MapperFrom<Map<String, String>, RegistrationKeysModel> {
+class RegistrationKeysModel(clientId: String, randomId: String, secret: String) :
+    MapperFrom<Map<String, String?>, RegistrationKeysModel> {
 
     constructor() : this("", "", "")
 
@@ -19,15 +20,19 @@ class RegistrationKeysModel(clientId: String, randomId: String, secret: String) 
         const val SECRET = "secret"
     }
 
-    override fun mapTo(inputModel: Map<String, String>): RegistrationKeysModel {
+    override fun mapTo(inputModel: Map<String, String?>): RegistrationKeysModel {
         for (pairKeys in inputModel) {
+            val pairValue = pairKeys.value ?: ""
             when (pairKeys.key) {
-                CLIENT_ID -> clientId = pairKeys.value
-                RANDOM_ID -> randomId = pairKeys.value
-                SECRET -> secret = pairKeys.value
+                CLIENT_ID -> clientId = pairValue
+                RANDOM_ID -> randomId = pairValue
+                SECRET -> secret = pairValue
             }
         }
 
         return this
     }
+
+    fun hasEmpty() =
+        listOf(clientId, randomId, secret).any { it.isEmpty() }
 }

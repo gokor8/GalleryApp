@@ -11,7 +11,10 @@ data class ResponseTokenModel(
     val randomId: String,
     @SerializedName("secret")
     val secret: String
-    ) : MapperTo<RegistrationKeysModel> {
+) : MapperTo<RegistrationKeysModel> {
 
     override fun mapTo() = RegistrationKeysModel(clientId, randomId, secret)
+
+    fun hasEmpty() =
+        listOf(clientId, randomId, secret).any { it.isEmpty() }
 }

@@ -2,9 +2,10 @@ package com.example.data.datasource
 
 import com.example.data.api.UserService
 import com.example.data.api.models.*
+import com.example.data.managers.ApiTokenAccessManager
+import com.example.data.managers.ApiTokenRegistrationManager
 import com.example.data.parsers.ServerErrorParser
-import com.example.data.storages.ClientKeysModel
-import com.example.data.storages.RegistrationKeysModel
+import com.example.data.storages.AccessTokensKeysModel
 import com.example.domain.entities.SignInEntity
 import com.google.gson.Gson
 import retrofit2.Response
@@ -12,7 +13,8 @@ import javax.inject.Inject
 
 class ApiSignInDataSource @Inject constructor(
     private val userService: UserService,
-    private val sharedPreferencesDataSource: SharedPreferencesDataSource,
+    private val apiTokenRegistrationManager: ApiTokenRegistrationManager.Read,
+    private val apiTokenAccessManager: ApiTokenAccessManager.Save,
     serverErrorParser: ServerErrorParser,
     gson: Gson
 ) : BaseApiAuthDataSource<SignInEntity, ResponseErrorSignInModel>(
@@ -23,19 +25,9 @@ class ApiSignInDataSource @Inject constructor(
 
     override suspend fun sendAuthRequest(
         signInEntity: SignInEntity,
-    ): Response<ResponseLogining> {
+    ): Response<ResponseLogin> {
 
-        val keys = sharedPreferencesDataSource.getKeys(
-            listOf(
-                RegistrationKeysModel.CLIENT_ID,
-                RegistrationKeysModel.SECRET,
-                RegistrationKeysModel.RANDOM_ID
-            )
-        ).let(RegistrationKeysModel()::mapTo)
-
-        if(keys.clientId == null)
-            // Делать дефолтное значение.
-                // Либо хранить дефолтное значение при первом запуске, записывать его в бд
+        val keys = apiTokenRegistrationManager.read()
 
         val userResponse = userService.loginUser(
             RequestSignInUserModel(
@@ -49,12 +41,7 @@ class ApiSignInDataSource @Inject constructor(
             return userResponse
         }
 
-        val responseLogining = userResponse.body()!!
-
-        mapOf(
-            ClientKeysModel.ACCESS_TOKEN to responseLogining.accessToken,
-            ClientKeysModel.REFRESH_TOKEN to responseLogining.refreshToken
-        ).let(sharedPreferencesDataSource::saveKeys)
+        apiTokenAccessManager.save(userResponse)
 
         return userResponse
     }
