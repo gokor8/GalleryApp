@@ -2,6 +2,7 @@ package com.example.galleryapp.di
 
 import com.example.data.datasource.ApiTokenRegistrationDataSource
 import com.example.data.datasource.SharedPreferencesDataSource
+import com.example.data.managers.ApiTokenAccessManager
 import com.example.data.managers.ApiTokenRegistrationManager
 import dagger.Module
 import dagger.Provides
@@ -11,6 +12,8 @@ import dagger.hilt.components.SingletonComponent
 @Module
 @InstallIn(SingletonComponent::class)
 class ManagersModule {
+
+    //Registration Manager
     @Provides
     fun provideApiTokenRegistrationManager(
         apiTokenRegistrationDataSource: ApiTokenRegistrationDataSource,
@@ -25,9 +28,19 @@ class ManagersModule {
     fun provideApiTokenRegistrationManagerRead(apiTokenRegistrationManager: ApiTokenRegistrationManager) =
         apiTokenRegistrationManager.Read()
 
-    /*@Provides
-    fun provideApiTokenManager(
-        apiTokenRegistrationDataSource: ApiTokenRegistrationDataSource,
+
+    //Access Tokens Manager
+    @Provides
+    fun provideApiTokenAccessManager(
+        //apiTokenRegistrationDataSource: ApiTokenRegistrationDataSource,
         sharedPreferencesDataSource: SharedPreferencesDataSource
-    ) = ApiTokenManagerBabijon(apiTokenRegistrationDataSource, sharedPreferencesDataSource)*/
+    ) = ApiTokenAccessManager(sharedPreferencesDataSource)
+
+    @Provides
+    fun provideApiTokenAccessManagerSave(apiTokenAccessManager: ApiTokenAccessManager) =
+        apiTokenAccessManager.Save()
+
+    @Provides
+    fun provideApiTokenAccessManagerRead(apiTokenAccessManager: ApiTokenAccessManager) =
+        apiTokenAccessManager.Read()
 }

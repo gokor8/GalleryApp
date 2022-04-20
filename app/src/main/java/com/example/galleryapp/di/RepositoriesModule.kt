@@ -6,6 +6,7 @@ import com.example.data.datasource.ApiSignInDataSource
 import com.example.data.datasource.ApiSignUpDataSource
 import com.example.data.datasource.ApiTokenRegistrationDataSource
 import com.example.data.datasource.SharedPreferencesDataSource
+import com.example.data.managers.ApiTokenAccessManager
 import com.example.data.managers.ApiTokenManagerBabijon
 import com.example.data.managers.ApiTokenRegistrationManager
 import com.example.data.parsers.LoginServerErrorParserImpl
@@ -46,13 +47,13 @@ class RepositoriesModule {
     fun provideApiSignInDataSource(
         userService: UserService,
         apiTokenRegistrationManagerRead: ApiTokenRegistrationManager.Read,
-        sharedPreferencesDataSource: SharedPreferencesDataSource,
+        apiTokenAccessManagerSave: ApiTokenAccessManager.Save,
         loginServerErrorParser: LoginServerErrorParserImpl,
         gson: Gson
     ) = ApiSignInDataSource(
         userService,
         apiTokenRegistrationManagerRead,
-        sharedPreferencesDataSource,
+        apiTokenAccessManagerSave,
         loginServerErrorParser,
         gson
     )

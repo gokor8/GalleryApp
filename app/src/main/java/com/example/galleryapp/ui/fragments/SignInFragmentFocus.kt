@@ -20,6 +20,8 @@ class SignInFragmentFocus :
         SignInFragmentViewModel::class.java
     ), FocusValidationFragment {
 
+    override var lastValidationField: TextInputEditText? = null
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -80,6 +82,8 @@ class SignInFragmentFocus :
             }
 
             signInButton.setOnClickListener {
+                lastValidationField?.clearFocus()
+
                 UiSignInModel(
                     emailInputEditText.text.toString(),
                     passwordInputEditText.text.toString()
@@ -87,7 +91,4 @@ class SignInFragmentFocus :
             }
         }
     }
-
-    override var lastValidationField: TextInputEditText? = null
-
 }
