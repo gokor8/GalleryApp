@@ -6,7 +6,15 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragments.SignInFragmentFocus">
 
+    <ProgressBar
+        android:id="@+id/wait_progress_bar"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="invisible"
+        android:alpha="220"/>
+
     <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/main_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 

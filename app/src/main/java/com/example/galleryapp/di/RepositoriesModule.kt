@@ -1,17 +1,12 @@
 package com.example.galleryapp.di
 
-import com.example.data.api.TokenService
 import com.example.data.api.UserService
 import com.example.data.datasource.ApiSignInDataSource
 import com.example.data.datasource.ApiSignUpDataSource
-import com.example.data.datasource.ApiTokenRegistrationDataSource
-import com.example.data.datasource.SharedPreferencesDataSource
 import com.example.data.managers.ApiTokenAccessManager
-import com.example.data.managers.ApiTokenManagerBabijon
 import com.example.data.managers.ApiTokenRegistrationManager
 import com.example.data.parsers.LoginServerErrorParserImpl
 import com.example.data.parsers.RegistrationServerErrorParserImpl
-import com.example.data.parsers.ServerErrorParser
 import com.example.data.repository.UserAuthorizationRepositoryImpl
 import com.example.domain.repository.AuthorizationRepository
 import com.google.gson.Gson
@@ -19,7 +14,6 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import javax.inject.Named
 import javax.inject.Singleton
 
 @Module
