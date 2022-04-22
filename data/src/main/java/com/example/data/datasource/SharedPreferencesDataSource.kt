@@ -6,7 +6,8 @@ import com.example.data.storages.RegistrationKeysModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
-class SharedPreferencesDataSource @Inject constructor(@ApplicationContext context: Context) : CacheService {
+class SharedPreferencesDataSource @Inject constructor(@ApplicationContext context: Context) :
+    CacheService {
 
     val keys = "KEYS"
 
@@ -25,7 +26,7 @@ class SharedPreferencesDataSource @Inject constructor(@ApplicationContext contex
         editSharedPreferences.apply()
     }
 
-    override fun getKeys(keys: List<String>): Map<String,String?> {
+    override fun getKeys(keys: List<String>): Map<String, String?> {
         val gotKeys = mutableMapOf<String, String?>()
         for (key in keys)
             gotKeys[key] = sharedPreferences.getString(key, null)

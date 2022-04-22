@@ -10,6 +10,7 @@ import com.example.galleryapp.ui.models.UiSignUpModel
 import com.example.galleryapp.validators.entities.BaseErrorUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import okhttp3.internal.notify
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,6 +26,12 @@ class SignUpFragmentViewModel @Inject constructor(
     val birthdayErrorLiveData = MutableLiveData<BaseErrorUiModel>()
     val confirmPasswordErrorLiveData = MutableLiveData<BaseErrorUiModel>()
     val oldPasswordErrorLiveData = MutableLiveData<BaseErrorUiModel>()
+    private val _progressBarLiveData = MutableLiveData<Visibilities>()
+    private val _registrationLiveData = MutableLiveData<Unit>()
+    val registrationLiveData: LiveData<Unit>
+        get() = _registrationLiveData
+    val progressBarLiveData: LiveData<Visibilities>
+        get() = _progressBarLiveData
 
     val signInResultViewModel = MutableLiveData<String>()
 
@@ -45,16 +52,19 @@ class SignUpFragmentViewModel @Inject constructor(
         }
 
         viewModelScope.launch {
+            _progressBarLiveData.value = Visibilities.Visible
             val authState = registrationUseCase.registrationUser(uiSignUpModel.mapTo())
             mapAuthState(authState)
         }
     }
 
-    override fun mapAuthState(authState: AuthState) =
-        when (authState) {
+    override fun mapAuthState(authState: AuthState) {
+        _progressBarLiveData.value = Visibilities.Invisible
+         when (authState) {
             is AuthState.Success -> {
                 res.getString(R.string.notify_success_registration)
                     .let(signInResultViewModel::postValue)
+                _registrationLiveData.notifyObserver()
             }
             is AuthState.Error -> {
                 authState.errorMap.forEach { (errorType: ErrorType, errorMessage) ->
@@ -63,8 +73,9 @@ class SignUpFragmentViewModel @Inject constructor(
                     }
                 }
             }
-            is AuthState.Exception -> signInResultViewModel.value = authState.errorMessage
+            is AuthState.Exception -> signInResultViewModel.value = authState.exception.getMessage()
         }
+    }
 
     override fun mapError(
         errorType: ErrorType,

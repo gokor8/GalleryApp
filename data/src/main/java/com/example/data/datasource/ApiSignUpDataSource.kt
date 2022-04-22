@@ -29,7 +29,9 @@ class ApiSignUpDataSource @Inject constructor(
             return userResponse
         }
 
-        apiTokenRegistrationManager.save(userResponse)
+        userResponse.body()?.also {
+            apiTokenRegistrationManager.save(it)
+        }
 
         return userResponse
     }

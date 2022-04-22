@@ -32,12 +32,12 @@ class ApiTokenRegistrationManager @Inject constructor(
     }
 
     inner class Save : ApiTokenManager.Save<ResponseRegistration> {
-        override suspend fun save(response: Response<ResponseRegistration>) {
+        override suspend fun save(response: ResponseRegistration) {
 
-            val tokenModel: ResponseTokenModel? = response.body()?.let {
-                apiTokenRegistrationDataSource.getUserToken(it.id)
-            }
-            if (tokenModel == null || tokenModel.hasEmpty()) {
+            val tokenModel: ResponseTokenModel =
+                apiTokenRegistrationDataSource.getUserToken(response.id)
+
+            if (tokenModel.hasEmpty()) {
                 saveDefaultToken()
             } else {
                 save(tokenModel.mapTo())

@@ -1,6 +1,7 @@
 package com.example.galleryapp.ui.fragments
 
 import android.app.Application
+import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.domain.core.ErrorType
@@ -11,6 +12,7 @@ import com.example.galleryapp.ui.models.UiSignInModel
 import com.example.galleryapp.validators.entities.BaseErrorUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import okhttp3.internal.notify
 import javax.inject.Inject
 
 @HiltViewModel
@@ -25,6 +27,12 @@ class SignInFragmentViewModel @Inject constructor(
     val emailErrorLiveData = MutableLiveData<BaseErrorUiModel>()
     val passwordErrorLiveData = MutableLiveData<BaseErrorUiModel>()
     val signInResultViewModel = MutableLiveData<String>()
+    private val _progressBarLiveData = MutableLiveData<Visibilities>()
+    private val _authorizationLiveData = MutableLiveData<Unit>()
+    val authorizationLiveData: LiveData<Unit>
+        get() = _authorizationLiveData
+    val progressBarLiveData: LiveData<Visibilities>
+        get() = _progressBarLiveData
 
     fun trySignIn(uiSignInModel: UiSignInModel) {
         val errorLiveDates = listOf(
@@ -39,17 +47,19 @@ class SignInFragmentViewModel @Inject constructor(
         }
 
         viewModelScope.launch {
-
+            _progressBarLiveData.value = Visibilities.Visible
             val authState = authorizationUseCase.authorization(uiSignInModel.mapTo())
             mapAuthState(authState)
         }
     }
 
     override fun mapAuthState(authState: AuthState) {
+        _progressBarLiveData.value = Visibilities.Invisible
         when (authState) {
             is AuthState.Success -> {
                 res.getString(R.string.notify_success_sign_in)
                     .let(signInResultViewModel::postValue)
+                _authorizationLiveData.notifyObserver()
             }
             is AuthState.Error -> {
                 authState.errorMap.forEach { (errorType: ErrorType, errorMessage) ->
@@ -58,7 +68,7 @@ class SignInFragmentViewModel @Inject constructor(
                     }
                 }
             }
-            is AuthState.Exception -> signInResultViewModel.value = authState.errorMessage
+            is AuthState.Exception -> signInResultViewModel.value = authState.exception.getMessage()
         }
     }
 

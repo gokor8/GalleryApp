@@ -6,7 +6,22 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragments.SignUpFragmentFocus">
 
+    <RelativeLayout
+        android:id="@+id/wait_progress_bar_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:backgroundTint="@color/blured_white"
+        android:visibility="invisible">
+
+        <ProgressBar
+            style="@style/ProgressBarStyle"
+            android:layout_centerInParent="true"
+            android:layout_width="120dp"
+            android:layout_height="120dp" />
+    </RelativeLayout>
+
     <LinearLayout
+        android:id="@+id/main_layout"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical">
@@ -75,9 +90,9 @@
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/birthday"
+                        style="@style/EditTextStyle"
                         android:focusable="false"
-                        android:focusableInTouchMode="false"
-                        style="@style/EditTextStyle" />
+                        android:focusableInTouchMode="false" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
@@ -91,8 +106,8 @@
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/email"
-                        android:inputType="textEmailAddress"
-                        style="@style/EditTextStyle" />
+                        style="@style/EditTextStyle"
+                        android:inputType="textEmailAddress" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout

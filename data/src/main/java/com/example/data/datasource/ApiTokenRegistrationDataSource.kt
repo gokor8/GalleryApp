@@ -1,9 +1,7 @@
 package com.example.data.datasource
 
 import com.example.data.api.TokenService
-import com.example.data.api.models.RequestNewTokenModel
 import javax.inject.Inject
-import javax.inject.Named
 
 class ApiTokenRegistrationDataSource @Inject constructor(
     private val tokenService: TokenService,

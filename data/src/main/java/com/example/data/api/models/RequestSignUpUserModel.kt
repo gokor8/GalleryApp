@@ -11,7 +11,7 @@ data class RequestSignUpUserModel(
     val roles: List<String>,
 ) : MapperFrom<SignUpEntity, RequestSignUpUserModel> {
 
-    constructor(): this("","","",null, listOf())
+    constructor(): this("","","","01.01.2000", listOf())
 
     override fun mapTo(inputModel: SignUpEntity) =
         RequestSignUpUserModel(

@@ -9,7 +9,7 @@ import com.google.gson.Gson
 import retrofit2.Response
 
 abstract class BaseApiAuthDataSource<I : SignInEntity, E : ErrorResponseModel>(
-    protected val serverErrorParser: ServerErrorParser,
+    private val serverErrorParser: ServerErrorParser,
     protected val gson: Gson,
     private val responseErrorFillClass: Class<E>
 ) {

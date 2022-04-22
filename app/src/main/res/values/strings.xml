@@ -32,4 +32,6 @@
     <string name="notify_check_all_fields">Check all the fields for correctness!</string>
     <string name="notify_success_registration">Registration Success!</string>
     <string name="notify_success_sign_in">Sign In Success!</string>
+    <string name="notify_exception_no_connection">No connection! Check internet connection and repeat request</string>
+    <string name="notify_exception_chache_keys">Empty access keys in chache!</string>
 </resources>

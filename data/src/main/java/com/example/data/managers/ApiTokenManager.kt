@@ -8,6 +8,6 @@ interface ApiTokenManager {
         suspend fun read() : R
     }
     interface Save<I> {
-        suspend fun save(response: Response<I>)
+        suspend fun save(response: I)
     }
 }

@@ -37,11 +37,14 @@ class ApiSignInDataSource @Inject constructor(
             ).mapTo(signInEntity).toQueryMap()
         )
 
-        if(!userResponse.isSuccessful) {
+        if (!userResponse.isSuccessful) {
             return userResponse
         }
 
-        apiTokenAccessManager.save(userResponse)
+        userResponse.body()?.also {
+            apiTokenAccessManager.save(it)
+        }
+
 
         return userResponse
     }

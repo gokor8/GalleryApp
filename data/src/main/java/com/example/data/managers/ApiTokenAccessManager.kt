@@ -4,6 +4,7 @@ import com.example.data.api.models.ResponseLogin
 import com.example.data.datasource.SharedPreferencesDataSource
 import com.example.data.storages.AccessTokensKeysModel
 import com.example.data.storages.RegistrationKeysModel
+import com.example.domain.core.MapperTo
 import retrofit2.Response
 
 class ApiTokenAccessManager(private val sharedPreferencesDataSource: SharedPreferencesDataSource) :
@@ -19,17 +20,17 @@ class ApiTokenAccessManager(private val sharedPreferencesDataSource: SharedPrefe
                 )
             ).let(AccessTokensKeysModel()::mapTo)
 
-            if (keys.hasEmpty()) {
+            /*if (keys.hasEmpty()) {
                 throw Exception("Empty access keys in shared preferences")
-            }
+            }*/
 
             return keys
         }
     }
 
     inner class Save : ApiTokenManager.Save<ResponseLogin> {
-        override suspend fun save(response: Response<ResponseLogin>) {
-            response.body()?.mapTo()?.also {
+        override suspend fun save(response: ResponseLogin) {
+            response.mapTo().also {
                 mapOf(
                     AccessTokensKeysModel.ACCESS_TOKEN to it.accessToken,
                     AccessTokensKeysModel.REFRESH_TOKEN to it.refreshToken

@@ -1,5 +1,6 @@
 package com.example.galleryapp.ui.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -7,6 +8,7 @@ import android.view.ViewGroup
 import androidx.navigation.findNavController
 import com.example.galleryapp.R
 import com.example.galleryapp.databinding.FragmentSignInBinding
+import com.example.galleryapp.ui.activities.UserActivity
 import com.example.galleryapp.ui.models.UiSignInModel
 import com.example.galleryapp.validators.validators_impl.EmailSingleValidator
 import com.example.galleryapp.validators.validators_impl.LengthSingleValidator
@@ -53,6 +55,16 @@ class SignInFragmentFocus :
 
         viewModel.signInResultViewModel.observe(viewLifecycleOwner) {
             Snackbar.make(binding.root, it, Snackbar.LENGTH_SHORT).show()
+        }
+
+        viewModel.progressBarLiveData.observe(viewLifecycleOwner) {
+            binding.waitProgressBarLayout.visibility = it.visibility
+        }
+
+        viewModel.authorizationLiveData.observe(viewLifecycleOwner) {
+            val intent = Intent(activity, UserActivity::class.java)
+            startActivity(intent)
+            activity?.finish()
         }
     }
 
