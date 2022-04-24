@@ -1,32 +1,32 @@
 package com.example.data.datasource
 
 import android.content.Context
-import com.example.data.storages.CacheService
-import com.example.data.storages.RegistrationKeysModel
+import com.example.data.storages.CacheSharedPreferences
+import com.example.data.storages.models.RegistrationKeysModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
-class SharedPreferencesDataSource @Inject constructor(@ApplicationContext context: Context) :
-    CacheService {
+abstract class SharedPreferencesDataSource @Inject constructor(@ApplicationContext context: Context) :
+    CacheSharedPreferences.Mutable {
 
-    val keys = "KEYS"
+    val keys = "API_KEYS"
 
     private val sharedPreferences = context.getSharedPreferences(keys, Context.MODE_PRIVATE)
 
-    override fun saveKey(key: String, value: String) {
+    override fun<V> saveKey(key: String, value: V) {
         sharedPreferences.edit()
-            .putString(RegistrationKeysModel.CLIENT_ID, value).apply()
+            .putString(RegistrationKeysModel.CLIENT_ID, value.toString()).apply()
     }
 
-    override fun saveKeys(keys: Map<String, String>) {
+    override fun<V> saveKeys(keys: Map<String, V>) {
         val editSharedPreferences = sharedPreferences.edit()
         for (key in keys)
-            editSharedPreferences.putString(key.key, key.value)
+            editSharedPreferences.putString(key.key, key.value.toString())
 
         editSharedPreferences.apply()
     }
 
-    override fun getKeys(keys: List<String>): Map<String, String?> {
+    override fun readKeys(keys: List<String>): Map<String, String?> {
         val gotKeys = mutableMapOf<String, String?>()
         for (key in keys)
             gotKeys[key] = sharedPreferences.getString(key, null)
@@ -34,6 +34,6 @@ class SharedPreferencesDataSource @Inject constructor(@ApplicationContext contex
         return gotKeys
     }
 
-    override fun getKey(key: String) =
+    override fun readByKey(key: String) =
         sharedPreferences.getString(key, null).toString()
 }

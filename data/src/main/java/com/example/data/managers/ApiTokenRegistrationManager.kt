@@ -4,18 +4,18 @@ import com.example.data.api.models.ResponseRegistration
 import com.example.data.api.models.ResponseTokenModel
 import com.example.data.datasource.ApiTokenRegistrationDataSource
 import com.example.data.datasource.SharedPreferencesDataSource
-import com.example.data.storages.RegistrationKeysModel
-import retrofit2.Response
+import com.example.data.storages.CacheSharedPreferences
+import com.example.data.storages.models.RegistrationKeysModel
 import javax.inject.Inject
 
 class ApiTokenRegistrationManager @Inject constructor(
     private val apiTokenRegistrationDataSource: ApiTokenRegistrationDataSource,
-    private val sharedPreferencesDataSource: SharedPreferencesDataSource
+    private val sharedPreferencesDataSource: CacheSharedPreferences.Mutable
 ) : ApiTokenManager {
 
-    inner class Read : ApiTokenManager.Read<RegistrationKeysModel> {
+    inner class Read : com.example.data.core.Read<RegistrationKeysModel> {
         override suspend fun read(): RegistrationKeysModel {
-            val keys = sharedPreferencesDataSource.getKeys(
+            val keys = sharedPreferencesDataSource.readKeys(
                 listOf(
                     RegistrationKeysModel.CLIENT_ID,
                     RegistrationKeysModel.SECRET,
@@ -31,17 +31,18 @@ class ApiTokenRegistrationManager @Inject constructor(
         }
     }
 
-    inner class Save : ApiTokenManager.Save<ResponseRegistration> {
-        override suspend fun save(response: ResponseRegistration) {
+    inner class Save : ApiTokenManager.ReturnSave<ResponseRegistration, RegistrationKeysModel> {
+        override suspend fun save(response: ResponseRegistration): RegistrationKeysModel {
 
-            val tokenModel: ResponseTokenModel =
-                apiTokenRegistrationDataSource.getUserToken(response.id)
+            val tokenModel = apiTokenRegistrationDataSource.getUserToken(response.id).mapTo()
 
             if (tokenModel.hasEmpty()) {
-                saveDefaultToken()
+                return saveDefaultToken()
             } else {
-                save(tokenModel.mapTo())
+                save(tokenModel)
             }
+
+            return tokenModel
         }
     }
 

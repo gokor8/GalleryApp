@@ -1,6 +1,6 @@
 package com.example.data.api.models
 
-import com.example.data.storages.RegistrationKeysModel
+import com.example.data.storages.models.RegistrationKeysModel
 import com.example.domain.core.MapperTo
 import com.google.gson.annotations.SerializedName
 

@@ -1,18 +1,16 @@
 package com.example.data.managers
 
 import com.example.data.api.models.ResponseLogin
-import com.example.data.datasource.SharedPreferencesDataSource
-import com.example.data.storages.AccessTokensKeysModel
-import com.example.data.storages.RegistrationKeysModel
-import com.example.domain.core.MapperTo
-import retrofit2.Response
+import com.example.data.storages.models.AccessTokensKeysModel
+import com.example.data.storages.CacheSharedPreferences
+import com.example.data.storages.models.RegistrationKeysModel
 
-class ApiTokenAccessManager(private val sharedPreferencesDataSource: SharedPreferencesDataSource) :
+class ApiTokenAccessManager(private val sharedPreferencesDataSource: CacheSharedPreferences.Mutable) :
     ApiTokenManager {
 
-    inner class Read : ApiTokenManager.Read<AccessTokensKeysModel> {
+    inner class Read : com.example.data.core.Read<AccessTokensKeysModel> {
         override suspend fun read(): AccessTokensKeysModel {
-            val keys = sharedPreferencesDataSource.getKeys(
+            val keys = sharedPreferencesDataSource.readKeys(
                 listOf(
                     RegistrationKeysModel.CLIENT_ID,
                     RegistrationKeysModel.SECRET,

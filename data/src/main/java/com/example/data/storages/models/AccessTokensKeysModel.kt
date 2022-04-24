@@ -1,4 +1,4 @@
-package com.example.data.storages
+package com.example.data.storages.models
 
 import com.example.domain.core.MapperFrom
 
