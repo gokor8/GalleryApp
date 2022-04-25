@@ -6,7 +6,7 @@ interface CacheSharedPreferences : Cache {
         fun readKeys(keys: List<String>): Map<String, String?>
     }
 
-    interface Save : Cache.Save<String> {
+    interface Save {
         fun<V> saveKey(key: String, value: V)
         fun<V> saveKeys(keys: Map<String, V>)
     }

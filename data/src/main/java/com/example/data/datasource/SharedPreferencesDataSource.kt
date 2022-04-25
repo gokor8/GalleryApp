@@ -6,7 +6,7 @@ import com.example.data.storages.models.RegistrationKeysModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
 
-abstract class SharedPreferencesDataSource @Inject constructor(@ApplicationContext context: Context) :
+class SharedPreferencesDataSource @Inject constructor(@ApplicationContext context: Context) :
     CacheSharedPreferences.Mutable {
 
     val keys = "API_KEYS"

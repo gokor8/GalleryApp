@@ -25,19 +25,6 @@ class RepositoriesModule {
     fun provideGson() = Gson()
 
     @Provides
-    fun provideApiSignUpDataSource(
-        userService: UserService,
-        apiTokenRegistrationManagerSave: ApiTokenRegistrationManager.Save,
-        registrationServerErrorParser: RegistrationServerErrorParserImpl,
-        gson: Gson
-    ) = ApiSignUpDataSource(
-        userService,
-        apiTokenRegistrationManagerSave,
-        registrationServerErrorParser,
-        gson
-    )
-
-    @Provides
     fun provideApiSignInDataSource(
         userService: UserService,
         apiTokenRegistrationManagerRead: ApiTokenRegistrationManager.Read,
@@ -49,6 +36,21 @@ class RepositoriesModule {
         apiTokenRegistrationManagerRead,
         apiTokenAccessManagerSave,
         loginServerErrorParser,
+        gson
+    )
+
+    @Provides
+    fun provideApiSignUpDataSource(
+        userService: UserService,
+        apiTokenRegistrationManagerSave: ApiTokenRegistrationManager.Save,
+        apiSignInDataSource: ApiSignInDataSource,
+        registrationServerErrorParser: RegistrationServerErrorParserImpl,
+        gson: Gson
+    ) = ApiSignUpDataSource(
+        userService,
+        apiTokenRegistrationManagerSave,
+        apiSignInDataSource,
+        registrationServerErrorParser,
         gson
     )
 

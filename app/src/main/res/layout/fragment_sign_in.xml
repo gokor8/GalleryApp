@@ -6,19 +6,11 @@
     android:layout_height="match_parent"
     tools:context=".ui.fragments.SignInFragmentFocus">
 
-    <RelativeLayout
-        android:id="@+id/wait_progress_bar_layout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:foreground="@color/blured_white"
-        android:visibility="invisible">
-
-        <ProgressBar
-            style="@style/ProgressBarStyle"
-            android:layout_centerInParent="true"
-            android:layout_width="120dp"
-            android:layout_height="120dp" />
-    </RelativeLayout>
+    <include
+        android:id="@+id/imported_progress_bar"
+        layout="@layout/custom_progress_bar"
+        android:visibility="invisible"
+        />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/main_layout"
@@ -35,7 +27,7 @@
 
             <include
                 android:id="@+id/toolbarLayout"
-                layout="@layout/layout_toolbar" />
+                layout="@layout/toolbar_base" />
         </com.google.android.material.appbar.AppBarLayout>
 
         <com.example.galleryapp.ui.custom_ui_objects.UnderlineTextView

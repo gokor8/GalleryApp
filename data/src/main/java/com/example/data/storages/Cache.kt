@@ -10,12 +10,4 @@ interface Cache {
     }
 
     interface Mutable<I,R> : Read<I,R>, Save<I>
-
-    /*fun saveKey(key: String, value: String)
-
-    fun saveKeys(keys: Map<String, String>)
-
-    fun getKeys(keys: List<String>): Map<String,String?>
-
-    fun getKey(key: String): String?*/
 }

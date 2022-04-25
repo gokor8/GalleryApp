@@ -6,4 +6,5 @@
     <dimen name="margin_button">10dp</dimen>
     <dimen name="height_button">36dp</dimen>
     <dimen name="margin_text_view">29dp</dimen>
+    <dimen name="btn_icon_size">23dp</dimen>
 </resources>

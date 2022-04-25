@@ -58,7 +58,7 @@ class SignInFragmentFocus :
         }
 
         viewModel.progressBarLiveData.observe(viewLifecycleOwner) {
-            binding.waitProgressBarLayout.visibility = it.visibility
+            binding.importedProgressBar.waitProgressBarLayout.visibility = it.visibility
         }
 
         viewModel.authorizationLiveData.observe(viewLifecycleOwner) {

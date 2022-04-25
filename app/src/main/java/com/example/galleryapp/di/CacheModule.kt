@@ -2,6 +2,7 @@ package com.example.galleryapp.di
 
 import com.example.data.storages.Cache
 import com.example.data.datasource.SharedPreferencesDataSource
+import com.example.data.storages.CacheSharedPreferences
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -14,5 +15,5 @@ abstract class CacheModule {
 
     @Binds
     @Singleton
-    abstract fun bindsSharedPreferencesService(sharedPreferencesDataSource: SharedPreferencesDataSource): Cache
+    abstract fun bindsSharedPreferencesService(sharedPreferencesDataSource: SharedPreferencesDataSource): CacheSharedPreferences.Mutable
 }

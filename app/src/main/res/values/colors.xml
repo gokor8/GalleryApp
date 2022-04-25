@@ -14,5 +14,5 @@
     <color name="black_overlay">#66000000</color>
     <color name="main_gray">#C4C4C4</color>
     <color name="red">#FF0000</color>
-    <color name="blured_white">#BAFFFFFF</color>
+    <color name="blured_white">#E2FFFFFF</color>
 </resources>

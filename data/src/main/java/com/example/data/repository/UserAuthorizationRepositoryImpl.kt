@@ -22,24 +22,17 @@ import javax.inject.Inject
 class UserAuthorizationRepositoryImpl @Inject constructor(
     private val apiSignUpDataSource: ApiSignUpDataSource,
     private val apiSignInDataSource: ApiSignInDataSource,
-    private val apiTokenRegistrationManager: ApiTokenRegistrationManager.Save
 ) : AuthorizationRepository {
 
-    override suspend fun signUpUser(signUpEntity: SignUpEntity): AuthState {
-        return withContext(Dispatchers.IO) {
-            apiSignUpDataSource.getSignState(signUpEntity)
-        }
-    }
-    //= apiAuthUser(signUpEntity, apiSignUpDataSource, Dispatchers.IO)
+    override suspend fun signUpUser(signUpEntity: SignUpEntity): AuthState =
+        apiAuthUser(signUpEntity, apiSignUpDataSource, Dispatchers.IO)
 
-    override suspend fun signInUser(signInEntity: SignInEntity): AuthState {
+    override suspend fun signInUser(signInEntity: SignInEntity): AuthState =
+        apiAuthUser(signInEntity, apiSignInDataSource, Dispatchers.IO)
 
-    }
-    //= apiAuthUser(signInEntity, apiSignInDataSource, Dispatchers.IO)
-
-    private suspend fun <I : SignInEntity, E : ErrorResponseModel> apiAuthUser(
+    private suspend fun <I : SignInEntity, E : ErrorResponseModel, S> apiAuthUser(
         signInEntity: I,
-        apiAuthDataSource: BaseApiAuthDataSource<I, E>,
+        apiAuthDataSource: BaseApiAuthDataSource<I, E, S>,
         dispatcher: CoroutineDispatcher
     ): AuthState =
         try {
