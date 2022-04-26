@@ -35,4 +35,7 @@
     <string name="notify_exception_no_connection">No connection! Check internet connection and repeat request</string>
     <string name="notify_exception_chache_keys">Empty access keys in chache!</string>
     <string name="loading">Loading…</string>
+    <string name="search">Search</string>
+    <string name="new_tab_item">New</string>
+    <string name="popular_tab_item">Popular</string>
 </resources>

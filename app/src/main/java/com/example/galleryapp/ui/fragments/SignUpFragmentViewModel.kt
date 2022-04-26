@@ -10,7 +10,6 @@ import com.example.galleryapp.ui.models.UiSignUpModel
 import com.example.galleryapp.validators.entities.BaseErrorUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import okhttp3.internal.notify
 import javax.inject.Inject
 
 @HiltViewModel

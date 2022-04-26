@@ -12,7 +12,8 @@ import androidx.viewbinding.ViewBinding
 import com.example.galleryapp.ui.UiStructure
 
 abstract class BaseFragment<B : ViewBinding, V : ViewModel>(
-    private val fillViewModel: Class<V>
+    private val fillViewModel: Class<V>,
+    private val bindingFragment: (inflater: LayoutInflater, container: ViewGroup?) -> B
 ) :
     Fragment(), UiStructure {
 
@@ -30,11 +31,13 @@ abstract class BaseFragment<B : ViewBinding, V : ViewModel>(
         container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
+        _binding = bindingFragment.invoke(inflater, container)
         _viewModel = ViewModelProvider(this)[fillViewModel]
         setObservers()
         setListeners()
 
-        return super.onCreateView(inflater, container, savedInstanceState)
+        super.onCreateView(inflater, container, savedInstanceState)
+        return binding.root
     }
 
     override fun onDestroy() {

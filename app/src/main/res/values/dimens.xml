@@ -7,4 +7,6 @@
     <dimen name="height_button">36dp</dimen>
     <dimen name="margin_text_view">29dp</dimen>
     <dimen name="btn_icon_size">23dp</dimen>
+    <dimen name="margin_top_bottom_search">10dp</dimen>
+    <dimen name="margin_start_end_search">16dp</dimen>
 </resources>

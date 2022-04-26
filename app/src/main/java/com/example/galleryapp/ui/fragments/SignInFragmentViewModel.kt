@@ -1,6 +1,7 @@
 package com.example.galleryapp.ui.fragments
 
 import android.app.Application
+import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -12,14 +13,13 @@ import com.example.galleryapp.ui.models.UiSignInModel
 import com.example.galleryapp.validators.entities.BaseErrorUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
-import okhttp3.internal.notify
 import javax.inject.Inject
 
 @HiltViewModel
 class SignInFragmentViewModel @Inject constructor(
     private val authorizationUseCase: AuthorizationUseCase,
     application: Application
-) : BaseViewModel(application), ValidationViewModel {
+) : BaseViewModel(application), ValidationViewModel{
 
     private val res = application.resources
     val passwordValidationLength = 5

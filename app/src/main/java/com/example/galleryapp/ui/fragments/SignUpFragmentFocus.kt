@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.findNavController
 import com.example.galleryapp.R
+import com.example.galleryapp.databinding.FragmentSignInBinding
 import com.example.galleryapp.databinding.FragmentSignUpBinding
 import com.example.galleryapp.ui.activities.UserActivity
 import com.example.galleryapp.ui.models.UiSignUpModel
@@ -23,8 +24,11 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class SignUpFragmentFocus :
-    BaseFragment<FragmentSignUpBinding, SignUpFragmentViewModel>(SignUpFragmentViewModel::class.java),
+    BaseFragment<FragmentSignUpBinding, SignUpFragmentViewModel>(
+        SignUpFragmentViewModel::class.java,
+        { inflater, container -> FragmentSignUpBinding.inflate(inflater, container, false) }),
     FocusValidationFragment {
+
     private var datePickerDialog: DatePickerDialog? = null
     override var lastValidationField: TextInputEditText? = null
 

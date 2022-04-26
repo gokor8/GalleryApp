@@ -19,22 +19,13 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class SignInFragmentFocus :
     BaseFragment<FragmentSignInBinding, SignInFragmentViewModel>(
-        SignInFragmentViewModel::class.java
-    ), FocusValidationFragment {
+        SignInFragmentViewModel::class.java,
+        { inflater, container ->
+            FragmentSignInBinding.inflate(inflater, container, false)
+        }),
+    FocusValidationFragment {
 
     override var lastValidationField: TextInputEditText? = null
-
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
-        _binding = FragmentSignInBinding.inflate(inflater, container, false)
-
-        super.onCreateView(inflater, container, savedInstanceState)
-
-        return binding.root
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
