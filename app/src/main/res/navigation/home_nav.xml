@@ -6,7 +6,6 @@
     app:startDestination="@id/newFragment">
 
     <fragment
-        android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
         android:id="@+id/newFragment"
         android:name="com.example.galleryapp.ui.fragments.NewFragment"
         android:label="fragment_new"
@@ -19,7 +18,6 @@
             app:destination="@id/popularFragment" />
     </fragment>
     <fragment
-        android:theme="@style/Theme.MaterialComponents.Light.NoActionBar"
         android:id="@+id/popularFragment"
         android:name="com.example.galleryapp.ui.fragments.PopularFragment"
         android:label="fragment_popular"
