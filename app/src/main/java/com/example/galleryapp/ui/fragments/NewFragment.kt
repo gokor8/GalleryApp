@@ -17,15 +17,6 @@ class NewFragment : BaseFragment<FragmentNewBinding, NewFragmentViewModel>(
         FragmentNewBinding.inflate(inflater, container, false)
     }) {
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        val navController = findNavController()
-        val appBarConfiguration = AppBarConfiguration(navController.graph)
-
-        binding.toolbar.setupWithNavController(navController, appBarConfiguration)
-    }
-
     override fun setObservers() {
 
     }

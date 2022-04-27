@@ -18,15 +18,6 @@ class PopularFragment: BaseFragment<FragmentPopularBinding, PopularFragmentViewM
         FragmentPopularBinding.inflate(inflater, container, false)
     }) {
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        val navController = findNavController()
-        val appBarConfiguration = AppBarConfiguration(navController.graph)
-
-        binding.toolbar.setupWithNavController(navController, appBarConfiguration)
-    }
-
     override fun setObservers() {
 
     }

@@ -7,12 +7,6 @@
     tools:context=".ui.fragments.PopularFragment"
     android:orientation="vertical">
 
-    <androidx.appcompat.widget.Toolbar
-        android:id="@+id/toolbar"
-        android:layout_width="match_parent"
-        android:layout_height="?attr/actionBarSize"
-        app:title="B"/>
-
     <!-- TODO: Update blank fragment layout -->
     <TextView
         android:layout_width="match_parent"
