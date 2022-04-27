@@ -9,4 +9,5 @@
     <dimen name="btn_icon_size">23dp</dimen>
     <dimen name="margin_top_bottom_search">10dp</dimen>
     <dimen name="margin_start_end_search">16dp</dimen>
+    <dimen name="recycler_view_image_size">180dp</dimen>
 </resources>

@@ -1,9 +1,7 @@
 package com.example.galleryapp.ui.fragments
 
-import androidx.collection.arrayMapOf
 import androidx.fragment.app.Fragment
 import com.example.galleryapp.R
-import com.example.galleryapp.core.factories.FactoryModels
 import com.example.galleryapp.core.factories.LazyFactory
 import com.example.galleryapp.databinding.FragmentHomeBinding
 import com.example.galleryapp.ui.adapters.FragmentTabLayoutAdapter
