@@ -1,10 +1,11 @@
-package com.example.galleryapp.ui.fragments
+package com.example.galleryapp.ui.fragments.home
 
 import androidx.fragment.app.Fragment
 import com.example.galleryapp.R
 import com.example.galleryapp.core.factories.LazyFactory
 import com.example.galleryapp.databinding.FragmentHomeBinding
 import com.example.galleryapp.ui.adapters.FragmentTabLayoutAdapter
+import com.example.galleryapp.ui.fragments.BaseFragment
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject

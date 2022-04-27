@@ -1,45 +1,52 @@
-package com.example.galleryapp.ui.fragments
+package com.example.galleryapp.ui.fragments.auth
 
 import android.app.Application
-import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.example.domain.core.ErrorType
 import com.example.domain.entities.AuthState
-import com.example.domain.usecases.AuthorizationUseCase
+import com.example.domain.usecases.RegistrationUseCase
 import com.example.galleryapp.R
-import com.example.galleryapp.ui.models.UiSignInModel
+import com.example.galleryapp.ui.fragments.BaseViewModel
+import com.example.galleryapp.ui.fragments.ValidationViewModel
+import com.example.galleryapp.ui.fragments.Visibilities
+import com.example.galleryapp.ui.models.UiSignUpModel
 import com.example.galleryapp.validators.entities.BaseErrorUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class SignInFragmentViewModel @Inject constructor(
-    private val authorizationUseCase: AuthorizationUseCase,
-    application: Application
-) : BaseViewModel(application), ValidationViewModel{
+class SignUpFragmentViewModel @Inject constructor(
+    private val registrationUseCase: RegistrationUseCase,
+    application: Application,
+) : BaseViewModel(application), ValidationViewModel {
 
     private val res = application.resources
-    val passwordValidationLength = 5
 
+    val usernameErrorLiveData = MutableLiveData<BaseErrorUiModel>()
     val emailErrorLiveData = MutableLiveData<BaseErrorUiModel>()
-    val passwordErrorLiveData = MutableLiveData<BaseErrorUiModel>()
-    val signInResultViewModel = MutableLiveData<String>()
+    val birthdayErrorLiveData = MutableLiveData<BaseErrorUiModel>()
+    val confirmPasswordErrorLiveData = MutableLiveData<BaseErrorUiModel>()
+    val oldPasswordErrorLiveData = MutableLiveData<BaseErrorUiModel>()
     private val _progressBarLiveData = MutableLiveData<Visibilities>()
-    private val _authorizationLiveData = MutableLiveData<Unit>()
-    val authorizationLiveData: LiveData<Unit>
-        get() = _authorizationLiveData
+    private val _registrationLiveData = MutableLiveData<Unit>()
+    val registrationLiveData: LiveData<Unit>
+        get() = _registrationLiveData
     val progressBarLiveData: LiveData<Visibilities>
         get() = _progressBarLiveData
 
-    fun trySignIn(uiSignInModel: UiSignInModel) {
+    val signInResultViewModel = MutableLiveData<String>()
+
+    val passwordValidationLength = 5
+
+    fun trySignUp(uiSignUpModel: UiSignUpModel) {
         val errorLiveDates = listOf(
+            usernameErrorLiveData,
             emailErrorLiveData,
-            passwordErrorLiveData
+            confirmPasswordErrorLiveData,
+            oldPasswordErrorLiveData
         )
-        val withoutErrors = checkingErrors(errorLiveDates)
+        var withoutErrors = checkingErrors(errorLiveDates)
 
         if (!withoutErrors) {
             signInResultViewModel.value = res.getString(R.string.notify_check_all_fields)
@@ -48,18 +55,18 @@ class SignInFragmentViewModel @Inject constructor(
 
         viewModelScope.launch {
             _progressBarLiveData.value = Visibilities.Visible
-            val authState = authorizationUseCase.authorization(uiSignInModel.mapTo())
+            val authState = registrationUseCase.registrationUser(uiSignUpModel.mapTo())
             mapAuthState(authState)
         }
     }
 
     override fun mapAuthState(authState: AuthState) {
         _progressBarLiveData.value = Visibilities.Invisible
-        when (authState) {
+         when (authState) {
             is AuthState.Success -> {
-                res.getString(R.string.notify_success_sign_in)
+                res.getString(R.string.notify_success_registration)
                     .let(signInResultViewModel::postValue)
-                _authorizationLiveData.notifyObserver()
+                _registrationLiveData.notifyObserver()
             }
             is AuthState.Error -> {
                 authState.errorMap.forEach { (errorType: ErrorType, errorMessage) ->
@@ -77,7 +84,7 @@ class SignInFragmentViewModel @Inject constructor(
         errorMessage: String
     ): Pair<MutableLiveData<BaseErrorUiModel>, String>? =
         when (errorType) {
-            ErrorType.Password -> Pair(passwordErrorLiveData, errorMessage)
+            ErrorType.Username -> Pair(usernameErrorLiveData, errorMessage)
             ErrorType.Email -> Pair(emailErrorLiveData, errorMessage)
             else -> null
         }

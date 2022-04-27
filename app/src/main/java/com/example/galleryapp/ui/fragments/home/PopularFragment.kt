@@ -1,14 +1,7 @@
-package com.example.galleryapp.ui.fragments
+package com.example.galleryapp.ui.fragments.home
 
-import android.os.Bundle
-import android.view.View
-import androidx.appcompat.widget.Toolbar
-import androidx.navigation.fragment.findNavController
-import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupWithNavController
-import com.example.galleryapp.R
-import com.example.galleryapp.databinding.FragmentNewBinding
 import com.example.galleryapp.databinding.FragmentPopularBinding
+import com.example.galleryapp.ui.fragments.BaseFragment
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint

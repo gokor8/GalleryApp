@@ -7,9 +7,9 @@
 
     <fragment
         android:id="@+id/newFragment"
-        android:name="com.example.galleryapp.ui.fragments.NewFragment"
+        android:name="com.example.galleryapp.ui.fragments.home.NewFragment"
         android:label="fragment_new"
-        tools:layout="@layout/fragment_new" >
+        tools:layout="@layout/fragment_home_child" >
         <action
             android:id="@+id/action_newFragment_to_popularFragment"
             app:destination="@id/popularFragment" />
@@ -19,7 +19,7 @@
     </fragment>
     <fragment
         android:id="@+id/popularFragment"
-        android:name="com.example.galleryapp.ui.fragments.PopularFragment"
+        android:name="com.example.galleryapp.ui.fragments.home.PopularFragment"
         android:label="fragment_popular"
         tools:layout="@layout/fragment_popular" >
         <action

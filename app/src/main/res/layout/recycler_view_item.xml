@@ -6,8 +6,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     app:cardCornerRadius="10dp"
-    android:importantForAutofill="yesExcludeDescendants"
-    android:layout_margin="4.535dp">
+    android:layout_margin="4.535dp"
+    app:cardElevation="5dp">
 
     <ImageView
         android:id="@+id/image"
