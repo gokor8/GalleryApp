@@ -1,7 +1,7 @@
 package com.example.domain.usecases
 
 import com.example.domain.core.ExceptionFactory
-import com.example.domain.entities.AuthState
+import com.example.domain.entities.states.AuthState
 import com.example.domain.entities.SignUpEntity
 import com.example.domain.repository.AuthorizationRepository
 

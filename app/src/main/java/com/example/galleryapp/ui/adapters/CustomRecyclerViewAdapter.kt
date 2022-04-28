@@ -4,11 +4,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
-import com.example.galleryapp.R
 import com.example.galleryapp.databinding.RecyclerViewItemBinding
+import com.example.galleryapp.ui.models.ImageHandler
 
-class CustomRecyclerViewAdapter<I>(private val listData: List<I>) :
-    RecyclerView.Adapter<CustomRecyclerViewAdapter<I>.CustomViewHolder>() {
+class CustomRecyclerViewAdapter(private val listData: List<Int?>, private val imageHandler: ImageHandler) :
+    RecyclerView.Adapter<CustomRecyclerViewAdapter.CustomViewHolder>() {
 
     private var _binding: RecyclerViewItemBinding? = null
     private val binding
@@ -20,13 +20,14 @@ class CustomRecyclerViewAdapter<I>(private val listData: List<I>) :
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CustomViewHolder {
-        _binding = RecyclerViewItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+        _binding =
+            RecyclerViewItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
 
         return CustomViewHolder(binding)
     }
 
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
-        holder.image.setImageResource(R.drawable.makaka)
+        holder.image.setImageResource(imageHandler.handle(listData[position]))
     }
 
     override fun getItemCount(): Int = listData.size

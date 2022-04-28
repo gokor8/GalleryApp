@@ -4,11 +4,8 @@ import com.example.data.api.UserService
 import com.example.data.api.models.*
 import com.example.data.core.Read
 import com.example.data.managers.ApiTokenAccessManager
-import com.example.data.managers.ApiTokenRegistrationManager
-import com.example.data.managers.RetrofitErrorManager
 import com.example.data.parsers.ServerErrorParser
 import com.example.data.storages.models.RegistrationKeysModel
-import com.example.domain.entities.AuthState
 import com.example.domain.entities.SignInEntity
 import com.google.gson.Gson
 import retrofit2.Response

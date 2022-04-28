@@ -1,32 +1,39 @@
 package com.example.galleryapp.ui.fragments.home
 
-import android.view.LayoutInflater
 import android.view.View
-import android.view.ViewGroup
 import androidx.annotation.CallSuper
+import androidx.lifecycle.ViewModel
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.galleryapp.databinding.FragmentHomeChildBinding
 import com.example.galleryapp.ui.adapters.CustomRecyclerViewAdapter
 import com.example.galleryapp.ui.fragments.BaseFragment
+import com.example.galleryapp.ui.models.ImageHandler
 
-class BaseHomeChildFragment<V : BaseHomeChildrenViewModel>(
+abstract class BaseHomeChildFragment<V : ViewModel>(
     fillViewModel: Class<V>,
-    bindingFragment: (inflater: LayoutInflater, container: ViewGroup?) -> FragmentHomeChildBinding
-) : BaseFragment<FragmentHomeChildBinding, V>(fillViewModel, bindingFragment) {
+) : BaseFragment<FragmentHomeChildBinding, V>(fillViewModel, { inflater, container ->
+    FragmentHomeChildBinding.inflate(inflater, container, false)
+}) {
 
-    @CallSuper
-    override fun setObservers() {
-        viewModel.errorLiveData.observe(viewLifecycleOwner) {
-            binding.errorText.text = getString(it.errorText)
-            binding.errorImage.setImageResource(it.errorPicture)
-            binding.recyclerView.visibility = View.GONE
-            binding.linearLayout.visibility = View.VISIBLE
-        }
+    private val loadList = listOf(null, null, null, null, null, null)
+
+    open lateinit var imageHandler: ImageHandler
+
+    fun setError(errorTextId: Int, errorImageId: Int) {
+        binding.errorText.text = getString(errorTextId)
+        binding.errorImage.setImageResource(errorImageId)
+        binding.recyclerView.visibility = View.GONE
+        binding.linearLayout.visibility = View.VISIBLE
+    }
+
+    fun removeError() {
+        binding.recyclerView.visibility = View.VISIBLE
+        binding.linearLayout.visibility = View.GONE
     }
 
     @CallSuper
     override fun setListeners() {
         binding.recyclerView.layoutManager = GridLayoutManager(this.context, 2)
-        binding.recyclerView.adapter = CustomRecyclerViewAdapter<String>(listOf("","",""))
+        binding.recyclerView.adapter = CustomRecyclerViewAdapter(loadList, imageHandler)
     }
 }

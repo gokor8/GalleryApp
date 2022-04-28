@@ -3,7 +3,7 @@ package com.example.galleryapp.ui.fragments.auth
 import android.app.Application
 import androidx.lifecycle.*
 import com.example.domain.core.ErrorType
-import com.example.domain.entities.AuthState
+import com.example.domain.entities.states.AuthState
 import com.example.domain.usecases.RegistrationUseCase
 import com.example.galleryapp.R
 import com.example.galleryapp.ui.fragments.BaseViewModel

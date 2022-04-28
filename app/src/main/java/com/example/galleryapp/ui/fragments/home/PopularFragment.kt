@@ -1,21 +1,24 @@
 package com.example.galleryapp.ui.fragments.home
 
-import com.example.galleryapp.databinding.FragmentPopularBinding
-import com.example.galleryapp.ui.fragments.BaseFragment
+import com.example.galleryapp.ui.models.ImageHandler
 import dagger.hilt.android.AndroidEntryPoint
+import javax.inject.Inject
 
 @AndroidEntryPoint
-class PopularFragment: BaseFragment<FragmentPopularBinding, PopularFragmentViewModel>(
+class PopularFragment : BaseHomeChildFragment<PopularFragmentViewModel>(
     PopularFragmentViewModel::class.java,
-    { inflater, container ->
-        FragmentPopularBinding.inflate(inflater, container, false)
-    }) {
+) {
+
+    @Inject
+    override lateinit var imageHandler: ImageHandler
 
     override fun setObservers() {
-
+        viewModel.errorLiveData.observe(viewLifecycleOwner) {
+            setError(it.errorText, it.errorPicture)
+        }
     }
 
     override fun setListeners() {
-
+        super.setListeners()
     }
 }

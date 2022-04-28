@@ -3,10 +3,8 @@ package com.example.data.datasource
 import com.example.data.api.models.*
 import com.example.data.managers.RetrofitErrorManager
 import com.example.data.parsers.ServerErrorParser
-import com.example.data.storages.exceptions.CustomNoConnectionException
-import com.example.domain.entities.AuthState
+import com.example.domain.entities.states.AuthState
 import com.example.domain.entities.SignInEntity
-import com.example.domain.entities.SignUpEntity
 import com.google.gson.Gson
 import retrofit2.Response
 
@@ -19,7 +17,7 @@ abstract class BaseApiAuthDataSource<I : SignInEntity, E : ErrorResponseModel, S
         authEntity: I,
     ): Response<S>
 
-    protected open suspend fun onSuccess(authEntity: I, responseModel: S): AuthState = AuthState.Success(true)
+    protected open suspend fun onSuccess(authEntity: I, responseModel: S): AuthState = AuthState.Success()
 
     suspend fun getSignState(
         authEntity: I,

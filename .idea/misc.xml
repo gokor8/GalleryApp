@@ -30,6 +30,7 @@
         <entry key="app/src/main/res/drawable/customprogressbar.xml" value="0.319" />
         <entry key="app/src/main/res/drawable/ic_calendar.xml" value="0.319" />
         <entry key="app/src/main/res/drawable/ic_camera.xml" value="0.319" />
+        <entry key="app/src/main/res/drawable/ic_group_2.xml" value="0.4795" />
         <entry key="app/src/main/res/drawable/ic_home.xml" value="0.319" />
         <entry key="app/src/main/res/drawable/ic_llogo_auncher_foreground.xml" value="0.319" />
         <entry key="app/src/main/res/drawable/ic_mail.xml" value="0.319" />
@@ -41,6 +42,7 @@
         <entry key="app/src/main/res/layout/activity_user.xml" value="0.5783699059561128" />
         <entry key="app/src/main/res/layout/custom_progress_bar.xml" value="0.396286231884058" />
         <entry key="app/src/main/res/layout/fragment_home.xml" value="0.33" />
+        <entry key="app/src/main/res/layout/fragment_home_child.xml" value="0.38292847503373817" />
         <entry key="app/src/main/res/layout/fragment_main.xml" value="0.396286231884058" />
         <entry key="app/src/main/res/layout/fragment_new.xml" value="0.396286231884058" />
         <entry key="app/src/main/res/layout/fragment_popular.xml" value="0.396286231884058" />

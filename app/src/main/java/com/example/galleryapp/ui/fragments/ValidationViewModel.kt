@@ -3,7 +3,7 @@ package com.example.galleryapp.ui.fragments
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.example.domain.core.ErrorType
-import com.example.domain.entities.AuthState
+import com.example.domain.entities.states.AuthState
 import com.example.galleryapp.validators.Validator
 import com.example.galleryapp.validators.entities.BaseErrorUiModel
 import com.example.galleryapp.validators.entities.ErrorUiModel
