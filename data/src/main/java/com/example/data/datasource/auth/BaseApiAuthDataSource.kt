@@ -1,7 +1,7 @@
-package com.example.data.datasource
+package com.example.data.datasource.auth
 
 import com.example.data.api.models.*
-import com.example.data.managers.RetrofitErrorManager
+import com.example.data.managers.AuthStateRetrofitErrorManager
 import com.example.data.parsers.ServerErrorParser
 import com.example.domain.entities.states.AuthState
 import com.example.domain.entities.SignInEntity
@@ -29,10 +29,10 @@ abstract class BaseApiAuthDataSource<I : SignInEntity, E : ErrorResponseModel, S
                 userResponse.body() ?: throw Exception("Модель не подошла под ответ сервера")
             onSuccess(authEntity, responseModel)
         } else {
-            RetrofitErrorManager(
+            AuthStateRetrofitErrorManager(
                 serverErrorParser,
                 ErrorGsonParsableModel(gson, responseErrorFillClass)
-            ).getAuthState(userResponse)
+            ).getErrorState(userResponse)
         }
     }
 }

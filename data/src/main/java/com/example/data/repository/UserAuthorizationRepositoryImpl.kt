@@ -1,9 +1,9 @@
 package com.example.data.repository
 
 import com.example.data.api.models.ErrorResponseModel
-import com.example.data.datasource.ApiSignInDataSource
-import com.example.data.datasource.ApiSignUpDataSource
-import com.example.data.datasource.BaseApiAuthDataSource
+import com.example.data.datasource.auth.ApiSignInDataSource
+import com.example.data.datasource.auth.ApiSignUpDataSource
+import com.example.data.datasource.auth.BaseApiAuthDataSource
 import com.example.data.storages.exceptions.CustomNoConnectionException
 import com.example.domain.entities.states.AuthState
 import com.example.domain.entities.SignInEntity

@@ -1,8 +1,8 @@
 package com.example.galleryapp.di
 
 import com.example.data.api.UserService
-import com.example.data.datasource.ApiSignInDataSource
-import com.example.data.datasource.ApiSignUpDataSource
+import com.example.data.datasource.auth.ApiSignInDataSource
+import com.example.data.datasource.auth.ApiSignUpDataSource
 import com.example.data.managers.ApiTokenAccessManager
 import com.example.data.managers.ApiTokenRegistrationManager
 import com.example.data.parsers.LoginServerErrorParserImpl

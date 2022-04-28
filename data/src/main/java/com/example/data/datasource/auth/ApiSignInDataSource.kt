@@ -1,4 +1,4 @@
-package com.example.data.datasource
+package com.example.data.datasource.auth
 
 import com.example.data.api.UserService
 import com.example.data.api.models.*

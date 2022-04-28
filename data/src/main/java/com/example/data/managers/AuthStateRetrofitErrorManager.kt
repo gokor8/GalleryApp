@@ -12,14 +12,11 @@ class AuthStateRetrofitErrorManager(
 ) : RetrofitErrorManager<AuthState>(
     serverErrorParser, errorParsableModel
 ) {
-    override fun <T> getAuthState(response: Response<T>): AuthState =
-        if (response.isSuccessful)
-            AuthState.Success()
-        else {
-            val errorString =
-                errorParsableModel.parseJson(response.errorBody()!!.string())
-            val errorMap = serverErrorParser.parse(errorString)
+    override fun <T> getErrorState(response: Response<T>): AuthState {
+        val errorString =
+            errorParsableModel.parseJson(response.errorBody()!!.string())
+        val errorMap = serverErrorParser.parse(errorString)
 
-            AuthState.Error(errorMap)
-        }
+        return AuthState.Error(errorMap)
+    }
 }

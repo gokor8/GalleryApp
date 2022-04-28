@@ -11,5 +11,5 @@ abstract class RetrofitErrorManager<R : ReturnState>(
     protected val serverErrorParser: ServerErrorParser,
     protected val errorParsableModel: ErrorParsableModel,
 ) {
-    abstract fun <T> getAuthState(response: Response<T>): R
+    abstract fun <T> getErrorState(response: Response<T>): R
 }

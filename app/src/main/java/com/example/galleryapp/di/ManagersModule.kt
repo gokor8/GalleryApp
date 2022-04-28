@@ -1,6 +1,6 @@
 package com.example.galleryapp.di
 
-import com.example.data.datasource.ApiTokenRegistrationDataSource
+import com.example.data.datasource.auth.ApiTokenRegistrationDataSource
 import com.example.data.datasource.SharedPreferencesDataSource
 import com.example.data.managers.ApiTokenAccessManager
 import com.example.data.managers.ApiTokenRegistrationManager

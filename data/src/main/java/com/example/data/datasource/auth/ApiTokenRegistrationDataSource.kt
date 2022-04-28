@@ -1,4 +1,4 @@
-package com.example.data.datasource
+package com.example.data.datasource.auth
 
 import com.example.data.api.TokenService
 import javax.inject.Inject

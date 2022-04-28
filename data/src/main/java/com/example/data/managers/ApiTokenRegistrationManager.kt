@@ -1,9 +1,7 @@
 package com.example.data.managers
 
 import com.example.data.api.models.ResponseRegistration
-import com.example.data.api.models.ResponseTokenModel
-import com.example.data.datasource.ApiTokenRegistrationDataSource
-import com.example.data.datasource.SharedPreferencesDataSource
+import com.example.data.datasource.auth.ApiTokenRegistrationDataSource
 import com.example.data.storages.CacheSharedPreferences
 import com.example.data.storages.models.RegistrationKeysModel
 import javax.inject.Inject

@@ -13,9 +13,5 @@ class PhotosStateRetrofitErrorManager(
 ) : RetrofitErrorManager<PhotosState>(
     serverErrorParser, errorParsableModel
 ) {
-    override fun <T> getAuthState(response: Response<T>): PhotosState =
-        if (response.isSuccessful)
-            PhotosState.Success()
-        else
-            PhotosState.Error()
+    override fun <T> getErrorState(response: Response<T>) = PhotosState.Error()
 }
