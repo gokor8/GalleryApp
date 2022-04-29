@@ -1,6 +1,6 @@
 package com.example.data.managers
 
-import com.example.data.api.models.ResponseLogin
+import com.example.data.api.models.auth.ResponseLogin
 import com.example.data.storages.models.AccessTokensKeysModel
 import com.example.data.storages.CacheSharedPreferences
 import com.example.data.storages.models.RegistrationKeysModel

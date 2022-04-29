@@ -75,7 +75,7 @@ class SignUpFragmentViewModel @Inject constructor(
                     }
                 }
             }
-            is AuthState.Exception -> signInResultViewModel.value = authState.exception.getMessage()
+            is AuthState.Exception -> signInResultViewModel.value = authState.failModel.getMessage()
         }
     }
 

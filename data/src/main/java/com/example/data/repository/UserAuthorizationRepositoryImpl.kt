@@ -6,8 +6,8 @@ import com.example.data.datasource.auth.ApiSignUpDataSource
 import com.example.data.datasource.auth.BaseApiAuthDataSource
 import com.example.data.storages.exceptions.CustomNoConnectionException
 import com.example.domain.entities.states.AuthState
-import com.example.domain.entities.SignInEntity
-import com.example.domain.entities.SignUpEntity
+import com.example.domain.entities.auth.SignInEntity
+import com.example.domain.entities.auth.SignUpEntity
 import com.example.domain.repository.AuthorizationRepository
 import kotlinx.coroutines.CoroutineDispatcher
 import kotlinx.coroutines.Dispatchers

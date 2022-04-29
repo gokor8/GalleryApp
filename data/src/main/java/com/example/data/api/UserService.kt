@@ -1,6 +1,8 @@
 package com.example.data.api
 
-import com.example.data.api.models.*
+import com.example.data.api.models.auth.RequestSignUpUserModel
+import com.example.data.api.models.auth.ResponseLogin
+import com.example.data.api.models.auth.ResponseRegistration
 import retrofit2.Response
 import retrofit2.http.*
 

@@ -1,7 +1,7 @@
 package com.example.galleryapp.ui.models
 
 import com.example.domain.core.MapperTo
-import com.example.domain.entities.SignUpEntity
+import com.example.domain.entities.auth.SignUpEntity
 
 data class UiSignUpModel(
     val username: String,

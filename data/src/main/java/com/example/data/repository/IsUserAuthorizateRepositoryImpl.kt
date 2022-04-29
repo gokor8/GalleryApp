@@ -1,7 +1,6 @@
 package com.example.data.repository
 
-import com.example.data.api.models.ResponseLogin
-import com.example.data.datasource.SharedPreferencesDataSource
+import com.example.data.api.models.auth.ResponseLogin
 import com.example.data.managers.ApiTokenAccessManager
 import javax.inject.Inject
 

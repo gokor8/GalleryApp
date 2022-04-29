@@ -1,4 +1,4 @@
-package com.example.data.api.models
+package com.example.data.api.models.auth
 
 import com.example.data.storages.models.AccessTokensKeysModel
 import com.example.domain.core.MapperTo

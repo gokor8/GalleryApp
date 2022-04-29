@@ -4,10 +4,11 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.Glide
 import com.example.galleryapp.databinding.RecyclerViewItemBinding
 import com.example.galleryapp.ui.models.ImageHandler
 
-class CustomRecyclerViewAdapter(private val listData: List<Int?>, private val imageHandler: ImageHandler) :
+class CustomRecyclerViewAdapter(private val listData: List<String?>, private val imageHandler: ImageHandler) :
     RecyclerView.Adapter<CustomRecyclerViewAdapter.CustomViewHolder>() {
 
     private var _binding: RecyclerViewItemBinding? = null
@@ -27,7 +28,7 @@ class CustomRecyclerViewAdapter(private val listData: List<Int?>, private val im
     }
 
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
-        holder.image.setImageResource(imageHandler.handle(listData[position]))
+        Glide.with(binding.root).load("http://gallery.dev.webant.ru/media/${listData[position]}").into(holder.image)
     }
 
     override fun getItemCount(): Int = listData.size

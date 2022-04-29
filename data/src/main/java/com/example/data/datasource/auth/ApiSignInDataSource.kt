@@ -1,12 +1,14 @@
 package com.example.data.datasource.auth
 
 import com.example.data.api.UserService
-import com.example.data.api.models.*
+import com.example.data.api.models.auth.RequestSignInUserModel
+import com.example.data.api.models.auth.ResponseErrorSignInModel
+import com.example.data.api.models.auth.ResponseLogin
 import com.example.data.core.Read
 import com.example.data.managers.ApiTokenAccessManager
 import com.example.data.parsers.ServerErrorParser
 import com.example.data.storages.models.RegistrationKeysModel
-import com.example.domain.entities.SignInEntity
+import com.example.domain.entities.auth.SignInEntity
 import com.google.gson.Gson
 import retrofit2.Response
 import javax.inject.Inject

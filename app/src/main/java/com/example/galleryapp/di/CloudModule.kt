@@ -1,5 +1,6 @@
 package com.example.galleryapp.di
 
+import com.example.data.api.ImageService
 import com.example.data.api.TokenService
 import com.example.data.api.UserService
 import dagger.Module
@@ -52,4 +53,8 @@ object CloudModule {
     fun provideApiService(retrofit: Retrofit): UserService {
         return retrofit.create(UserService::class.java)
     }
+
+    @Provides
+    @Singleton
+    fun provideImageService(retrofit: Retrofit): ImageService = retrofit.create(ImageService::class.java)
 }

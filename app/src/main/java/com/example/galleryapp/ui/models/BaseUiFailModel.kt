@@ -1,9 +1,9 @@
 package com.example.galleryapp.ui.models
 
 import android.content.res.Resources
-import com.example.domain.core.UiException
+import com.example.domain.core.UiFailModel
 
-interface BaseUiException : UiException {
+interface BaseUiFailModel : UiFailModel {
 
     val resources: Resources
 

@@ -1,7 +1,7 @@
-package com.example.data.api.models
+package com.example.data.api.models.auth
 
 import com.example.domain.core.MapperFrom
-import com.example.domain.entities.SignInEntity
+import com.example.domain.entities.auth.SignInEntity
 
 class RequestSignInUserModel(
     val id: String,

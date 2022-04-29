@@ -4,7 +4,7 @@ import com.example.data.api.models.*
 import com.example.data.managers.AuthStateRetrofitErrorManager
 import com.example.data.parsers.ServerErrorParser
 import com.example.domain.entities.states.AuthState
-import com.example.domain.entities.SignInEntity
+import com.example.domain.entities.auth.SignInEntity
 import com.google.gson.Gson
 import retrofit2.Response
 

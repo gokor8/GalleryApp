@@ -1,6 +1,6 @@
 package com.example.data.managers
 
-import com.example.data.api.models.ResponseRegistration
+import com.example.data.api.models.auth.ResponseRegistration
 import com.example.data.datasource.auth.ApiTokenRegistrationDataSource
 import com.example.data.storages.CacheSharedPreferences
 import com.example.data.storages.models.RegistrationKeysModel
