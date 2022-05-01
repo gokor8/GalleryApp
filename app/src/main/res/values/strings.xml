@@ -24,7 +24,7 @@
     <string name="error_password">Password less than 5 characters</string>
     <string name="error_passwords">Passwords are not equals</string>
     <string name="error_fill_blank">Fill blank</string>
-    <string name="error_text">There is no pictures.\r\nPleace come back later.</string>
+    <string name="error_text">There is no pictures.\t\nPleace come back later.</string>
     <string name="cloud_error_email">This is email already used</string>
     <string name="cloud_error_username">This is username already used</string>
     <string name="not_found_key">Not Found</string>

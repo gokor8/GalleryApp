@@ -6,7 +6,7 @@ import com.example.data.storages.exceptions.CustomNoConnectionException
 import com.example.domain.core.HandleFactory
 import java.lang.Exception
 
-class AuthMapUiFactory(private val resources: Resources) : HandleFactory<Exception>{
+class AuthExceptionMapUiFactory(private val resources: Resources) : HandleFactory<Exception>{
     override fun handle(e: Exception) =
         when (e) {
             is CustomNoConnectionException -> UiNoConnectionFailModel(resources)

@@ -2,7 +2,6 @@ package com.example.galleryapp.ui.fragments.home
 
 import android.app.Application
 import com.example.domain.usecases.LoadNewPhotosUseCase
-import com.example.galleryapp.ui.fragments.HomeViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
@@ -10,4 +9,4 @@ import javax.inject.Inject
 class NewFragmentViewModel @Inject constructor(
     application: Application,
     loadNewPhotosUseCase: LoadNewPhotosUseCase
-) : HomeViewModel(application, loadNewPhotosUseCase)
+) : BaseHomeChildViewModel(application, loadNewPhotosUseCase)

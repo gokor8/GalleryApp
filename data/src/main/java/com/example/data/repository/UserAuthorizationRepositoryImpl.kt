@@ -1,6 +1,6 @@
 package com.example.data.repository
 
-import com.example.data.api.models.ErrorResponseModel
+import com.example.data.api.models.auth.ErrorResponseModel
 import com.example.data.datasource.auth.ApiSignInDataSource
 import com.example.data.datasource.auth.ApiSignUpDataSource
 import com.example.data.datasource.auth.BaseApiAuthDataSource

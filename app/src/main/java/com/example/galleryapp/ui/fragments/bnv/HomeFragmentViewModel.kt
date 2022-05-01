@@ -1,4 +1,4 @@
-package com.example.galleryapp.ui.fragments.home
+package com.example.galleryapp.ui.fragments.bnv
 
 import android.app.Application
 import com.example.galleryapp.ui.fragments.BaseViewModel

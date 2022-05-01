@@ -5,6 +5,6 @@ import com.example.domain.entities.photos.PictureInfoModel
 
 sealed class PhotosState : ReturnState() {
     class Success(val photos: List<PictureInfoModel>) : PhotosState(), ReturnState.Success
-    class Exception : PhotosState(), Error
+    class Exception : PhotosState()
     class Fail(val errorContainer: UiFailModel) : PhotosState(), Error
 }

@@ -37,7 +37,9 @@
             style="@style/EditTextStyle"
             android:hint="@string/search"
             android:textSize="17sp"
-            android:layout_height="match_parent"/>
+            android:layout_height="match_parent"
+            android:focusable="true"
+            android:focusableInTouchMode="true"/>
 
     </com.google.android.material.textfield.TextInputLayout>
 </androidx.appcompat.widget.Toolbar>

@@ -1,5 +1,6 @@
 package com.example.data.api.models
 
+import com.example.data.api.models.auth.ErrorResponseModel
 import com.google.gson.Gson
 
 class ErrorGsonParsableModel<G : ErrorResponseModel>(

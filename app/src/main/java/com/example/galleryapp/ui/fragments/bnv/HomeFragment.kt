@@ -1,4 +1,4 @@
-package com.example.galleryapp.ui.fragments.home
+package com.example.galleryapp.ui.fragments.bnv
 
 import androidx.fragment.app.Fragment
 import com.example.galleryapp.R
@@ -37,7 +37,8 @@ class HomeFragment :
             }
         }
 
-        binding.viewPager.adapter = FragmentTabLayoutAdapter(lazyFactory = lazyFactory, fragment = this)
+        binding.viewPager.adapter =
+            FragmentTabLayoutAdapter(lazyFactory = lazyFactory, fragment = this)
 
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             tab.text = arrayLayoutNames[position]

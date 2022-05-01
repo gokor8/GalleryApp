@@ -13,7 +13,7 @@ import com.example.data.repository.MediaRepositoryImpl
 import com.example.data.repository.UserAuthorizationRepositoryImpl
 import com.example.domain.core.ErrorContainer
 import com.example.domain.core.HandleFactory
-import com.example.domain.entities.photos.PhotosFailds
+import com.example.data.core.photos.PhotosServerFail
 import com.example.domain.repository.AuthorizationRepository
 import com.example.domain.repository.MediaRepository
 import com.google.gson.Gson
@@ -77,7 +77,7 @@ class RepositoriesModule {
 
     //Media repository
     @Provides
-    fun providePicturesDataSource(uiHandleFactory: HandleFactory<PhotosFailds>, imageService: ImageService) =
+    fun providePicturesDataSource(uiHandleFactory: HandleFactory<PhotosServerFail>, imageService: ImageService) =
         PicturesDataSource(imageService, uiHandleFactory)
 
     @Provides
