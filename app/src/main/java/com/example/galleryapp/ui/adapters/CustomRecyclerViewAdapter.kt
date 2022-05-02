@@ -3,20 +3,24 @@ package com.example.galleryapp.ui.adapters
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
+import com.example.galleryapp.R
+import com.example.galleryapp.core.diffutils.CommonDiffUtilsItem
 import com.example.galleryapp.databinding.RecyclerViewItemBinding
-import com.example.galleryapp.ui.models.ImageHandler
+import com.example.galleryapp.ui.models.photo.PictureUiModel
 
-class CustomRecyclerViewAdapter(private val listData: List<String?>, private val imageHandler: ImageHandler) :
-    RecyclerView.Adapter<CustomRecyclerViewAdapter.CustomViewHolder>() {
+class CustomRecyclerViewAdapter(
+    private var pictureUiModelList: List<PictureUiModel?>,
+) : PagingDataAdapter<PictureUiModel, CustomRecyclerViewAdapter.CustomViewHolder>(CommonDiffUtilsItem()) {
 
     private var _binding: RecyclerViewItemBinding? = null
     private val binding
         get() = _binding!!
 
-    inner class CustomViewHolder(binding: RecyclerViewItemBinding) :
-        RecyclerView.ViewHolder(binding.root) {
+    class CustomViewHolder(binding: RecyclerViewItemBinding) : RecyclerView.ViewHolder(binding.root) {
         val image: ImageView = binding.image
     }
 
@@ -28,8 +32,25 @@ class CustomRecyclerViewAdapter(private val listData: List<String?>, private val
     }
 
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
-        Glide.with(binding.root).load("http://gallery.dev.webant.ru/media/${listData[position]}").into(holder.image)
+        val imageName = pictureUiModelList[position]?.pictureModel?.name
+
+        if (pictureUiModelList.any { it == null }) {
+            holder.image.setImageResource(R.drawable.lens_flare)
+            return
+        }
+
+        Glide.with(binding.root).load("http://gallery.dev.webant.ru/media/${imageName}")
+            .into(holder.image)
     }
 
-    override fun getItemCount(): Int = listData.size
+    override fun getItemCount(): Int = pictureUiModelList.size
+
+    /*fun setData(newPicturesUiModelList: List<PictureUiModel>) {
+        if(pictureUiModelList.any { it == null }) return
+
+        val commonDiffUtils = CommonDiffUtilsItem(pictureUiModelList.filterNotNull(), newPicturesUiModelList)
+        val diffResult = DiffUtil.calculateDiff(commonDiffUtils)
+        pictureUiModelList = newPicturesUiModelList
+        diffResult.dispatchUpdatesTo(this)
+    }*/
 }

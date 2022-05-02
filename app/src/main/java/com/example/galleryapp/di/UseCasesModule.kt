@@ -1,6 +1,7 @@
 package com.example.galleryapp.di
 
 import com.example.domain.core.HandleFactory
+import com.example.domain.core.UiFailModel
 import com.example.domain.repository.AuthorizationRepository
 import com.example.domain.repository.MediaRepository
 import com.example.domain.usecases.AuthorizationUseCase
@@ -17,16 +18,24 @@ import dagger.hilt.components.SingletonComponent
 class UseCasesModule {
 
     @Provides
-    fun provideRegistrationUseCase(authorizationRepository: AuthorizationRepository, mapUiFactory: HandleFactory<Exception>) =
+    fun provideRegistrationUseCase(
+        authorizationRepository: AuthorizationRepository,
+        mapUiFactory: HandleFactory<Exception, UiFailModel>
+    ) =
         RegistrationUseCase(authorizationRepository, mapUiFactory)
 
     @Provides
-    fun provideAuthorizationUseCase(authorizationRepository: AuthorizationRepository, mapUiFactory: HandleFactory<Exception>) =
+    fun provideAuthorizationUseCase(
+        authorizationRepository: AuthorizationRepository,
+        mapUiFactory: HandleFactory<Exception, UiFailModel>
+    ) =
         AuthorizationUseCase(authorizationRepository, mapUiFactory)
 
     @Provides
-    fun provideLoadNewPhotosUseCase(mediaRepository: MediaRepository) = LoadNewPhotosUseCase(mediaRepository)
+    fun provideLoadNewPhotosUseCase(mediaRepository: MediaRepository) =
+        LoadNewPhotosUseCase(mediaRepository)
 
     @Provides
-    fun provideLoadPopularPhotosUseCase(mediaRepository: MediaRepository) = LoadPopularPhotosUseCase(mediaRepository)
+    fun provideLoadPopularPhotosUseCase(mediaRepository: MediaRepository) =
+        LoadPopularPhotosUseCase(mediaRepository)
 }

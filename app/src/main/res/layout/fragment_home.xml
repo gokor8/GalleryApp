@@ -22,7 +22,8 @@
             android:layout_height="wrap_content"
             app:tabTextAppearance="@style/CustomTextAppearance"
             app:tabIndicatorColor="@color/purple_tab"
-            app:tabTextColor="@color/black"
+            app:tabTextColor="@color/main_gray"
+            app:tabSelectedTextColor="@color/black"
             >
 
         </com.google.android.material.tabs.TabLayout>

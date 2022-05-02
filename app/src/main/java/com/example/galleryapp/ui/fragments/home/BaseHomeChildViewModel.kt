@@ -18,6 +18,7 @@ abstract class BaseHomeChildViewModel(
     application: Application,
     private val loadPhotosUseCase: LoadPhotosUseCase
 ) : BaseViewModel(application) {
+
     private val _errorMutableLiveData = MutableLiveData<Unit>()
     val errorLiveData: LiveData<Unit>
         get() = _errorMutableLiveData

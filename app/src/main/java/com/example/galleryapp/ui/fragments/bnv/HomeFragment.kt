@@ -1,11 +1,14 @@
 package com.example.galleryapp.ui.fragments.bnv
 
+import android.os.Bundle
+import android.view.View
 import androidx.fragment.app.Fragment
 import com.example.galleryapp.R
 import com.example.galleryapp.core.factories.LazyFactory
 import com.example.galleryapp.databinding.FragmentHomeBinding
 import com.example.galleryapp.ui.adapters.FragmentTabLayoutAdapter
 import com.example.galleryapp.ui.fragments.BaseFragment
+import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -21,8 +24,9 @@ class HomeFragment :
 
     private val arrayLayoutNames = arrayOf("New", "Popular")
 
-    override fun setObservers() {
-
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        binding.includedToolbar.editTextSearch.clearFocus()
     }
 
     override fun setListeners() {
@@ -43,5 +47,9 @@ class HomeFragment :
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
             tab.text = arrayLayoutNames[position]
         }.attach()
+    }
+
+    override fun setObservers() {
+
     }
 }

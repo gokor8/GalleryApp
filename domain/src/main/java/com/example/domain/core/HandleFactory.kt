@@ -1,5 +1,5 @@
 package com.example.domain.core
 
-interface HandleFactory<E> {
-    fun handle(e: E): UiFailModel
+interface HandleFactory<E, R> {
+    fun handle(e: E): R
 }

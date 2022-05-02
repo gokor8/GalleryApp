@@ -4,11 +4,13 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.CallSuper
 import androidx.recyclerview.widget.GridLayoutManager
+import com.example.domain.core.HandleFactory
 import com.example.galleryapp.R
 import com.example.galleryapp.databinding.FragmentHomeChildBinding
 import com.example.galleryapp.ui.adapters.CustomRecyclerViewAdapter
 import com.example.galleryapp.ui.fragments.BaseFragment
 import com.example.galleryapp.ui.models.ImageHandler
+import com.example.galleryapp.ui.models.photo.PictureUiModel
 import com.google.android.material.snackbar.Snackbar
 import javax.inject.Inject
 
@@ -20,8 +22,8 @@ abstract class BaseHomeChildFragment<V : BaseHomeChildViewModel>(
 
     private val loadList = listOf(null, null, null, null, null, null)
 
-    @Inject
-    open lateinit var imageHandler: ImageHandler
+    //@Inject
+    //open lateinit var imageHandler: HandleFactory<Int?, Int>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -32,16 +34,19 @@ abstract class BaseHomeChildFragment<V : BaseHomeChildViewModel>(
     @CallSuper
     override fun setListeners() {
         binding.recyclerView.layoutManager = GridLayoutManager(this.context, 2)
-        binding.recyclerView.adapter = CustomRecyclerViewAdapter(loadList, imageHandler)
+        binding.recyclerView.adapter = CustomRecyclerViewAdapter(loadList)
     }
 
+    @CallSuper
     override fun setObservers() {
         viewModel.errorLiveData.observe(viewLifecycleOwner) {
             setError()
         }
 
         viewModel.photosLiveData.observe(viewLifecycleOwner) { picturesInfo ->
-            binding.recyclerView.adapter = CustomRecyclerViewAdapter(picturesInfo.map { it.pictureModel.name }, imageHandler)
+            binding.recyclerView.adapter =
+                CustomRecyclerViewAdapter(picturesInfo.map { PictureUiModel(it) } )
+            removeError()
         }
 
         viewModel.notifyFailLiveData.observe(viewLifecycleOwner) {
@@ -49,14 +54,14 @@ abstract class BaseHomeChildFragment<V : BaseHomeChildViewModel>(
         }
     }
 
-    fun setError() {
+    protected fun setError() {
         binding.errorText.text = getString(R.string.error_text)
         binding.errorImage.setImageResource(R.drawable.ic_error_home)
         binding.recyclerView.visibility = View.GONE
         binding.linearLayout.visibility = View.VISIBLE
     }
 
-    fun removeError() {
+    protected fun removeError() {
         binding.recyclerView.visibility = View.VISIBLE
         binding.linearLayout.visibility = View.GONE
     }

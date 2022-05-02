@@ -14,8 +14,8 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 abstract class BindsUiModule {
 
-    @Binds
-    abstract fun bindsRecyclerViewImageHandler(recyclerViewImageHandler: RecyclerViewImageHandler): ImageHandler
+    //@Binds
+    //abstract fun bindsRecyclerViewImageHandler(recyclerViewImageHandler: RecyclerViewImageHandler): ImageHandler
 
     @Binds
     abstract fun bindsFactoryModelsImpl(factoryModels: FactoryModelsImpl):
