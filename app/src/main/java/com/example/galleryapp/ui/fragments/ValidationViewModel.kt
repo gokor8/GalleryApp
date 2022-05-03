@@ -2,7 +2,7 @@ package com.example.galleryapp.ui.fragments
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
-import com.example.domain.core.ErrorType
+import com.example.domain.core.ServerErrorType
 import com.example.domain.entities.states.AuthState
 import com.example.galleryapp.validators.Validator
 import com.example.galleryapp.validators.entities.BaseErrorUiModel
@@ -40,7 +40,7 @@ interface ValidationViewModel {
     fun mapAuthState(authState: AuthState)
 
     fun mapError(
-        errorType: ErrorType,
+        serverErrorType: ServerErrorType,
         errorMessage: String
     ): Pair<MutableLiveData<BaseErrorUiModel>, String>?
 

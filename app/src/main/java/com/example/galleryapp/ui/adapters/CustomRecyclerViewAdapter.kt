@@ -4,17 +4,16 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.ImageView
 import androidx.paging.PagingDataAdapter
-import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.galleryapp.R
 import com.example.galleryapp.core.diffutils.CommonDiffUtilsItem
 import com.example.galleryapp.databinding.RecyclerViewItemBinding
-import com.example.galleryapp.ui.models.photo.PictureUiModel
+import com.example.galleryapp.ui.models.photo.PictureInfoUiModel
 
 class CustomRecyclerViewAdapter(
-    private var pictureUiModelList: List<PictureUiModel?>,
-) : PagingDataAdapter<PictureUiModel, CustomRecyclerViewAdapter.CustomViewHolder>(CommonDiffUtilsItem()) {
+    private var pictureUiModelList: List<PictureInfoUiModel?>,
+) : PagingDataAdapter<PictureInfoUiModel, CustomRecyclerViewAdapter.CustomViewHolder>(CommonDiffUtilsItem()) {
 
     private var _binding: RecyclerViewItemBinding? = null
     private val binding
@@ -32,7 +31,7 @@ class CustomRecyclerViewAdapter(
     }
 
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
-        val imageName = pictureUiModelList[position]?.pictureModel?.name
+        val imageName = pictureUiModelList[position]?.pictureUiModel?.urlName
 
         if (pictureUiModelList.any { it == null }) {
             holder.image.setImageResource(R.drawable.lens_flare)
@@ -45,7 +44,7 @@ class CustomRecyclerViewAdapter(
 
     override fun getItemCount(): Int = pictureUiModelList.size
 
-    /*fun setData(newPicturesUiModelList: List<PictureUiModel>) {
+    /*fun setData(newPicturesUiModelList: List<PictureInfoUiModel>) {
         if(pictureUiModelList.any { it == null }) return
 
         val commonDiffUtils = CommonDiffUtilsItem(pictureUiModelList.filterNotNull(), newPicturesUiModelList)

@@ -1,15 +1,15 @@
 package com.example.data.parsers
 
-import com.example.domain.core.ErrorType
+import com.example.domain.core.ServerErrorType
 
 open class RegistrationServerErrorParserImpl :
     ServerErrorParser {
 
-    override fun parse(errorMessage: String): Map<ErrorType, String> {
-        val map = mutableMapOf<ErrorType, String>()
+    override fun parse(errorMessage: String): Map<ServerErrorType, String> {
+        val map = mutableMapOf<ServerErrorType, String>()
 
         val errors = errorMessage.split('.')
-        for (validator in ErrorType.values()) {
+        for (validator in ServerErrorType.values()) {
             map[validator] = ""
 
             validator.errorTrigger?.let { trigger ->

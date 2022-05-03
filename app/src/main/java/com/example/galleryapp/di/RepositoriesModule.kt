@@ -1,7 +1,7 @@
 package com.example.galleryapp.di
 
-import com.example.data.api.ImageService
-import com.example.data.api.UserService
+import com.example.data.api.services.ImageService
+import com.example.data.api.services.UserService
 import com.example.data.datasource.auth.ApiSignInDataSource
 import com.example.data.datasource.auth.ApiSignUpDataSource
 import com.example.data.datasource.pictures.PicturesDataSource
@@ -11,9 +11,8 @@ import com.example.data.parsers.LoginServerErrorParserImpl
 import com.example.data.parsers.RegistrationServerErrorParserImpl
 import com.example.data.repository.MediaRepositoryImpl
 import com.example.data.repository.UserAuthorizationRepositoryImpl
-import com.example.domain.core.ErrorContainer
 import com.example.domain.core.HandleFactory
-import com.example.data.core.photos.PhotosServerFail
+import com.example.data.core.photos.PhotosServerState
 import com.example.domain.core.UiFailModel
 import com.example.domain.repository.AuthorizationRepository
 import com.example.domain.repository.MediaRepository
@@ -27,9 +26,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 class RepositoriesModule {
-
-    @Provides
-    fun providesErrorContainer() = ErrorContainer("Aboba")
 
     @Provides
     @Singleton
@@ -78,7 +74,7 @@ class RepositoriesModule {
 
     //Media repository
     @Provides
-    fun providePicturesDataSource(uiHandleFactory: HandleFactory<PhotosServerFail, UiFailModel>, imageService: ImageService) =
+    fun providePicturesDataSource(uiHandleFactory: HandleFactory<PhotosServerState, UiFailModel>, imageService: ImageService) =
         PicturesDataSource(imageService, uiHandleFactory)
 
     @Provides

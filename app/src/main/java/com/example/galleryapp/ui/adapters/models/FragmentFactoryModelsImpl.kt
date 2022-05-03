@@ -6,7 +6,7 @@ import com.example.galleryapp.ui.fragments.home.PopularFragment
 import com.example.galleryapp.core.factories.LazyFactory
 import com.example.galleryapp.core.factories.FactoryModels
 
-class FactoryModelsImpl : FactoryModels<Int, Fragment> {
+class FragmentFactoryModelsImpl : FactoryModels<Int, Fragment> {
 
     override val listFactoryModels = listOf(NewFactoryFragment(), PopularFactoryFragment())
 

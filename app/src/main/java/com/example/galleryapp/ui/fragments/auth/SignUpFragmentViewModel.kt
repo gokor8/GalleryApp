@@ -2,7 +2,7 @@ package com.example.galleryapp.ui.fragments.auth
 
 import android.app.Application
 import androidx.lifecycle.*
-import com.example.domain.core.ErrorType
+import com.example.domain.core.ServerErrorType
 import com.example.domain.entities.states.AuthState
 import com.example.domain.usecases.RegistrationUseCase
 import com.example.galleryapp.R
@@ -46,7 +46,7 @@ class SignUpFragmentViewModel @Inject constructor(
             confirmPasswordErrorLiveData,
             oldPasswordErrorLiveData
         )
-        var withoutErrors = checkingErrors(errorLiveDates)
+        val withoutErrors = checkingErrors(errorLiveDates)
 
         if (!withoutErrors) {
             signInResultViewModel.value = res.getString(R.string.notify_check_all_fields)
@@ -69,8 +69,8 @@ class SignUpFragmentViewModel @Inject constructor(
                 _registrationLiveData.notifyObserver()
             }
             is AuthState.Error -> {
-                authState.errorMap.forEach { (errorType: ErrorType, errorMessage) ->
-                    mapError(errorType, errorMessage)?.apply {
+                authState.errorsContainer.errorsMap.forEach { (serverErrorType: ServerErrorType, errorMessage) ->
+                    mapError(serverErrorType, errorMessage)?.apply {
                         first.value = BaseErrorUiModel(second)
                     }
                 }
@@ -80,12 +80,12 @@ class SignUpFragmentViewModel @Inject constructor(
     }
 
     override fun mapError(
-        errorType: ErrorType,
+        serverErrorType: ServerErrorType,
         errorMessage: String
     ): Pair<MutableLiveData<BaseErrorUiModel>, String>? =
-        when (errorType) {
-            ErrorType.Username -> Pair(usernameErrorLiveData, errorMessage)
-            ErrorType.Email -> Pair(emailErrorLiveData, errorMessage)
+        when (serverErrorType) {
+            ServerErrorType.Username -> Pair(usernameErrorLiveData, errorMessage)
+            ServerErrorType.Email -> Pair(emailErrorLiveData, errorMessage)
             else -> null
         }
 }

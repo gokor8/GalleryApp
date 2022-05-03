@@ -1,7 +1,7 @@
 package com.example.data.parsers
 
-import com.example.domain.core.ErrorType
+import com.example.domain.core.ServerErrorType
 
 interface ServerErrorParser {
-    fun parse(errorMessage: String): Map<ErrorType, String>
+    fun parse(errorMessage: String): Map<ServerErrorType, String>
 }

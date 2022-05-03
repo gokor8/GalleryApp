@@ -1,14 +1,14 @@
 package com.example.galleryapp.ui.models.exceptions.photos
 
 import android.content.res.Resources
-import com.example.data.core.photos.PhotosServerFail
+import com.example.data.core.photos.PhotosServerState
 import com.example.domain.core.HandleFactory
 import com.example.domain.core.UiFailModel
 
-class PhotosFailMapUiFactory(private val resources: Resources) : HandleFactory<PhotosServerFail, UiFailModel> {
-    override fun handle(e: PhotosServerFail): UiFailModel =
+class PhotosFailMapUiFactory(private val resources: Resources) : HandleFactory<PhotosServerState, UiFailModel> {
+    override fun handle(e: PhotosServerState): UiFailModel =
         when(e) {
-            is PhotosServerFail.NoData -> UiNoPhotosFailModel(resources)
+            is PhotosServerState.NoData -> UiNoPhotosFailModel(resources)
             else -> UiExceptionFailModel(resources)
         }
 }

@@ -2,6 +2,7 @@ package com.example.data.datasource.auth
 
 import com.example.data.api.models.*
 import com.example.data.api.models.auth.ErrorResponseModel
+import com.example.data.core.auth.AuthServerState
 import com.example.data.managers.AuthStateRetrofitErrorManager
 import com.example.data.parsers.ServerErrorParser
 import com.example.domain.entities.states.AuthState
@@ -18,11 +19,12 @@ abstract class BaseApiAuthDataSource<I : SignInEntity, E : ErrorResponseModel, S
         authEntity: I,
     ): Response<S>
 
-    protected open suspend fun onSuccess(authEntity: I, responseModel: S): AuthState = AuthState.Success()
+    protected open suspend fun onSuccess(authEntity: I, responseModel: S): AuthServerState =
+        AuthServerState.Success()
 
-    suspend fun getSignState(
+    suspend fun getAuthorizationState(
         authEntity: I,
-    ): AuthState {
+    ): AuthServerState {
         val userResponse = sendAuthRequest(authEntity)
 
         return if (userResponse.isSuccessful) {

@@ -1,8 +1,8 @@
 package com.example.galleryapp.di
 
-import com.example.data.api.ImageService
-import com.example.data.api.TokenService
-import com.example.data.api.UserService
+import com.example.data.api.services.ImageService
+import com.example.data.api.services.TokenService
+import com.example.data.api.services.UserService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn

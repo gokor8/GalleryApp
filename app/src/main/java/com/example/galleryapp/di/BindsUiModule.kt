@@ -2,9 +2,7 @@ package com.example.galleryapp.di
 
 import androidx.fragment.app.Fragment
 import com.example.galleryapp.core.factories.FactoryModels
-import com.example.galleryapp.ui.adapters.models.FactoryModelsImpl
-import com.example.galleryapp.ui.models.ImageHandler
-import com.example.galleryapp.ui.models.RecyclerViewImageHandler
+import com.example.galleryapp.ui.adapters.models.FragmentFactoryModelsImpl
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -18,6 +16,6 @@ abstract class BindsUiModule {
     //abstract fun bindsRecyclerViewImageHandler(recyclerViewImageHandler: RecyclerViewImageHandler): ImageHandler
 
     @Binds
-    abstract fun bindsFactoryModelsImpl(factoryModels: FactoryModelsImpl):
+    abstract fun bindsFactoryModelsImpl(fragmentFactoryModels: FragmentFactoryModelsImpl):
             FactoryModels<Int, Fragment>
 }

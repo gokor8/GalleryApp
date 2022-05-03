@@ -16,7 +16,7 @@ import java.lang.Exception
 import java.net.SocketTimeoutException
 import javax.inject.Inject
 
-class UserAuthorizationRepositoryImpl @Inject constructor(
+class UserAuthorizationRepositoryImpl constructor(
     private val apiSignUpDataSource: ApiSignUpDataSource,
     private val apiSignInDataSource: ApiSignInDataSource,
 ) : AuthorizationRepository {
@@ -34,7 +34,7 @@ class UserAuthorizationRepositoryImpl @Inject constructor(
     ): AuthState =
         try {
             withContext(dispatcher) {
-                return@withContext apiAuthDataSource.getSignState(signInEntity)
+                return@withContext apiAuthDataSource.getAuthorizationState(signInEntity).mapTo()
             }
         } catch (e: Exception) {
             when (e) {

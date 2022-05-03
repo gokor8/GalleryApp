@@ -1,6 +1,6 @@
 package com.example.galleryapp.di
 
-import com.example.data.core.photos.PhotosServerFail
+import com.example.data.core.photos.PhotosServerState
 import com.example.domain.core.HandleFactory
 import com.example.domain.core.UiFailModel
 import com.example.galleryapp.ui.models.exceptions.auth.AuthExceptionMapUiFactory
@@ -18,5 +18,5 @@ abstract class BindsMapUiFactoryModule {
     abstract fun bindAuthToMapUiFactory(authExceptionToUiExceptionFactory: AuthExceptionMapUiFactory): HandleFactory<Exception, UiFailModel>
 
     @Binds
-    abstract fun bindPhotosToMapUiFactory(failMapUiFactory: PhotosFailMapUiFactory): HandleFactory<PhotosServerFail, UiFailModel>
+    abstract fun bindPhotosToMapUiFactory(failMapUiFactory: PhotosFailMapUiFactory): HandleFactory<PhotosServerState, UiFailModel>
 }

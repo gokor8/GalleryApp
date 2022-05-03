@@ -4,7 +4,7 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.domain.core.ErrorType
+import com.example.domain.core.ServerErrorType
 import com.example.domain.entities.states.AuthState
 import com.example.domain.usecases.AuthorizationUseCase
 import com.example.galleryapp.R
@@ -64,8 +64,8 @@ class SignInFragmentViewModel @Inject constructor(
                 _authorizationLiveData.notifyObserver()
             }
             is AuthState.Error -> {
-                authState.errorMap.forEach { (errorType: ErrorType, errorMessage) ->
-                    mapError(errorType, errorMessage)?.apply {
+                authState.errorsContainer.errorsMap.forEach { (serverErrorType: ServerErrorType, errorMessage) ->
+                    mapError(serverErrorType, errorMessage)?.apply {
                         first.value = BaseErrorUiModel(second)
                     }
                 }
@@ -75,12 +75,12 @@ class SignInFragmentViewModel @Inject constructor(
     }
 
     override fun mapError(
-        errorType: ErrorType,
+        serverErrorType: ServerErrorType,
         errorMessage: String
     ): Pair<MutableLiveData<BaseErrorUiModel>, String>? =
-        when (errorType) {
-            ErrorType.Password -> Pair(passwordErrorLiveData, errorMessage)
-            ErrorType.Email -> Pair(emailErrorLiveData, errorMessage)
+        when (serverErrorType) {
+            ServerErrorType.Password -> Pair(passwordErrorLiveData, errorMessage)
+            ServerErrorType.Email -> Pair(emailErrorLiveData, errorMessage)
             else -> null
         }
 }

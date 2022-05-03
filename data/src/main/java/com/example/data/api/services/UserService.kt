@@ -1,4 +1,4 @@
-package com.example.data.api
+package com.example.data.api.services
 
 import com.example.data.api.models.auth.RequestSignUpUserModel
 import com.example.data.api.models.auth.ResponseLogin

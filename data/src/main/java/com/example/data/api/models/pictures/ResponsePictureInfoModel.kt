@@ -1,9 +1,8 @@
 package com.example.data.api.models.pictures
 
 import com.example.domain.core.MapperTo
-import com.example.domain.entities.photos.PictureInfoModel
+import com.example.domain.entities.photos.PictureInfoDomainEntity
 import com.google.gson.annotations.SerializedName
-import java.util.*
 
 data class ResponsePictureInfoModel(
     val id: Int,
@@ -15,19 +14,19 @@ data class ResponsePictureInfoModel(
     @SerializedName("image")
     val responsePictureModel: ResponsePictureModel,
     val user: String?,
-) : MapperTo<PictureInfoModel> {
+) : MapperTo<PictureInfoDomainEntity> {
 
     data class ResponsePictureModel(
         val id: Int,
         val name: String
-    ) : MapperTo<PictureInfoModel.PictureModel> {
+    ) : MapperTo<PictureInfoDomainEntity.PictureDomainEntity> {
 
-        override fun mapTo(): PictureInfoModel.PictureModel =
-            PictureInfoModel.PictureModel(id, name)
+        override fun mapTo(): PictureInfoDomainEntity.PictureDomainEntity =
+            PictureInfoDomainEntity.PictureDomainEntity(id, name)
     }
 
-    override fun mapTo(): PictureInfoModel =
-        PictureInfoModel(
+    override fun mapTo(): PictureInfoDomainEntity =
+        PictureInfoDomainEntity(
             id,
             name,
             //dateCreate,

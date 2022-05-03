@@ -1,13 +1,13 @@
 package com.example.data.parsers
 
-import com.example.domain.core.ErrorType
+import com.example.domain.core.ServerErrorType
 
 class LoginServerErrorParserImpl : ServerErrorParser {
-    override fun parse(errorMessage: String): Map<ErrorType, String> {
-        val map = mutableMapOf<ErrorType, String>()
+    override fun parse(errorMessage: String): Map<ServerErrorType, String> {
+        val map = mutableMapOf<ServerErrorType, String>()
 
-        map[ErrorType.Email] = errorMessage
-        map[ErrorType.Password] = errorMessage
+        map[ServerErrorType.Email] = errorMessage
+        map[ServerErrorType.Password] = errorMessage
 
         return map
     }

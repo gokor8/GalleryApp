@@ -5,13 +5,11 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.example.domain.core.UiFailModel
-import com.example.domain.entities.photos.PictureInfoModel
+import com.example.domain.entities.photos.PictureInfoDomainEntity
 import com.example.domain.entities.photos.ShowPicturesInfo
 import com.example.domain.entities.states.PhotosState
 import com.example.domain.usecases.LoadPhotosUseCase
-import com.example.domain.usecases.LoadPopularPhotosUseCase
 import com.example.galleryapp.ui.fragments.BaseViewModel
-import com.example.galleryapp.ui.fragments.HomeViewModel
 import kotlinx.coroutines.launch
 
 abstract class BaseHomeChildViewModel(
@@ -23,8 +21,8 @@ abstract class BaseHomeChildViewModel(
     val errorLiveData: LiveData<Unit>
         get() = _errorMutableLiveData
 
-    private val _photosMutableLiveData = MutableLiveData<List<PictureInfoModel>>()
-    val photosLiveData: LiveData<List<PictureInfoModel>>
+    private val _photosMutableLiveData = MutableLiveData<List<PictureInfoDomainEntity>>()
+    val photosLiveData: LiveData<List<PictureInfoDomainEntity>>
         get() = _photosMutableLiveData
 
     private val _notifyFailMutableLiveData = MutableLiveData<UiFailModel>()

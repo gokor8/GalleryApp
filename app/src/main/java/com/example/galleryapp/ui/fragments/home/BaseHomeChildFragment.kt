@@ -4,15 +4,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.annotation.CallSuper
 import androidx.recyclerview.widget.GridLayoutManager
-import com.example.domain.core.HandleFactory
 import com.example.galleryapp.R
 import com.example.galleryapp.databinding.FragmentHomeChildBinding
 import com.example.galleryapp.ui.adapters.CustomRecyclerViewAdapter
 import com.example.galleryapp.ui.fragments.BaseFragment
-import com.example.galleryapp.ui.models.ImageHandler
-import com.example.galleryapp.ui.models.photo.PictureUiModel
+import com.example.galleryapp.ui.models.photo.PictureInfoUiModel
 import com.google.android.material.snackbar.Snackbar
-import javax.inject.Inject
 
 abstract class BaseHomeChildFragment<V : BaseHomeChildViewModel>(
     fillViewModel: Class<V>,
@@ -21,9 +18,6 @@ abstract class BaseHomeChildFragment<V : BaseHomeChildViewModel>(
 }) {
 
     private val loadList = listOf(null, null, null, null, null, null)
-
-    //@Inject
-    //open lateinit var imageHandler: HandleFactory<Int?, Int>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -45,7 +39,7 @@ abstract class BaseHomeChildFragment<V : BaseHomeChildViewModel>(
 
         viewModel.photosLiveData.observe(viewLifecycleOwner) { picturesInfo ->
             binding.recyclerView.adapter =
-                CustomRecyclerViewAdapter(picturesInfo.map { PictureUiModel(it) } )
+                CustomRecyclerViewAdapter(picturesInfo.map { PictureInfoUiModel().mapTo(it) } )
             removeError()
         }
 
