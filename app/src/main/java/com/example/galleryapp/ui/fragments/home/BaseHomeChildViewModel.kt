@@ -31,13 +31,13 @@ abstract class BaseHomeChildViewModel(
     private val page: Int = 1
     private val limit: Int = 10
 
-    private val _errorMutableLiveData = MutableLiveData<Unit>()
-    val errorLiveData: LiveData<Unit>
-        get() = _errorMutableLiveData
-
     val photosFlow = Pager(PagingConfig(pageSize = limit, enablePlaceholders = true)) {
         photosPagination
     }.flow.cachedIn(viewModelScope)
+
+    private val _errorMutableLiveData = MutableLiveData<Unit>()
+    val errorLiveData: LiveData<Unit>
+        get() = _errorMutableLiveData
 
     private val _photosMutableLiveData = MutableLiveData<List<PictureInfoDomainEntity>>()
     val photosLiveData: LiveData<List<PictureInfoDomainEntity>>
