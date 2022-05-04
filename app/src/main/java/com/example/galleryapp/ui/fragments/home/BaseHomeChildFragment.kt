@@ -3,6 +3,7 @@ package com.example.galleryapp.ui.fragments.home
 import android.os.Bundle
 import android.view.View
 import androidx.annotation.CallSuper
+import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.galleryapp.R
 import com.example.galleryapp.databinding.FragmentHomeChildBinding
@@ -10,6 +11,8 @@ import com.example.galleryapp.ui.adapters.CustomRecyclerViewAdapter
 import com.example.galleryapp.ui.fragments.BaseFragment
 import com.example.galleryapp.ui.models.photo.PictureInfoUiModel
 import com.google.android.material.snackbar.Snackbar
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
 
 abstract class BaseHomeChildFragment<V : BaseHomeChildViewModel>(
     fillViewModel: Class<V>,
@@ -17,30 +20,31 @@ abstract class BaseHomeChildFragment<V : BaseHomeChildViewModel>(
     FragmentHomeChildBinding.inflate(inflater, container, false)
 }) {
 
-    private val loadList = listOf(null, null, null, null, null, null)
+    private val pagingAdapter by lazy {
+        CustomRecyclerViewAdapter()
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        viewModel.loadPhotos()
+        binding.recyclerView.layoutManager = GridLayoutManager(this.context, 2)
+        binding.recyclerView.adapter = pagingAdapter
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            viewModel.photosFlow.collectLatest { pagingData ->
+                pagingAdapter.submitData(pagingData)
+            }
+        }
     }
 
     @CallSuper
     override fun setListeners() {
-        binding.recyclerView.layoutManager = GridLayoutManager(this.context, 2)
-        binding.recyclerView.adapter = CustomRecyclerViewAdapter(loadList)
     }
 
     @CallSuper
     override fun setObservers() {
         viewModel.errorLiveData.observe(viewLifecycleOwner) {
             setError()
-        }
-
-        viewModel.photosLiveData.observe(viewLifecycleOwner) { picturesInfo ->
-            binding.recyclerView.adapter =
-                CustomRecyclerViewAdapter(picturesInfo.map { PictureInfoUiModel().mapTo(it) } )
-            removeError()
         }
 
         viewModel.notifyFailLiveData.observe(viewLifecycleOwner) {

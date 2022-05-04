@@ -2,9 +2,9 @@ package com.example.domain.entities.photos
 
 open class PictureInfoDomainEntity(
     open val id: Int,
-    open val name: String,
+    open val name: String?,
     //val dateCreate: Data,
-    open val description: String,
+    open val description: String?,
     open val new: Boolean,
     open val popular: Boolean,
     open val pictureDomainEntity: PictureDomainEntity,

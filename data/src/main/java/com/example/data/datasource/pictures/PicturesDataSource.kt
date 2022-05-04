@@ -10,16 +10,18 @@ class PicturesDataSource(
     private val imageService: ImageService,
     private val mapUiFactory: HandleFactory<PhotosServerState, UiFailModel>
 ) {
-    private val countPages: Int? = null
+    private var countPages: Int? = null
 
     suspend fun getPictures(requestPictureModel: RequestPictureModel): PhotosServerState {
         if (countPages != null && requestPictureModel.page == countPages) {
             return PhotosServerState.NoData(mapUiFactory)
         }
 
-        val picturesInfoArray =
-            imageService.getImagePage(requestPictureModel.mapTo()).picturesInfoResponse
+        val picturesInfo =
+            imageService.getImagePage(requestPictureModel.mapTo())
 
-        return PhotosServerState.Success(picturesInfoArray)
+        countPages = picturesInfo.countOfPages
+
+        return PhotosServerState.Success(picturesInfo.picturesInfoResponse)
     }
 }

@@ -6,8 +6,8 @@ import com.example.galleryapp.core.diffutils.CommonDiffUtilsItem
 
 data class PictureInfoUiModel(
     val id: Int,
-    val name: String,
-    val description: String,
+    val name: String?,
+    val description: String?,
     val new: Boolean,
     val popular: Boolean,
     val pictureUiModel: PictureUiModel,

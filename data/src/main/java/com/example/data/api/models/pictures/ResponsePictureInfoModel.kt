@@ -6,9 +6,9 @@ import com.google.gson.annotations.SerializedName
 
 data class ResponsePictureInfoModel(
     val id: Int,
-    val name: String,
+    val name: String?,
     //val dateCreate: Date,
-    val description: String,
+    val description: String?,
     val new: Boolean,
     val popular: Boolean,
     @SerializedName("image")
