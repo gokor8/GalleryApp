@@ -16,7 +16,7 @@ class PhotosPagination(
 
     override suspend fun load(params: LoadParams<Int>): LoadResult<Int, PictureInfoUiModel> {
         val page = params.key ?: 1
-        val loadSize = 10
+        val loadSize = params.loadSize
 
         val willGetPictureInfo = ShowPicturesInfo(page, loadSize)
 

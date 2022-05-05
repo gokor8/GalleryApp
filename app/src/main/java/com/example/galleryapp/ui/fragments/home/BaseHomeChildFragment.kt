@@ -1,18 +1,21 @@
 package com.example.galleryapp.ui.fragments.home
 
 import android.os.Bundle
+import android.view.LayoutInflater
 import android.view.View
 import androidx.annotation.CallSuper
-import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.galleryapp.R
+import com.example.galleryapp.core.ui.adapters.BaseViewHolder
 import com.example.galleryapp.databinding.FragmentHomeChildBinding
-import com.example.galleryapp.ui.adapters.CustomRecyclerViewAdapter
+import com.example.galleryapp.databinding.RecyclerViewItemBinding
+import com.example.galleryapp.ui.adapters.CustomPhotosViewHolder
+import com.example.galleryapp.ui.adapters.BaseRecyclerViewAdapter
+import com.example.galleryapp.ui.adapters.PaginationScrollListener
+import com.example.galleryapp.ui.adapters.PhotosPaginationScrollListener
 import com.example.galleryapp.ui.fragments.BaseFragment
 import com.example.galleryapp.ui.models.photo.PictureInfoUiModel
 import com.google.android.material.snackbar.Snackbar
-import kotlinx.coroutines.flow.collectLatest
-import kotlinx.coroutines.launch
 
 abstract class BaseHomeChildFragment<V : BaseHomeChildViewModel>(
     fillViewModel: Class<V>,
@@ -20,25 +23,41 @@ abstract class BaseHomeChildFragment<V : BaseHomeChildViewModel>(
     FragmentHomeChildBinding.inflate(inflater, container, false)
 }) {
 
+    private var isLoading = false
+
+    private val layoutManager by lazy { GridLayoutManager(this.context, 2) }
+
     private val pagingAdapter by lazy {
-        CustomRecyclerViewAdapter()
-    }
-
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-
-        binding.recyclerView.layoutManager = GridLayoutManager(this.context, 2)
-        binding.recyclerView.adapter = pagingAdapter
-
-        viewLifecycleOwner.lifecycleScope.launch {
-            viewModel.photosFlow.collectLatest { pagingData ->
-                pagingAdapter.submitData(pagingData)
-            }
+        BaseRecyclerViewAdapter<PictureInfoUiModel, BaseViewHolder<PictureInfoUiModel>>(
+            listOf(null, null, null, null, null, null)
+        ) { parent ->
+            val binding =
+                RecyclerViewItemBinding.inflate(LayoutInflater.from(parent.context), parent, false)
+            CustomPhotosViewHolder(binding)
         }
     }
 
     @CallSuper
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        binding.recyclerView.layoutManager = layoutManager
+        binding.recyclerView.adapter = pagingAdapter
+
+        viewModel.loadPhotos()
+    }
+
+    @CallSuper
     override fun setListeners() {
+        binding.recyclerView.addOnScrollListener(object : PaginationScrollListener(layoutManager) {
+            override fun loadMoreItems() {
+                viewModel.page++
+                viewModel.loadPhotos()
+            }
+
+            override val isLoading: Boolean
+                get() = this@BaseHomeChildFragment.isLoading
+        })
     }
 
     @CallSuper
@@ -47,12 +66,18 @@ abstract class BaseHomeChildFragment<V : BaseHomeChildViewModel>(
             setError()
         }
 
+        viewModel.photosLiveData.observe(viewLifecycleOwner) {
+            isLoading = false
+        }
+
         viewModel.notifyFailLiveData.observe(viewLifecycleOwner) {
             Snackbar.make(binding.root, it.getMessage(), Snackbar.LENGTH_SHORT).show()
+            isLoading = false
         }
     }
 
     protected fun setError() {
+        binding.errorTitle.text = getString(R.string.error_title)
         binding.errorText.text = getString(R.string.error_text)
         binding.errorImage.setImageResource(R.drawable.ic_error_home)
         binding.recyclerView.visibility = View.GONE

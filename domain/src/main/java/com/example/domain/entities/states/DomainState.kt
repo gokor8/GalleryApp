@@ -1,6 +1,7 @@
 package com.example.domain.entities.states
 
-sealed class ReturnState {
+sealed class DomainState {
     interface Success
     interface Error
+    interface Exception
 }

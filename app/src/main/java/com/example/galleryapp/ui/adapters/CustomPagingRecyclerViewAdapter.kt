@@ -6,13 +6,13 @@ import android.widget.ImageView
 import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.example.galleryapp.R
 import com.example.galleryapp.core.diffutils.CommonDiffUtilsItem
 import com.example.galleryapp.databinding.RecyclerViewItemBinding
 import com.example.galleryapp.ui.models.photo.PictureInfoUiModel
 
-class CustomRecyclerViewAdapter() :
-    PagingDataAdapter<PictureInfoUiModel, CustomRecyclerViewAdapter.CustomViewHolder>(
+@Deprecated("Difficult library, changed on more light ")
+class CustomPagingRecyclerViewAdapter() :
+    PagingDataAdapter<PictureInfoUiModel, CustomPagingRecyclerViewAdapter.CustomViewHolder>(
         CommonDiffUtilsItem()
     ) {
 
@@ -44,8 +44,6 @@ class CustomRecyclerViewAdapter() :
     }
 
     override fun onBindViewHolder(holder: CustomViewHolder, position: Int) {
-        val imageName = getItem(position)?.pictureUiModel?.urlName
-
         /*if (pictureUiModelList.any { it == null }) {
             holder.image.setImageResource(R.drawable.lens_flare)
             return
