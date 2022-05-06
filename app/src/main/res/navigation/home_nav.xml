@@ -38,5 +38,13 @@
     <fragment
         android:id="@+id/searchFragment"
         android:name="com.example.galleryapp.ui.fragments.home.SearchFragment"
-        android:label="SearchFragment" />
+        android:label="SearchFragment"
+        tools:layout="@layout/fragment_home_child" >
+        <action
+            android:id="@+id/action_searchFragment_to_popularFragment"
+            app:destination="@id/popularFragment" />
+        <action
+            android:id="@+id/action_searchFragment_to_newFragment"
+            app:destination="@id/newFragment" />
+    </fragment>
 </navigation>

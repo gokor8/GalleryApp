@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:theme="@style/ThemeOverlay.GalleryApp.FullscreenContainer"
-    tools:context=".ui.fragments.SelectAuthFragment">
+    tools:context=".ui.fragments.auth.SelectAuthFragment">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

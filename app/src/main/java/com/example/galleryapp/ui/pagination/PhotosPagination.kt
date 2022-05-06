@@ -9,6 +9,7 @@ import com.example.galleryapp.ui.models.states.PaginationState
 import com.example.galleryapp.ui.models.states.PhotosUiState
 import java.io.IOException
 
+@Deprecated("Difficult library")
 class PhotosPagination(
     private val loadPhotosUseCase: LoadPhotosUseCase,
     private val handleFactory: HandleFactory<PhotosState, PaginationState>

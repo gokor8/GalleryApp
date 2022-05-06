@@ -1,4 +1,4 @@
-package com.example.galleryapp.ui.fragments
+package com.example.galleryapp.ui.fragments.auth
 
 import android.os.Bundle
 import android.view.LayoutInflater

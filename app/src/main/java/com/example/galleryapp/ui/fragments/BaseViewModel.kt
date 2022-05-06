@@ -8,7 +8,7 @@ import com.example.domain.core.MapperFrom
 import com.example.domain.entities.states.DomainState
 import com.example.galleryapp.ui.models.states.UiState
 
-abstract class BaseViewModel/*<I : DomainState, R : UiState>*/(application: Application) : AndroidViewModel(application)/*, MapperFrom<I,R> */{
+abstract class BaseViewModel(application: Application) : AndroidViewModel(application) {
 
     protected val resources: Resources = application.resources
 

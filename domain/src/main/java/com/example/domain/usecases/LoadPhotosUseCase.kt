@@ -11,7 +11,9 @@ interface LoadPhotosUseCase {
 
     suspend fun loadPhotos(showDataInfo: ShowPicturesInfo): PhotosState =
         try {
-            showDataInfo.loadType = serverLoadPhotosType.pair
+            serverLoadPhotosType.pair?.let {
+                showDataInfo.loadType = it
+            }
             mediaRepository.loadPictures(showDataInfo)
         } catch (e: Exception) {
             PhotosState.Exception()

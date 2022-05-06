@@ -1,6 +1,5 @@
 package com.example.galleryapp.di
 
-import com.example.data.storages.Cache
 import com.example.data.datasource.SharedPreferencesDataSource
 import com.example.data.storages.CacheSharedPreferences
 import dagger.Binds

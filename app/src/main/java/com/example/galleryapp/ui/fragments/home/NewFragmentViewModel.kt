@@ -10,5 +10,4 @@ import javax.inject.Inject
 class NewFragmentViewModel @Inject constructor(
     application: Application,
     loadNewPhotosUseCase: LoadNewPhotosUseCase,
-    private val photosPagination: PhotosPagination
-) : BaseHomeChildViewModel(application, loadNewPhotosUseCase, photosPagination)
+) : BaseHomeChildViewModel(application, loadNewPhotosUseCase)
