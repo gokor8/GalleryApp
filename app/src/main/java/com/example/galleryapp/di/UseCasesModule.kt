@@ -28,8 +28,7 @@ class UseCasesModule {
     fun provideAuthorizationUseCase(
         authorizationRepository: AuthorizationRepository,
         mapUiFactory: HandleFactory<Exception, UiFailModel>
-    ) =
-        AuthorizationUseCase(authorizationRepository, mapUiFactory)
+    ) = AuthorizationUseCase(authorizationRepository, mapUiFactory)
 
     @Provides
     fun provideLoadNewPhotosUseCase(mediaRepository: MediaRepository) =

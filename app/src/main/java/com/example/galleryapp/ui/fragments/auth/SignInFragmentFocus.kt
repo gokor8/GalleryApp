@@ -9,7 +9,6 @@ import com.example.galleryapp.databinding.FragmentSignInBinding
 import com.example.galleryapp.ui.activities.UserActivity
 import com.example.galleryapp.ui.fragments.BaseFragment
 import com.example.galleryapp.ui.fragments.FocusValidationFragment
-import com.example.galleryapp.ui.models.UiSignInModel
 import com.example.galleryapp.validators.validators_impl.EmailSingleValidator
 import com.example.galleryapp.validators.validators_impl.LengthSingleValidator
 import com.google.android.material.snackbar.Snackbar

@@ -1,4 +1,4 @@
-package com.example.galleryapp.ui.models
+package com.example.galleryapp.ui.fragments.auth
 
 import com.example.domain.core.MapperTo
 import com.example.domain.entities.auth.SignUpEntity

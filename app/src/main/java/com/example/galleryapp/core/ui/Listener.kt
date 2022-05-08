@@ -5,11 +5,12 @@ import dagger.internal.SingleCheck
 interface Listener {
 
     interface Save<I> {
-        val listenValue: I?
+        var listenValue: I?
     }
 
     interface Read<I> {
-        fun observe(value: (I) -> Unit)
-    }
+        fun<E> observe(entity: E, value: (I) -> Unit)
 
+        fun<E> unsubscribe(entity: E)
+    }
 }

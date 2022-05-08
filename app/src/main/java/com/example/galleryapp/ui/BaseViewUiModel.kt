@@ -1,6 +1,6 @@
 package com.example.galleryapp.ui
 
-interface UiStructure {
+interface BaseViewUiModel {
     fun setObservers()
 
     fun setListeners()

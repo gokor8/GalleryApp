@@ -4,18 +4,12 @@ import android.os.Bundle
 import android.view.View
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
-import androidx.fragment.app.commit
-import androidx.fragment.app.replace
 import com.example.galleryapp.R
 import com.example.galleryapp.core.factories.LazyFactory
 import com.example.galleryapp.databinding.FragmentHomeBinding
 import com.example.galleryapp.ui.adapters.FragmentTabLayoutAdapter
 import com.example.galleryapp.ui.adapters.models.FragmentFactoryModelsImpl
 import com.example.galleryapp.ui.fragments.BaseFragment
-import com.example.galleryapp.ui.fragments.auth.SelectAuthFragmentDirections
-import com.example.galleryapp.ui.fragments.home.SearchFragment
-import com.example.galleryapp.ui.fragments.home.SearchFragmentDirections
-import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
@@ -25,8 +19,6 @@ class HomeFragment :
     BaseFragment<FragmentHomeBinding, HomeFragmentViewModel>(
         HomeFragmentViewModel::class.java,
         { inflater, container -> FragmentHomeBinding.inflate(inflater, container, false) }) {
-
-    val searchListener = HomeFragmentListener()
 
     @Inject
     lateinit var lazyFactory: LazyFactory<Int, Fragment>
@@ -52,9 +44,9 @@ class HomeFragment :
         }.attach()
 
         binding.includedToolbar.apply {
-            editTextSearch.addTextChangedListener {
-                it?.toString()?.let {
-                    searchListener.listenValue
+            editTextSearch.addTextChangedListener { editableText ->
+                editableText?.toString()?.let {
+                    viewModel.listener.listenValue = it
                 }
             }
 

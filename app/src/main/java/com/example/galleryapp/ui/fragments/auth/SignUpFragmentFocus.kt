@@ -12,7 +12,6 @@ import com.example.galleryapp.databinding.FragmentSignUpBinding
 import com.example.galleryapp.ui.activities.UserActivity
 import com.example.galleryapp.ui.fragments.BaseFragment
 import com.example.galleryapp.ui.fragments.FocusValidationFragment
-import com.example.galleryapp.ui.models.UiSignUpModel
 import com.example.galleryapp.validators.ValidationChain
 import com.example.galleryapp.validators.validators_impl.EmailSingleValidator
 import com.example.galleryapp.validators.validators_impl.EmptyValidator

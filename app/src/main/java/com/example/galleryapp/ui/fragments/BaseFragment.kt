@@ -9,13 +9,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.viewbinding.ViewBinding
-import com.example.galleryapp.ui.UiStructure
+import com.example.galleryapp.ui.BaseViewUiModel
 
 abstract class BaseFragment<B : ViewBinding, V : ViewModel>(
     private val fillViewModel: Class<V>,
     private val bindingFragment: (inflater: LayoutInflater, container: ViewGroup?) -> B
 ) :
-    Fragment(), UiStructure {
+    Fragment(), BaseViewUiModel {
 
     protected var _binding: B? = null
     val binding

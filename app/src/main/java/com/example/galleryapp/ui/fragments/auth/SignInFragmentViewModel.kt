@@ -11,7 +11,6 @@ import com.example.galleryapp.R
 import com.example.galleryapp.ui.fragments.BaseViewModel
 import com.example.galleryapp.ui.fragments.ValidationViewModel
 import com.example.galleryapp.ui.fragments.Visibilities
-import com.example.galleryapp.ui.models.UiSignInModel
 import com.example.galleryapp.validators.entities.BaseErrorUiModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch

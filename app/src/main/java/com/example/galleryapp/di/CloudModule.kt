@@ -18,8 +18,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object CloudModule {
 
-    @Provides
-    fun provideBaseUrl(): String = "http://gallery.dev.webant.ru"
+    private const val mainBaseUrl = "http://gallery.dev.webant.ru"
 
     @Provides
     @Named("default_token")
@@ -37,10 +36,10 @@ object CloudModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(baseUrl: String, okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
+    fun provideRetrofit(okHttpClient: OkHttpClient): Retrofit = Retrofit.Builder()
         .client(okHttpClient)
         .addConverterFactory(GsonConverterFactory.create())
-        .baseUrl(baseUrl)
+        .baseUrl(mainBaseUrl)
         .build()
 
     @Provides

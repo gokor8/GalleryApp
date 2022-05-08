@@ -1,4 +1,4 @@
-package com.example.galleryapp.ui.adapters
+package com.example.galleryapp.ui.pagination
 
 import androidx.recyclerview.widget.GridLayoutManager
 import com.example.galleryapp.ui.fragments.home.BaseHomeChildViewModel

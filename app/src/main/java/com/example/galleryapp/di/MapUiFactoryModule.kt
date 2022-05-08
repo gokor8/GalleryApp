@@ -1,8 +1,9 @@
 package com.example.galleryapp.di
 
 import android.app.Application
-import com.example.galleryapp.ui.models.exceptions.auth.AuthExceptionMapUiFactory
-import com.example.galleryapp.ui.models.exceptions.photos.PhotosFailMapUiFactory
+import com.example.galleryapp.ui.mappers.AuthExceptionMapUiFactory
+import com.example.galleryapp.ui.mappers.PhotosFailMapUiHandler
+import com.example.galleryapp.ui.mappers.PhotosStateToPhotosUiStateMapper
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -17,5 +18,8 @@ class MapUiFactoryModule {
 
     @Provides
     fun providePhotosToMapUiFactory(application: Application) =
-        PhotosFailMapUiFactory(application.resources)
+        PhotosFailMapUiHandler(application.resources)
+
+    @Provides
+    fun providePhotosStateToPhotosUiStateMapper() = PhotosStateToPhotosUiStateMapper()
 }

@@ -10,9 +10,8 @@ import com.example.galleryapp.core.ui.adapters.BaseViewHolder
 import com.example.galleryapp.databinding.FragmentHomeChildBinding
 import com.example.galleryapp.databinding.RecyclerViewItemBinding
 import com.example.galleryapp.ui.adapters.CustomPhotosViewHolder
-import com.example.galleryapp.ui.adapters.BaseRecyclerViewAdapter
-import com.example.galleryapp.ui.adapters.PaginationScrollListener
-import com.example.galleryapp.ui.adapters.PhotosPaginationScrollListener
+import com.example.galleryapp.core.ui.adapters.BaseRecyclerViewAdapter
+import com.example.galleryapp.ui.pagination.PaginationScrollListener
 import com.example.galleryapp.ui.fragments.BaseFragment
 import com.example.galleryapp.ui.models.photo.PictureInfoUiModel
 import com.google.android.material.snackbar.Snackbar

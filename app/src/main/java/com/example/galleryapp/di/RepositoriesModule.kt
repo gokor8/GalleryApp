@@ -32,40 +32,10 @@ class RepositoriesModule {
     fun provideGson() = Gson()
 
     @Provides
-    fun provideApiSignInDataSource(
-        userService: UserService,
-        apiTokenRegistrationManagerRead: ApiTokenRegistrationManager.Read,
-        apiTokenAccessManagerSave: ApiTokenAccessManager.Save,
-        loginServerErrorParser: LoginServerErrorParserImpl,
-        gson: Gson
-    ) = ApiSignInDataSource(
-        userService,
-        apiTokenRegistrationManagerRead,
-        apiTokenAccessManagerSave,
-        loginServerErrorParser,
-        gson
-    )
-
-    @Provides
-    fun provideApiSignUpDataSource(
-        userService: UserService,
-        apiTokenRegistrationManagerSave: ApiTokenRegistrationManager.Save,
-        apiSignInDataSource: ApiSignInDataSource,
-        registrationServerErrorParser: RegistrationServerErrorParserImpl,
-        gson: Gson
-    ) = ApiSignUpDataSource(
-        userService,
-        apiTokenRegistrationManagerSave,
-        apiSignInDataSource,
-        registrationServerErrorParser,
-        gson
-    )
-
-    @Provides
     fun provideUserAuthRepository(
         authApiDataSource: ApiSignUpDataSource,
         apiSignInDataSource: ApiSignInDataSource,
-    ): AuthorizationRepository =
+    ) =
         UserAuthorizationRepositoryImpl(
             authApiDataSource,
             apiSignInDataSource,
@@ -73,10 +43,6 @@ class RepositoriesModule {
 
 
     //Media repository
-    @Provides
-    fun providePicturesDataSource(uiHandleFactory: HandleFactory<PhotosServerState, UiFailModel>, imageService: ImageService) =
-        PicturesDataSource(imageService, uiHandleFactory)
-
     @Provides
     fun provideMediaRepository(picturesDataSource: PicturesDataSource): MediaRepository =
         MediaRepositoryImpl(picturesDataSource)
