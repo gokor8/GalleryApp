@@ -16,12 +16,11 @@ import com.google.android.material.textfield.TextInputEditText
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
-class SignInFragmentFocus :
-    BaseFragment<FragmentSignInBinding, SignInFragmentViewModel>(
-        SignInFragmentViewModel::class.java,
-        { inflater, container ->
-            FragmentSignInBinding.inflate(inflater, container, false)
-        }),
+class SignInFragmentFocus : BaseFragment<FragmentSignInBinding, SignInFragmentViewModel>(
+    SignInFragmentViewModel::class.java,
+    { inflater, container ->
+        FragmentSignInBinding.inflate(inflater, container, false)
+    }),
     FocusValidationFragment {
 
     override var lastValidationField: TextInputEditText? = null

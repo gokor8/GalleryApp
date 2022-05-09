@@ -12,12 +12,8 @@ import javax.inject.Named
 class SearchFragment() :
     BaseHomeChildFragment<SearchFragmentViewModel>(SearchFragmentViewModel::class.java) {
 
-    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
-        super.onViewCreated(view, savedInstanceState)
-    }
-
-    override fun setListeners() {
-        super.setListeners()
+    override fun setObservers() {
+        super.setObservers()
 
         viewModel.listener.observe(this) {
             viewModel.searchPhotos(it.toInt())

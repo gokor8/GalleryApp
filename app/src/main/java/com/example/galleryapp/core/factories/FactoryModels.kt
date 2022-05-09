@@ -1,6 +1,8 @@
 package com.example.galleryapp.core.factories
 
-interface FactoryModels<I,R> {
+interface FactoryModels<M : LazyFactory.Item<*, *>> {
 
-    val listFactoryModels: List<LazyFactory.Item<I,R>>
+    val listFactoryModels: List<M>
+
+    fun addItem(item: M)
 }
