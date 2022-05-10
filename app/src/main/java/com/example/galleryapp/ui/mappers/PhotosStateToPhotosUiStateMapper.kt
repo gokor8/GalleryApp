@@ -1,6 +1,6 @@
 package com.example.galleryapp.ui.mappers
 
-import com.example.domain.core.HandleFactory
+import com.example.domain.core.handle_factories.HandleFactory
 import com.example.domain.entities.states.PhotosState
 import com.example.galleryapp.ui.models.states.PhotosUiState
 

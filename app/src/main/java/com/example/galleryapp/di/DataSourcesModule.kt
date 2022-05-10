@@ -12,7 +12,7 @@ import com.example.data.managers.ApiTokenAccessManager
 import com.example.data.managers.ApiTokenRegistrationManager
 import com.example.data.parsers.LoginServerErrorParserImpl
 import com.example.data.parsers.RegistrationServerErrorParserImpl
-import com.example.domain.core.HandleFactory
+import com.example.domain.core.handle_factories.HandleFactory
 import com.example.domain.core.UiFailModel
 import com.google.gson.Gson
 import dagger.Module

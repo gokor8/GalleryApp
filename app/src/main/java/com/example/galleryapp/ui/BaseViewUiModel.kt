@@ -4,4 +4,6 @@ interface BaseViewUiModel {
     fun setObservers()
 
     fun setListeners()
+
+    fun setInit() {}
 }

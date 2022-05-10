@@ -33,10 +33,13 @@ abstract class BaseFragment<B : ViewBinding, V : ViewModel>(
     ): View? {
         _binding = bindingFragment.invoke(inflater, container)
         _viewModel = ViewModelProvider(this)[fillViewModel]
+
+        setInit()
         setObservers()
         setListeners()
 
         super.onCreateView(inflater, container, savedInstanceState)
+
         return binding.root
     }
 

@@ -4,12 +4,14 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
+import com.example.domain.core.handle_factories.ListModelHandleFactory
 import com.example.domain.entities.photos.ShowPicturesInfo
 import com.example.domain.usecases.LoadPhotosUseCase
 import com.example.domain.usecases.LoadPopularPhotosUseCase
 import com.example.galleryapp.core.ui.Listener
 import com.example.galleryapp.ui.mappers.PhotosStateToPhotosUiStateMapper
 import com.example.galleryapp.ui.models.photo.PictureInfoUiModel
+import com.example.galleryapp.ui.models.search_types.SearchPhotosModel
 import com.example.galleryapp.ui.models.states.PhotosUiState
 import com.example.galleryapp.ui.pagination.PhotosPagination
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -30,11 +32,14 @@ class SearchFragmentViewModel @Inject constructor(
 
     private var loadJob: Job? = null
 
-    private val searchMutableLiveData = MutableLiveData<List<PictureInfoUiModel>>()
-    val searchLiveData: LiveData<List<PictureInfoUiModel>>
-        get() = searchMutableLiveData
+    private val listModelHandleFactory = ListModelHandleFactory(
+        listOf(
+            SearchPhotosModel.SearchByIdModel(),
+            SearchPhotosModel.SearchByNameModel()
+        )
+    )
 
-    fun searchPhotos(id: Int) {
+    fun searchPhotos(inputData: String) {
         loadJob?.cancel()
 
         loadJob = viewModelScope.launch {
@@ -45,8 +50,8 @@ class SearchFragmentViewModel @Inject constructor(
                         .let(mapperToUiModel::handle)
 
                 if (photosUiState is PhotosUiState.Success) {
-                    searchMutableLiveData.value =
-                        photosUiState.paginationDataList.filter { it.id == id }
+                    _photosMutableLiveData.value = listModelHandleFactory.handle(inputData)
+                        .checkExpression(photosUiState, inputData)
                 }
             }
         }

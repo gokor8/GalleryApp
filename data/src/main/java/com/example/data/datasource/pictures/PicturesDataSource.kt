@@ -2,7 +2,7 @@ package com.example.data.datasource.pictures
 
 import com.example.data.api.services.ImageService
 import com.example.data.api.models.pictures.RequestPictureModel
-import com.example.domain.core.HandleFactory
+import com.example.domain.core.handle_factories.HandleFactory
 import com.example.data.core.photos.PhotosServerState
 import com.example.domain.core.UiFailModel
 

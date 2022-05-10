@@ -13,5 +13,5 @@ class FragmentTabLayoutAdapter<M : LazyFactory.Item<Int, Fragment>> constructor(
     override fun getItemCount(): Int = lazyFactory.typesCount
 
     override fun createFragment(position: Int): Fragment =
-        lazyFactory.create(position)!!
+        lazyFactory.create(position)
 }

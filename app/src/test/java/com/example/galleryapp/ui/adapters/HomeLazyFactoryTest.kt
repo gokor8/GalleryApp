@@ -1,14 +1,13 @@
 package com.example.galleryapp.ui.adapters
 
-import com.example.galleryapp.core.factories.FactoryModels
+import com.example.galleryapp.core.factories.FactoryItemsContainer
 import com.example.galleryapp.core.factories.LazyFactory
 import org.junit.jupiter.params.ParameterizedTest
 import org.junit.jupiter.params.provider.ValueSource
-import org.junit.jupiter.api.Test
 
 class HomeLazyFactoryTest {
 
-    private val fragmentFactoryModels = MockLazyFactoryModels()
+    private val fragmentFactoryModels = MockLazyFactoryItemsContainer()
     private val factory = LazyFactory(fragmentFactoryModels)
 
     @ParameterizedTest
@@ -23,8 +22,8 @@ class HomeLazyFactoryTest {
         assert(factory.create(id))
     }
 
-    class MockLazyFactoryModels() : FactoryModels<Int, Boolean> {
-        override val listFactoryModels: List<LazyFactory.Item<Int, Boolean>> = listOf(
+    class MockLazyFactoryItemsContainer() : FactoryItemsContainer<Int, Boolean> {
+        val listFactoryItems: List<LazyFactory.Item<Int, Boolean>> = listOf(
             BaseLazyFactoryItem(0), BaseLazyFactoryItem(1)
         )
 

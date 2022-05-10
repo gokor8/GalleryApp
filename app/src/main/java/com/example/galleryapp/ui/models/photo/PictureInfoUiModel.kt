@@ -3,6 +3,7 @@ package com.example.galleryapp.ui.models.photo
 import com.example.domain.core.MapperFrom
 import com.example.domain.entities.photos.PictureInfoDomainEntity
 import com.example.galleryapp.core.diffutils.CommonDiffUtilsItem
+import com.example.galleryapp.core.diffutils.DiffUtilModel
 
 data class PictureInfoUiModel(
     val id: Int,
@@ -12,7 +13,7 @@ data class PictureInfoUiModel(
     val popular: Boolean,
     val pictureUiModel: PictureUiModel,
     val user: String?
-) : CommonDiffUtilsItem.DiffUtilModel<Int>,
+) : DiffUtilModel<Int>,
     MapperFrom<PictureInfoDomainEntity, PictureInfoUiModel> {
 
     constructor() : this(

@@ -1,6 +1,8 @@
 package com.example.galleryapp.ui.fragments.bnv
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
 import android.view.View
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
@@ -8,13 +10,11 @@ import com.example.galleryapp.R
 import com.example.galleryapp.core.factories.LazyFactory
 import com.example.galleryapp.databinding.FragmentHomeBinding
 import com.example.galleryapp.ui.adapters.FragmentTabLayoutAdapter
-import com.example.galleryapp.ui.adapters.models.BaseFragmentFactoryModelsImpl
-import com.example.galleryapp.ui.adapters.models.TabFragmentFactoryModelsImpl
+import com.example.galleryapp.ui.adapters.models.TabFragmentFactoryItemsContainerImpl
 import com.example.galleryapp.ui.fragments.BaseFragment
 import com.google.android.material.tabs.TabLayoutMediator
 import dagger.hilt.android.AndroidEntryPoint
 import javax.inject.Inject
-import javax.inject.Named
 
 @AndroidEntryPoint
 class HomeFragment :
@@ -23,14 +23,22 @@ class HomeFragment :
         { inflater, container -> FragmentHomeBinding.inflate(inflater, container, false) }) {
 
     @Inject
-    //lateinit var lazyFactory: LazyFactory<LazyFactory.Item<Int, Fragment>, Int, Fragment>
-    lateinit var lazyFactory: LazyFactory<TabFragmentFactoryModelsImpl.TabLazyFactoryItem, Int, Fragment>
-
-    private val arrayLayoutNames = arrayOf("New", "Popular")
+    lateinit var lazyFactory: LazyFactory<TabFragmentFactoryItemsContainerImpl.TabLazyFactoryItem, Int, Fragment>
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         binding.includedToolbar.editTextSearch.clearFocus()
+        binding.includedToolbar.searchInput.clearFocus()
+    }
+
+    override fun setInit() {
+        lazyFactory.addFactoryItems(
+            listOf(
+                TabFragmentFactoryItemsContainerImpl.TabNewFactoryFragment("New"),
+                TabFragmentFactoryItemsContainerImpl.TabPopularFactoryFragment("Popular"),
+                TabFragmentFactoryItemsContainerImpl.TabSearchFactoryFragment()
+            )
+        )
     }
 
     override fun setObservers() {
@@ -38,17 +46,13 @@ class HomeFragment :
     }
 
     override fun setListeners() {
-
-        lazyFactory.addFactoryItem(TabFragmentFactoryModelsImpl.TabNewFactoryFragment("New"))
-        lazyFactory.addFactoryItem(TabFragmentFactoryModelsImpl.TabPopularFactoryFragment("Popular"))
-        lazyFactory.addFactoryItem(TabFragmentFactoryModelsImpl.TabSearchFactoryFragment())
-
         binding.viewPager.adapter =
             FragmentTabLayoutAdapter(lazyFactory, this)
 
         TabLayoutMediator(binding.tabLayout, binding.viewPager) { tab, position ->
-            if (lazyFactory.getByIndex(position) is TabFragmentFactoryModelsImpl.TabSearchFactoryFragment) {
+            if (lazyFactory.getByIndex(position) is TabFragmentFactoryItemsContainerImpl.TabSearchFactoryFragment) {
                 tab.view.visibility = View.GONE
+                // Могу вынести в классы фабрики, с интерфейсами и инкапсуляцией, но лень
             } else {
                 tab.text = lazyFactory.getByIndex(position).title
             }
@@ -56,9 +60,9 @@ class HomeFragment :
 
         binding.includedToolbar.apply {
             editTextSearch.addTextChangedListener { editableText ->
-                //TODO сделать получение фрагмента нормально, не создавая его
+
                 binding.viewPager.setCurrentItem(
-                    BaseFragmentFactoryModelsImpl.SearchFactoryFragment().id,
+                    lazyFactory.getBy { it is TabFragmentFactoryItemsContainerImpl.TabSearchFactoryFragment }.id,
                     true
                 )
 
@@ -67,7 +71,7 @@ class HomeFragment :
                 }
             }
 
-            editTextSearch.setOnFocusChangeListener { _, isFocus ->
+            editTextSearch.setOnFocusChangeListener { _, _ ->
 
                 val editText = editTextSearch.text
                 searchInput.hint = if (editText != null && editText.isEmpty()) {

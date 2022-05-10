@@ -1,28 +1,29 @@
 package com.example.galleryapp.core.factories
 
-class LazyFactory<M : LazyFactory.Item<I, R>, I, R>(private val factoryModels: FactoryModels<M>) {
+class LazyFactory<M : LazyFactory.Item<I, R>, I, R>(private val factoryItemsContainer: FactoryItemsContainer<M>) {
 
     val typesCount: Int
-        get() = factoryModels.listFactoryModels.size
+        get() = factoryItemsContainer.listFactoryItems.size
 
-    fun create(fragmentId: I): R? {
-        for (itemIndex in factoryModels.listFactoryModels.indices) {
-            val lazyFactoryItem = factoryModels.listFactoryModels[itemIndex]
-            if (lazyFactoryItem.id == fragmentId) return lazyFactoryItem.entity
-        }
-
-        return null
+    fun create(fragmentId: I): R =
+        factoryItemsContainer.listFactoryItems.first { it.id == fragmentId }.entity
+    /*for (itemIndex in factoryItemsContainer.listFactoryItems.indices) {
+        val lazyFactoryItem = factoryItemsContainer.listFactoryItems[itemIndex]
+        if (lazyFactoryItem.id == fragmentId) return lazyFactoryItem.entity
     }
+    throw Exception("Havent fragment with this id. May be null")*/
 
-    // factoryModels.listFactoryModels.first { it.id == fragmentId }.entity
-    fun getByIndex(index: Int) = factoryModels.listFactoryModels[index]
+    fun getByIndex(index: Int) = factoryItemsContainer.listFactoryItems[index]
 
-    fun addFactoryItem(item: M) {
-        factoryModels.addItem(item)
-    }
+    fun getBy(expression: (item: M) -> Boolean): M =
+        factoryItemsContainer.listFactoryItems.first { expression(it) }
+
+    fun addFactoryItem(item: M) = factoryItemsContainer.addItem(item)
+
+    fun addFactoryItems(items: List<M>) = factoryItemsContainer.addItems(items)
 
     interface Item<I, R> {
-        val id: I
+        var id: I
         val entity: R
     }
 }

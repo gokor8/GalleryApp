@@ -16,7 +16,7 @@ class SearchFragment() :
         super.setObservers()
 
         viewModel.listener.observe(this) {
-            viewModel.searchPhotos(it.toInt())
+            viewModel.searchPhotos(it)
         }
     }
 

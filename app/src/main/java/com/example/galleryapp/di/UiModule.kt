@@ -1,10 +1,8 @@
 package com.example.galleryapp.di
 
 import androidx.fragment.app.Fragment
-import com.example.galleryapp.core.factories.FactoryModels
 import com.example.galleryapp.core.factories.LazyFactory
-import com.example.galleryapp.ui.adapters.models.BaseFragmentFactoryModelsImpl
-import com.example.galleryapp.ui.adapters.models.TabFragmentFactoryModelsImpl
+import com.example.galleryapp.ui.adapters.models.TabFragmentFactoryItemsContainerImpl
 import com.example.galleryapp.ui.fragments.bnv.BaseListener
 import com.example.galleryapp.ui.models.RecyclerViewImageHandler
 import dagger.Module
@@ -22,21 +20,12 @@ class UiModule {
     fun provideRecyclerViewImageHandler() = RecyclerViewImageHandler()
 
     @Provides
-    fun provideBaseFragmentFactoryModelsImpl() = BaseFragmentFactoryModelsImpl()
-
-    @Provides
-    fun provideTabFragmentFactoryModelsImpl() = TabFragmentFactoryModelsImpl()
-
-    @Provides
-    fun provideBaseLazyFactory(
-        tabFactoryModels: BaseFragmentFactoryModelsImpl
-    ): LazyFactory<LazyFactory.Item<Int, Fragment>, Int, Fragment> =
-        LazyFactory(tabFactoryModels)
+    fun provideTabFragmentFactoryModelsImpl() = TabFragmentFactoryItemsContainerImpl()
 
     @Provides
     fun provideTabLazyFactory(
-        factoryModelsTab: TabFragmentFactoryModelsImpl
-    ): LazyFactory<TabFragmentFactoryModelsImpl.TabLazyFactoryItem, Int, Fragment> =
+        factoryModelsTab: TabFragmentFactoryItemsContainerImpl
+    ): LazyFactory<TabFragmentFactoryItemsContainerImpl.TabLazyFactoryItem, Int, Fragment> =
         LazyFactory(factoryModelsTab)
 
     @Provides

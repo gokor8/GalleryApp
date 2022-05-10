@@ -67,6 +67,7 @@ abstract class BaseHomeChildFragment<V : BaseHomeChildViewModel>(
 
         viewModel.photosLiveData.observe(viewLifecycleOwner) {
             isLoading = false
+            pagingAdapter.onNewData(it)
         }
 
         viewModel.notifyFailLiveData.observe(viewLifecycleOwner) {

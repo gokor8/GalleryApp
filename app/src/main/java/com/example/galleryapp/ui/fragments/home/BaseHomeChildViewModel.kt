@@ -4,14 +4,12 @@ import android.app.Application
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
-import com.example.domain.core.HandleFactory
-import com.example.domain.core.MapperFrom
+import com.example.domain.core.handle_factories.HandleFactory
 import com.example.domain.core.UiFailModel
 import com.example.domain.entities.photos.ShowPicturesInfo
 import com.example.domain.entities.states.PhotosState
 import com.example.domain.usecases.LoadPhotosUseCase
 import com.example.galleryapp.ui.fragments.BaseViewModel
-import com.example.galleryapp.ui.mappers.PhotosStateToPhotosUiStateMapper
 import com.example.galleryapp.ui.models.photo.PictureInfoUiModel
 import com.example.galleryapp.ui.models.states.PhotosUiState
 import kotlinx.coroutines.launch
@@ -22,15 +20,15 @@ abstract class BaseHomeChildViewModel(
     protected val mapperToUiModel: HandleFactory<PhotosState, PhotosUiState>
 ) : BaseViewModel(application) {
 
-    private val _errorMutableLiveData = MutableLiveData<Unit>()
+    protected val _errorMutableLiveData = MutableLiveData<Unit>()
     val errorLiveData: LiveData<Unit>
         get() = _errorMutableLiveData
 
-    private val _photosMutableLiveData = MutableLiveData<List<PictureInfoUiModel>>()
+    protected val _photosMutableLiveData = MutableLiveData<List<PictureInfoUiModel>>()
     val photosLiveData: LiveData<List<PictureInfoUiModel>>
         get() = _photosMutableLiveData
 
-    private val _notifyFailMutableLiveData = MutableLiveData<UiFailModel>()
+    protected val _notifyFailMutableLiveData = MutableLiveData<UiFailModel>()
     val notifyFailLiveData: LiveData<UiFailModel>
         get() = _notifyFailMutableLiveData
 

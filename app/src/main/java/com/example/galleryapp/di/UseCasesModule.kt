@@ -1,6 +1,6 @@
 package com.example.galleryapp.di
 
-import com.example.domain.core.HandleFactory
+import com.example.domain.core.handle_factories.HandleFactory
 import com.example.domain.core.UiFailModel
 import com.example.domain.repository.AuthorizationRepository
 import com.example.domain.repository.MediaRepository
