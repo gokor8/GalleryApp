@@ -33,7 +33,6 @@ data class PictureInfoUiModel(
         val id: Int,
         val urlName: String
     ) : MapperFrom<PictureInfoDomainEntity.PictureDomainEntity, PictureUiModel> {
-
         override fun mapTo(inputModel: PictureInfoDomainEntity.PictureDomainEntity): PictureUiModel =
             PictureUiModel(inputModel.id, inputModel.name)
     }

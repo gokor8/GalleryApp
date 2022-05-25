@@ -4,6 +4,7 @@ import com.example.data.api.models.auth.ErrorResponseModel
 import com.example.data.datasource.auth.ApiSignInDataSource
 import com.example.data.datasource.auth.ApiSignUpDataSource
 import com.example.data.datasource.auth.BaseApiAuthDataSource
+import com.example.data.datasource.auth.CheckApiKeysDataSource
 import com.example.data.storages.exceptions.CustomNoConnectionException
 import com.example.domain.entities.states.AuthState
 import com.example.domain.entities.auth.SignInEntity
@@ -14,11 +15,11 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import java.lang.Exception
 import java.net.SocketTimeoutException
-import javax.inject.Inject
 
 class UserAuthorizationRepositoryImpl constructor(
     private val apiSignUpDataSource: ApiSignUpDataSource,
     private val apiSignInDataSource: ApiSignInDataSource,
+    private val checkApiKeysDataSource: CheckApiKeysDataSource
 ) : AuthorizationRepository {
 
     override suspend fun signUpUser(signUpEntity: SignUpEntity): AuthState =
@@ -26,6 +27,8 @@ class UserAuthorizationRepositoryImpl constructor(
 
     override suspend fun signInUser(signInEntity: SignInEntity): AuthState =
         apiAuthUser(signInEntity, apiSignInDataSource, Dispatchers.IO)
+
+    //override suspend fun isUserAuthorizate(): AuthState = checkApiKeysDataSource.checkAndRefreshApiKeys()
 
     private suspend fun <I : SignInEntity, E : ErrorResponseModel, S> apiAuthUser(
         signInEntity: I,

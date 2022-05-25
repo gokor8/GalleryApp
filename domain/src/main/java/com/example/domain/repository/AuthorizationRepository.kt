@@ -9,4 +9,6 @@ interface AuthorizationRepository {
     suspend fun signUpUser(signUpEntity: SignUpEntity) : AuthState
 
     suspend fun signInUser(signInEntity: SignInEntity) : AuthState
+
+    //suspend fun isUserAuthorizate() : AuthState
 }
